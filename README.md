@@ -1,4 +1,4 @@
-# micro-landing-farmaleal
+# Membership FarmaLeal
 
 1- Run "npm install" to install the required dependencys.
 
