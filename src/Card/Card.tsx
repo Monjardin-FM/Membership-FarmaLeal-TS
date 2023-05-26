@@ -50,7 +50,7 @@ export const Card = ({ cardNumber, cardForm, flagRotate }: CardProps) => {
       <div
         className={clsx(
           "relative w-4/5 duration max-sm:w-full",
-          flagRotate && "rotateCard duration"
+          flagRotate && "rotateCard duration-500"
         )}
       >
         <div className="relative">
@@ -108,14 +108,16 @@ export const Card = ({ cardNumber, cardForm, flagRotate }: CardProps) => {
             <>
               <div
                 ref={parent}
-                className="absolute w-full bg-black h-12 top-10"
+                className="absolute w-full bg-black h-12 top-10 max-sm:h-8"
               ></div>
               <div className="absolute top-1/3  w-full  h-24 flex flex-col items-center justify-center ">
-                <div className="text-white items-rotate self-start ml-10 font-semibold mb-2">
+                <div className="text-white items-rotate self-start ml-10 font-semibold mb-2 max-sm:text-xs">
                   CVV
                 </div>
-                <div className="bg-white w-11/12 h-10 rounded-lg items-rotate flex flex-col items-end justify-center">
-                  <span className="mr-5">{cardForm.cvv2}</span>
+                <div className="bg-white w-11/12 h-10 rounded-lg items-rotate flex flex-col items-end justify-center ">
+                  <span className="mr-5 italic max-sm:text-xs font-bold">
+                    {cardForm.cvv2}
+                  </span>
                 </div>
               </div>
             </>

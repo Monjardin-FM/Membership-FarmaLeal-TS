@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Benefits, Hero, Pricing } from "../components";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ModalVerificationCard } from "./Modals/ModalVerificationCard";
 import { ModalPayment } from "./Modals/ModalPayment";
 
@@ -17,6 +17,13 @@ export const LandingPage = () => {
     expiration_month: "",
     cvv2: "",
   });
+
+  const handleClickScroll = () => {
+    const element = document.getElementById("benefits");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const nextForm = () => {
     setShowModalVerificationCard(false);
     setShowModalMembership(true);
@@ -41,12 +48,13 @@ export const LandingPage = () => {
       />
       <Hero
         setModalVerificationCard={() => setShowModalVerificationCard(true)}
+        handleClickScroll={handleClickScroll}
       />
-      <div className="grid grid-cols-12 max-sm:grid max-sm:grid-cols-2 items-center justify-center mx-2">
-        <div className="max-sm:col-span-2 col-span-9">
+      <div className="grid grid-cols-12 max-sm:grid max-sm:grid-cols-2 items-end justify-center mx-2">
+        <div className="max-sm:col-span-2 col-span-12">
           <Benefits />
         </div>
-        <div className="max-sm:col-span-2 col-span-3 mt-10 max-sm:mt-0">
+        <div className="max-sm:col-span-2 col-span-12 ">
           <Pricing
             setModalVerificationCard={() => setShowModalVerificationCard(true)}
           />

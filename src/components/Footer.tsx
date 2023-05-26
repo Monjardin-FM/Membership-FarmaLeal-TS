@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer className=" text-center primary-bg py-2   bottom-0 w-full flex flex-col gap-3">
       <Container>
         <div className="grid grid-cols-2 mt-5 mb-3">
-          <div className="footer-left col-span-1 flex flex-col items-start gap-y-4 font-light max-sm:col-span-2 max-sm:text-start max-sm:mb-5 max-sm:text-xs">
+          <div className="footer-left col-span-1 flex flex-col items-start gap-y-4 font-light max-sm:col-span-2 max-sm:text-start max-sm:mb-5 max-sm:text-xs container mx-10">
             <h4 className="h5 text-white max-sm:text-sm">Contáctanos</h4>
             <h6 className="max-sm:text-xs">
               {"Llámanos: "}
@@ -32,7 +32,7 @@ export const Footer = () => {
             </h6>
             <h6 className="max-sm:text-xs">Horarios: Lun - Vie 9 AM a 8 PM</h6>
           </div>
-          <div className="footer-right col-span-1 flex flex-col items-start gap-y-4 font-light max:sm:col-span-2 ">
+          <div className="footer-right col-span-1 flex flex-col items-start gap-y-4 font-light max:sm:col-span-2 container mx-10">
             <h4 className="h5 text-white max-sm:text-sm">Políticas</h4>
             <h6 className="max-sm:text-xs">
               <a
@@ -78,7 +78,7 @@ export const Footer = () => {
         </div>
         <div className=" border border-white border-b-2 border-opacity-10 mb-3 w-full text-center"></div>
         <div className="">
-          <h2 className="h4 text-white">Formas de Pago</h2>
+          <h2 className="h4 text-white">Formas de Pago Seguro</h2>
           <div className="grid grid-cols-2 items-start ">
             <div className="flex flex-col items-center justify-center text-cyan-800 font-semibold col-span-1 max-sm:col-span-2 max-sm:mb-3">
               <h4 className="text-sm text-white mb-3 font-light">

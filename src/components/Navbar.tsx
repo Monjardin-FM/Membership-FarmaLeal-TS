@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Container, Nav, Navbar, Row, Stack } from "react-bootstrap";
+import { Col, Container, Navbar, Row, Stack } from "react-bootstrap";
 import {
   AiFillFacebook,
   AiFillYoutube,
@@ -7,13 +7,12 @@ import {
 } from "react-icons/ai";
 import { FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from "../assets/img/farmaleal-logo.png";
-import { Cross } from "hamburger-react";
+import Logo from "../assets/img/logo-farmaleal.png";
 export const NavBar = () => {
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <section id="navbar">
+    <section id="navbar w-full">
       <Container fluid>
         <Row className="text-center primary-bg py-2 text-white">
           <Col xs={0} md={2}></Col>
@@ -58,25 +57,29 @@ export const NavBar = () => {
         </Row>
       </Container>
 
-      <Navbar expand="md" expanded={isOpen} className="h-20">
-        <Container>
-          <Row className="align-items-center w-100 text-center">
-            <Col xs={12} md={2}>
-              <img
-                className="ms-0 logo-image max-sm:w-12 "
-                src={Logo}
-                alt="Logo Farmaleal"
-                width="80px"
-              />
-            </Col>
-            <Col xs={12} md={10} className="relative max-sm:-top-10">
-              <Link to="/">Inicio</Link>
-              <Link to="https://customer.login.shopify.com/lookup?destination_uuid=d03a8fb1-e91f-4f45-b528-c922f5b39d34&redirect_uri=https%3A%2F%2Fshopify.com%2F73657516343%2Faccount%2Fcallback&rid=914bcedd-c5ab-4d46-9b51-e4baa41a8ab6&ui_locales=es">
-                Login
+      <Navbar expand="md" expanded={isOpen} className="h-24">
+        <div className="w-full flex flex-row max-sm:justify-around lg:justify-evenly items-center lg:gap-x-96">
+          <div>
+            <img
+              className="ms-0 logo-image max-sm:w-20"
+              src={Logo}
+              alt="Logo Farmaleal"
+              width="80px"
+            />
+          </div>
+          <div className="flex flex-row max-sm:gap-5 lg:gap-5">
+            <div>
+              <Link to="/">
+                <span className="font-semibold">Inicio</span>
               </Link>
-            </Col>
-          </Row>
-        </Container>
+            </div>
+            <div>
+              <Link to="https://customer.login.shopify.com/lookup?destination_uuid=d03a8fb1-e91f-4f45-b528-c922f5b39d34&redirect_uri=https%3A%2F%2Fshopify.com%2F73657516343%2Faccount%2Fcallback&rid=914bcedd-c5ab-4d46-9b51-e4baa41a8ab6&ui_locales=es">
+                <span className="font-semibold">Login</span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </Navbar>
     </section>
   );

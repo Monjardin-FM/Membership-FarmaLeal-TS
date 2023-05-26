@@ -1,46 +1,126 @@
-import { Col, Row, Container, Stack, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import { BiDollarCircle } from "react-icons/bi";
+import Image1 from "../assets/img/heroImage2.png";
+import Tarjeta from "../assets/img/tarjetas.png";
+import { FiExternalLink } from "react-icons/fi";
+import {
+  TbDiscount2,
+  TbPhoneCall,
+  TbPill,
+  TbTruckDelivery,
+} from "react-icons/tb";
+import { HeroIcon } from "./HerIcon";
 type HeroProps = {
   setModalVerificationCard: (flag: boolean) => void;
+  handleClickScroll: () => void;
 };
 
-export const Hero = ({ setModalVerificationCard }: HeroProps) => {
+const Items = [
+  {
+    label: "Garantía de precio más bajo",
+    icon: <BiDollarCircle size={35} />,
+  },
+  {
+    label: "Un producto de nuestro catálogo pensado en ti al mes.*",
+    icon: <TbPill size={35} />,
+  },
+  {
+    label: "¡Miles de descuentos comerciales!",
+    icon: <TbDiscount2 size={35} />,
+  },
+  {
+    label: "Video-consultas 24/7",
+    icon: <TbPhoneCall size={35} />,
+  },
+  {
+    label: "Entrega Nacional",
+    icon: <TbTruckDelivery size={35} />,
+  },
+];
+
+export const Hero = ({
+  setModalVerificationCard,
+  handleClickScroll,
+}: HeroProps) => {
   return (
-    <section id="hero">
-      <Container>
-        <Row className="mx-2 h-72 flex items-center justify-center">
-          <Col xs={12} md={6} className="px-0">
-            <Stack
-              direction="vertical"
-              className=" text-center text-md-start text-md-left d-flex align-items-center align-items-md-start"
-              gap={2}
+    <section id="hero" className="flex flex-col container items-center">
+      <div className="flex lg:flex-row max-sm:flex-col">
+        <div className="max-sm:w-full w-8/12 py-9 lg:px-20 flex flex-col gap-4 max-sm:mt-10">
+          <div className="max-sm:text-center">
+            {/* <h4 className="h4 fw-400">MEMBRESÍA</h4> */}
+            <h1 className="h1 fw-300 color-secondary ">
+              <span className="fw-700">CLUB</span> <span>FARMALEAL</span>
+            </h1>
+          </div>
+          <div className="color-secondary max-sm:text-center">
+            <p
+              className="uppercase fw-700
+            "
             >
-              <h6 className="h6 text-white fw-500">MEMBRESÍA</h6>
-              <h2 className="h1 text-white fw-700">
-                CLUB <br />
-                FARMALEAL
-              </h2>
-              <Button
-                size="lg"
-                // className='secondary-bg w-75 fw-600 fs-6 border-0'
-                variant="danger"
-                className="bg-red-700 w-50 rounded-3 w-auto fw-500  px-3  "
-                onClick={() => setModalVerificationCard(true)}
-              >
-                Obtener membresía
-              </Button>
-            </Stack>
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            className="hero-image-container px-0  w-4/12 flex flex-col items-center justify-center"
-          >
-            <img className="hero_image " src="images/tarjetas.png" />
-          </Col>
-        </Row>
-      </Container>
+              Garantizado
+            </p>
+            <p className="fw-700">Por sólo</p>
+            <div className="flex lg:flex-row lg:items-end gap-2 max-sm:justify-center max-sm:flex-col">
+              <div>
+                <h2 className="fw-700 price">$100</h2>
+              </div>
+              <div>
+                <h6 className="h6 fw-500">AL MES</h6>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="color-secondary fw-500 text-sm uppercase max-sm:text-center">
+              Ahorra miles de pesos en todos tus medicamentos
+              <br />
+              <span className="fw-700">
+                somos líderes en medicamentos para crónicos y de alta
+                especialidad.
+              </span>
+            </p>
+          </div>
+
+          <div className="-mt-4">
+            <a
+              target="_blank"
+              href="https://clubfarmaleal.myshopify.com/"
+              className="hover:color-secondary hover:cursor-pointer underline flex flex-row items-center gap-2"
+            >
+              <span className="uppercase fw-700 text-sm font-bold">
+                Consulta nuestros precios exclusivos{" "}
+              </span>
+              <FiExternalLink size={15} />
+            </a>
+          </div>
+          <div className="flex items-center gap-5 max-sm:flex-col">
+            <button
+              onClick={() => setModalVerificationCard(true)}
+              className="main-button rounded-full py-3 px-16 text-white fw-500"
+            >
+              OBTENER MEMBRESÍA
+            </button>
+            <a
+              // href="#benefits"
+              className="hover:color-secondary hover:cursor-pointer"
+              onClick={handleClickScroll}
+            >
+              <h6 className="fw-700">
+                <u>BENEFICIOS</u>
+              </h6>
+            </a>
+          </div>
+        </div>
+        <div className="max-sm:w-full lg:w-4/12 p-10 hero-top">
+          <div className="hero-image-container relative mx-auto">
+            <img src={Image1} className="rounded-none" />
+            <img className="hero-image absolute " src={Tarjeta} />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center items-start max-sm:flex-col max-sm:gap-8 max-sm:mb-14 w-10/12 max-sm:w-full mb-10">
+        {Items.map((element) => {
+          return <HeroIcon key={element.label} {...element} />;
+        })}
+      </div>
     </section>
   );
 };
