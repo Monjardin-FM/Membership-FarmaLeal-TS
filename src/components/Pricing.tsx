@@ -4,9 +4,9 @@ type PricingProps = {
 };
 export const Pricing = ({ setModalVerificationCard }: PricingProps) => {
   return (
-    <section
+    <div
       id="pricing"
-      className="secondary-bg text-white lg:px-5 py-5 mb-5 w-10/12 max-sm:w-full"
+      className="secondary-bg text-white lg:px-5 py-5 mb-5 w-10/12 max-sm:w-full max:md:w-full "
     >
       <div className="flex flex-col text-center gap-3 ">
         <h6 className="h6 fw-400">SÓLO</h6>
@@ -27,6 +27,6 @@ export const Pricing = ({ setModalVerificationCard }: PricingProps) => {
           </Button>
         </a>
       </div>
-    </section>
+    </div>
   );
 };

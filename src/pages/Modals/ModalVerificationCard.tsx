@@ -92,7 +92,8 @@ export const ModalVerificationCard = ({
       showConfirmButton: false,
       timer: 2000,
     });
-    nextForm();
+    // nextForm();
+    onClose();
   };
 
   const errorCallBack = (response: any) => {
@@ -311,7 +312,7 @@ export const ModalVerificationCard = ({
                           id="pay-button"
                           // onClick={handleSubmit}
                         >
-                          Verificar Tarjeta
+                          Pagar
                         </button>
                       </div>
                     </form>

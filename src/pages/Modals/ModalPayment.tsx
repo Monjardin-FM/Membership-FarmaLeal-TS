@@ -9,6 +9,7 @@ type ModalPaymentProps = {
   cardForm: any;
   tokenID: string;
   typeCard: string;
+  nextForm: () => void;
 };
 
 export const ModalPayment = ({
@@ -17,6 +18,7 @@ export const ModalPayment = ({
   cardForm,
   tokenID,
   typeCard,
+  nextForm,
 }: ModalPaymentProps) => {
   const [isPaying, setIsPaying] = useState(false);
   return (
@@ -60,6 +62,7 @@ export const ModalPayment = ({
               >
                 <Dialog.Panel className="w-full max-w-7xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <FormPayment
+                    nextForm={nextForm}
                     typeCard={typeCard}
                     cardForm={cardForm}
                     tokenID={tokenID}

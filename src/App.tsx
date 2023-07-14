@@ -16,6 +16,7 @@ declare global {
 
 function App() {
   const [appRef] = useAutoAnimate<HTMLDivElement>();
+
   return (
     <>
       <Container fluid className="p-0 m-0 h-screen">

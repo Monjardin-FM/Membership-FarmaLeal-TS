@@ -11,6 +11,7 @@ import { FooterModal } from "./FooterModal";
 import Swal from "sweetalert2";
 import { usePaymentMembership } from "../../hooks/use-payment-membership";
 import { Loader } from "../../components/Loader";
+import { FaWhatsapp } from "react-icons/fa";
 
 type FormPaymentProps = {
   typeCard: string;
@@ -18,6 +19,7 @@ type FormPaymentProps = {
   tokenID: string;
   onClose: () => void;
   setLoadPayment: (flag: boolean) => void;
+  nextForm: () => void;
 };
 
 export const FormPayment = ({
@@ -26,6 +28,7 @@ export const FormPayment = ({
   tokenID,
   onClose,
   setLoadPayment,
+  nextForm,
 }: FormPaymentProps) => {
   const [estados, setEstados] = useState([
     {
@@ -98,67 +101,68 @@ export const FormPayment = ({
   }, [idEstadoState, idMunicipioState]);
 
   const handleSubmit = async (values: any, actions: any) => {
-    const respuesta = await paymentMembership({
-      cargo: {
-        name: values.nombre,
-        lastName: values.paterno,
-        email: values.correo,
-        city: municipioName,
-        state: stateName,
-        idCiudad: idMunicipioState.toString(),
-        idEstado: idEstadoState.toString(),
-        postalCode: values.postalCode,
-        line1: values.line1,
-        cardNumber: cardForm.card_number,
-        holderName: cardForm.holder_name,
-        expirationMonth: cardForm.expiration_month,
-        expirationYear: cardForm.expiration_year,
-        cvv2: cardForm.cvv2,
-        mesesSI: values.mesesSI,
-      },
-      persona: {
-        correo: values.correo,
-        nombre: values.nombre,
-        paterno: values.paterno,
-        materno: values.materno,
-        edad: values.edad.toString,
-        sexo: values.sexo,
-      },
-      sessionId: tokenID,
-    });
+    // const respuesta = await paymentMembership({
+    //   cargo: {
+    //     name: values.nombre,
+    //     lastName: values.paterno,
+    //     email: values.correo,
+    //     city: municipioName,
+    //     state: stateName,
+    //     idCiudad: idMunicipioState.toString(),
+    //     idEstado: idEstadoState.toString(),
+    //     postalCode: values.postalCode,
+    //     line1: values.line1,
+    //     cardNumber: cardForm.card_number,
+    //     holderName: cardForm.holder_name,
+    //     expirationMonth: cardForm.expiration_month,
+    //     expirationYear: cardForm.expiration_year,
+    //     cvv2: cardForm.cvv2,
+    //     mesesSI: values.mesesSI,
+    //   },
+    //   persona: {
+    //     correo: values.correo,
+    //     nombre: values.nombre,
+    //     paterno: values.paterno,
+    //     materno: values.materno,
+    //     edad: values.edad.toString,
+    //     sexo: values.sexo,
+    //   },
+    //   sessionId: tokenID,
+    // });
 
-    if (respuesta.data.result) {
-      Swal.fire({
-        title: "Pago exitoso",
-        text: `Para finalizar tu suscripción revisa tu correo ${values.correo}`,
-        icon: "success",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#15A186",
-      });
-      actions.resetForm({
-        nombre: "",
-        correo: "",
-        paterno: "",
-        materno: "",
-        edad: "",
-        sexo: "",
-        city: "",
-        state: "",
-        postalCode: "",
-        line1: "",
-        mesesSI: "0",
-      });
-      onClose();
-    }
-    if (!respuesta.data.result) {
-      Swal.fire({
-        title: "Error al crear la cuenta",
-        text: `${respuesta.data.exceptionMessage}`,
-        icon: "error",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#15A186",
-      });
-    }
+    // if (respuesta.data.result) {
+    //   Swal.fire({
+    //     title: "Pago exitoso",
+    //     text: `Para finalizar tu suscripción revisa tu correo ${values.correo}`,
+    //     icon: "success",
+    //     confirmButtonText: "Ok",
+    //     confirmButtonColor: "#15A186",
+    //   });
+    //   actions.resetForm({
+    //     nombre: "",
+    //     correo: "",
+    //     paterno: "",
+    //     materno: "",
+    //     edad: "",
+    //     sexo: "",
+    //     city: "",
+    //     state: "",
+    //     postalCode: "",
+    //     line1: "",
+    //     mesesSI: "0",
+    //   });
+    //   onClose();
+    // }
+    // if (!respuesta.data.result) {
+    //   Swal.fire({
+    //     title: "Error al crear la cuenta",
+    //     text: `${respuesta.data.exceptionMessage}`,
+    //     icon: "error",
+    //     confirmButtonText: "Ok",
+    //     confirmButtonColor: "#15A186",
+    //   });
+    // }
+    nextForm();
   };
   useEffect(() => {
     setLoadPayment(loadingPayment);
@@ -193,6 +197,18 @@ export const FormPayment = ({
               <div className="gap-2 pt-2 grid grid-cols-12 mb-3">
                 <div className="col-span-12 font-medium text-lg max-sm:text-sm">
                   Datos del Cliente
+                </div>
+                <div className="col-span-12 flex flex-row items-center justify-between mb-3">
+                  <div className="text-red-500 text-sm font-semibold">
+                    A continuación recabaremos tu información que servirá para
+                    generar tu membresía. Y posteriormente el cobro de la misma.
+                  </div>
+                  <div className="font-semibold text-sm color-primary gap-2 flex flex-row items-center justify-center">
+                    <FaWhatsapp size={20} />
+                    <a href="tel:5531451948" target="_blank">
+                      01 (55) 3145 1948
+                    </a>
+                  </div>
                 </div>
                 <div
                   ref={parent}
@@ -476,7 +492,7 @@ export const FormPayment = ({
                   id="pay-button"
                   disabled={loadingPayment}
                 >
-                  Pagar
+                  Siguiente
                 </button>
               </div>
             </div>

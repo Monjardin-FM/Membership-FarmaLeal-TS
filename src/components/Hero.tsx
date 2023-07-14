@@ -4,11 +4,12 @@ import Tarjeta from "../assets/img/tarjetas.png";
 import { FiExternalLink } from "react-icons/fi";
 import {
   TbDiscount2,
+  TbExternalLink,
   TbPhoneCall,
   TbPill,
   TbTruckDelivery,
 } from "react-icons/tb";
-import { HeroIcon } from "./HerIcon";
+// import { HeroIcon } from "./HerIcon";
 type HeroProps = {
   setModalVerificationCard: (flag: boolean) => void;
   handleClickScroll: () => void;
@@ -79,34 +80,23 @@ export const Hero = ({
             </p>
           </div>
 
-          <div className="-mt-4">
-            <a
-              target="_blank"
-              href="https://clubfarmaleal.myshopify.com/"
-              className="hover:color-secondary hover:cursor-pointer underline flex flex-row items-center gap-2"
-            >
-              <span className="uppercase fw-700 text-sm font-bold">
-                Consulta nuestros precios exclusivos{" "}
-              </span>
-              <FiExternalLink size={15} />
-            </a>
-          </div>
-          <div className="flex items-center gap-5 max-sm:flex-col">
+          <div className="flex items-center gap-3 max-sm:flex-col ">
             <button
               onClick={() => setModalVerificationCard(true)}
-              className="main-button rounded-full py-3 px-16 text-white fw-500"
+              className=" rounded-full py-6 px-12 text-white fw-400 bg-red-600 transition duration-200"
             >
               OBTENER MEMBRESÍA
             </button>
-            <a
-              // href="#benefits"
-              className="hover:color-secondary hover:cursor-pointer"
-              onClick={handleClickScroll}
-            >
-              <h6 className="fw-700">
-                <u>BENEFICIOS</u>
-              </h6>
-            </a>
+            <button className="uppercase rounded-full py-6 px-12  fw-400 primary-bg  hover:text-white transition duration-200 flex flex-row items-center justify-center ">
+              <a
+                target="_blank"
+                href="https://clubfarmaleal.myshopify.com/"
+                className="flex flex-row items-center justify-center gap-3 text-white hover:text-white  no-underline"
+              >
+                <span>Consulta nuestros precios exclusivos </span>
+                <TbExternalLink size={22} />
+              </a>
+            </button>
           </div>
         </div>
         <div className="max-sm:w-full lg:w-4/12 p-10 hero-top">
@@ -116,11 +106,11 @@ export const Hero = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-start max-sm:flex-col max-sm:gap-8 max-sm:mb-14 w-10/12 max-sm:w-full mb-10">
+      {/* <div className="flex justify-center items-start max-sm:flex-col max-sm:gap-8 max-sm:mb-14 w-10/12 max-sm:w-full mb-10">
         {Items.map((element) => {
           return <HeroIcon key={element.label} {...element} />;
         })}
-      </div>
+      </div> */}
     </section>
   );
 };

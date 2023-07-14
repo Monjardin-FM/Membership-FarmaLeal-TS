@@ -3,6 +3,8 @@ import { Benefits, Hero, Pricing } from "../components";
 import { useRef, useState } from "react";
 import { ModalVerificationCard } from "./Modals/ModalVerificationCard";
 import { ModalPayment } from "./Modals/ModalPayment";
+import { useEffect } from "react";
+import { StepperFormPayment } from "./Modals/StepperFormPayment";
 
 export const LandingPage = () => {
   const [showModalMembership, setShowModalMembership] = useState(false);
@@ -25,17 +27,23 @@ export const LandingPage = () => {
     }
   };
   const nextForm = () => {
-    setShowModalVerificationCard(false);
-    setShowModalMembership(true);
+    setShowModalMembership(false);
+    setShowModalVerificationCard(true);
   };
+
   return (
     <div className="w-full">
-      <ModalPayment
+      <StepperFormPayment
+        isVisible={showModalMembership}
+        onClose={() => setShowModalMembership(false)}
+      />
+      {/* <ModalPayment
         isVisible={showModalMembership}
         onClose={() => setShowModalMembership(false)}
         tokenID={tokenID}
         typeCard={typeCard}
         cardForm={cardForm}
+        nextForm={nextForm}
       />
       <ModalVerificationCard
         isVisible={showModalVerificationCard}
@@ -45,20 +53,23 @@ export const LandingPage = () => {
         setTypeCard={setTypeCard}
         cardForm={cardForm}
         setCardForm={setCardForm}
-      />
+      /> */}
       <Hero
-        setModalVerificationCard={() => setShowModalVerificationCard(true)}
+        setModalVerificationCard={() => setShowModalMembership(true)}
         handleClickScroll={handleClickScroll}
       />
-      <div className="grid grid-cols-12 max-sm:grid max-sm:grid-cols-2 items-end justify-center mx-2">
-        <div className="max-sm:col-span-2 col-span-12">
-          <Benefits />
-        </div>
-        <div className="max-sm:col-span-2 col-span-12 ">
-          <Pricing
-            setModalVerificationCard={() => setShowModalVerificationCard(true)}
-          />
-        </div>
+      <div className="w-full flex flex-col mx-2">
+        {/* <div className="max-sm:col-span-2 col-span-12 "> */}
+        <Benefits
+          setModalVerificationCard={() => setShowModalMembership(true)}
+        />
+
+        {/* </div> */}
+        {/* <div className="max-sm:col-span-2 col-span-12"> */}
+        {/* <Pricing
+          setModalVerificationCard={() => setShowModalVerificationCard(true)}
+        /> */}
+        {/* </div> */}
       </div>
     </div>
   );

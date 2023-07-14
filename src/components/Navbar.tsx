@@ -5,7 +5,7 @@ import {
   AiFillYoutube,
   AiOutlineInstagram,
 } from "react-icons/ai";
-import { FaTwitter } from "react-icons/fa";
+import { FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../assets/img/logo-farmaleal.png";
 export const NavBar = () => {
@@ -28,6 +28,13 @@ export const NavBar = () => {
               gap={1}
               className="d-flex justify-content-center pt-2 pt-md-0"
             >
+              <a
+                className="p-0 text-white mx-2"
+                href="tel:5531451948"
+                target="_blank"
+              >
+                <FaWhatsapp size={22} />
+              </a>
               <a
                 className="p-0 text-white mx-2"
                 href="https://twitter.com/FarmaLeal/"
@@ -58,7 +65,7 @@ export const NavBar = () => {
       </Container>
 
       <Navbar expand="md" expanded={isOpen} className="h-24">
-        <div className="w-full flex flex-row max-sm:justify-around lg:justify-evenly items-center lg:gap-x-96">
+        <div className="w-full flex flex-row max-sm:justify-around lg:justify-evenly md:justify-around items-center lg:gap-x-96">
           <div>
             <img
               className="ms-0 logo-image max-sm:w-20"
@@ -67,7 +74,7 @@ export const NavBar = () => {
               width="80px"
             />
           </div>
-          <div className="flex flex-row max-sm:gap-5 lg:gap-5">
+          <div className="flex flex-row max-sm:gap-5 lg:gap-5 md:gap-5">
             <div>
               <Link to="/">
                 <span className="font-semibold">Inicio</span>

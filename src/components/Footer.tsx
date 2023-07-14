@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer className=" text-center primary-bg py-2   bottom-0 w-full flex flex-col gap-3">
       <Container>
         <div className="grid grid-cols-2 mt-5 mb-3">
-          <div className="footer-left col-span-1 flex flex-col items-start gap-y-4 font-light max-sm:col-span-2 max-sm:text-start max-sm:mb-5 max-sm:text-xs container mx-10">
+          <div className="footer-left col-span-1 flex flex-col items-start gap-y-4 font-light max-sm:col-span-2 max-sm:text-start md:text-start max-sm:mb-5 max-sm:text-xs container mx-10">
             <h4 className="h5 text-white max-sm:text-sm">Contáctanos</h4>
             <h6 className="max-sm:text-xs">
               {"Llámanos: "}
