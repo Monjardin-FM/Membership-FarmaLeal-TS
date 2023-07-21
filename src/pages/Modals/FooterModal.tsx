@@ -5,13 +5,13 @@ import openpayLogo from "../../assets/img/openpay.png";
 import encrypt from "../../assets/img/security.png";
 export const FooterModal = () => {
   return (
-    <div className="flex flex-row   justify-start text-cyan-800 font-semibold divide-x-2 h-20 ">
+    <div className="flex flex-row justify-start text-primary-800 font-semibold divide-x-2 h-20 mt-5 ">
       <div className="grid grid-cols-2 items-start">
-        <div className="flex flex-col items-center justify-center text-cyan-800 font-semibold col-span-1 ">
+        <div className="flex flex-col items-center justify-center text-primary-800 font-semibold col-span-1 ">
           <h4 className="text-xs">Tarjetas de crédito</h4>
           <img src={creditCards} />
         </div>
-        <div className="flex flex-col items-center justify-center text-cyan-800 font-semibold col-span-1">
+        <div className="flex flex-col items-center justify-center text-primary-800 font-semibold col-span-1">
           <h4 className="text-xs">Tarjetas de débito</h4>
           <img src={debitCards} />
         </div>
@@ -26,7 +26,7 @@ export const FooterModal = () => {
           </div>
         </div>
 
-        <div className="flex flex-row items-center   p-2 col-span-1">
+        <div className="flex flex-row items-center p-2 col-span-1">
           <div className="w-24">
             <img src={encrypt} />
           </div>

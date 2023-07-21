@@ -7,7 +7,10 @@ type AppFormLabelProps = {
 export const AppFormLabel = ({ label, className }: AppFormLabelProps) => {
   return (
     <label
-      className={clsx(className, "text-base font-normal ml-1 max-sm:text-xs")}
+      className={clsx(
+        className,
+        "text-gray-800 font-medium text-base  ml-1 max-sm:text-xs"
+      )}
     >
       {label}
     </label>

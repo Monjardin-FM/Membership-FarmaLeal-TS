@@ -13,7 +13,6 @@ import { Card } from "../../Card/Card";
 type ModalVerificationCardProps = {
   isVisible: boolean;
   onClose: () => void;
-  nextForm: () => void;
   setTypeCard: (type: string) => void;
   setTokenID: (token: string) => void;
   cardForm: any;
@@ -23,7 +22,6 @@ type ModalVerificationCardProps = {
 export const ModalVerificationCard = ({
   isVisible,
   onClose,
-  nextForm,
   setTypeCard,
   setTokenID,
   cardForm,

@@ -83,7 +83,7 @@ export const Hero = ({
           <div className="flex items-center gap-3 max-sm:flex-col ">
             <button
               onClick={() => setModalVerificationCard(true)}
-              className=" rounded-full py-6 px-12 text-white fw-400 bg-red-600 transition duration-200"
+              className=" rounded-full py-6 px-12 text-white fw-400 bg-danger-600 transition duration-200"
             >
               OBTENER MEMBRESÍA
             </button>

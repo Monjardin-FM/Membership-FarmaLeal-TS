@@ -3,6 +3,7 @@ import React from "react";
 
 export type AppTextFieldProps = {
   placeholder: string;
+  maxLength?: number;
   dataOpenCard?: any;
   name: string;
   onChange: (e: any) => void;
@@ -34,6 +35,7 @@ export const AppTextField = ({
   onBlur,
   onFocus,
   inputMode,
+  maxLength,
 }: AppTextFieldProps) => {
   return (
     <input
@@ -48,9 +50,10 @@ export const AppTextField = ({
       name={name}
       value={value}
       onChange={onChange}
+      maxLength={maxLength}
       className={clsx(
         className,
-        "h-8 rounded-md border border-slate-300 p-2 text-sm max-sm:text-xs"
+        "h-9 rounded-md border border-gray-300 p-2 text-base text-gray-600 font-normal max-sm:text-xs"
       )}
       inputMode={inputMode}
     />

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { FormPayment } from "./FormPayment";
+import { FormInfoClient } from "./FormInfoClient";
 import { Loader } from "../../components/Loader";
 
 type ModalPaymentProps = {
@@ -20,7 +20,7 @@ export const ModalPayment = ({
   typeCard,
   nextForm,
 }: ModalPaymentProps) => {
-  const [isPaying, setIsPaying] = useState(false);
+  // const [isPaying, setIsPaying] = useState(false);
   return (
     <>
       <Loader isVisible={isPaying}>
@@ -61,14 +61,14 @@ export const ModalPayment = ({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-7xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <FormPayment
-                    nextForm={nextForm}
-                    typeCard={typeCard}
-                    cardForm={cardForm}
-                    tokenID={tokenID}
-                    onClose={onClose}
-                    setLoadPayment={setIsPaying}
-                  />
+                  {/* <FormInfoClient
+                  // nextForm={nextForm}
+                  // typeCard={typeCard}
+                  // cardForm={cardForm}
+                  // tokenID={tokenID}
+                  // onClose={onClose}
+                  // setLoadPayment={setIsPaying}
+                  /> */}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
