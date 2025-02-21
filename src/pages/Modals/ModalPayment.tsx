@@ -20,7 +20,7 @@ export const ModalPayment = ({
   typeCard,
   nextForm,
 }: ModalPaymentProps) => {
-  // const [isPaying, setIsPaying] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
   return (
     <>
       <Loader isVisible={isPaying}>

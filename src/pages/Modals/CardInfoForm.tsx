@@ -193,40 +193,9 @@ export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
                 </div>
               )}
             </div>
-            {/* {typeCard.toString() === "credit" && (
-              <div
-                ref={parent}
-                className="w-full col-span-2 flex flex-col gap-2 justify-center items-start text-lg font-extralight max-sm:col-span-6"
-              >
-                <AppFormLabel label="Meses sin Intereses" />
-                <select
-                  value={cardInfoForm.values.mesesSI}
-                  onChange={cardInfoForm.handleChange}
-                  name="mesesSI"
-                  onBlur={cardInfoForm.handleBlur}
-                  className="max-sm:text-xs"
-                >
-                  <option value="">Escoge una opción</option>
-                  <option value="0">Una sola exhibición</option>
-                  <option value="3">3 Meses sin Intereses</option>
-                  <option value="6">6 Meses sin Intereses</option>
-                  <option value="9">9 Meses sin Intereses</option>
-                  <option value="12">12 Meses sin Intereses</option>
-                </select>
-                {cardInfoForm.errors.mesesSI &&
-                  cardInfoForm.touched.mesesSI && (
-                    <div className="border border-danger-800 rounded-md bg w-full p-1 relative -top-2 bg-danger-100">
-                      <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
-                        {cardInfoForm.errors.mesesSI}
-                      </span>
-                    </div>
-                  )}
-              </div>
-            )} */}
           </div>
         </div>
-        {/* // const numbers = e.target.value.replace(/(\D)/g, ""); */}
-        {/* <div>{cardInfoForm.values.card_number.replace(/(\D)/g, "")}</div> */}
+
         <hr className="max-sm:hidden" />
         <div className="max-sm:hidden">
           <FooterModal />

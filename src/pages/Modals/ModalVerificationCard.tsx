@@ -54,7 +54,7 @@ export const ModalVerificationCard = ({
     /*global OpenPay*/
     window.OpenPay.setId(import.meta.env.VITE_API_KEY_OPENPAY_ID);
     window.OpenPay.setApiKey(import.meta.env.VITE_API_KEY_OPENPAY);
-    window.OpenPay.setSandboxMode(true);
+    window.OpenPay.setSandboxMode(import.meta.env.VITE_API_KEY_OPENPAY_MODE);
     //Se genera el id de dispositivo
     setPaymentData({
       ...paymentData,

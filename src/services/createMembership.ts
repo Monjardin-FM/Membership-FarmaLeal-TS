@@ -3,10 +3,10 @@ import { api } from "../utils/api";
 import { verifyResponse } from "../utils/check-response";
 
 export const createMembership = async (params: any) => {
-  const response = await api().post("Membresia", {
+  const response = await api().post("PaymentMembership", {
     timeout: 40000,
     headers: {
-      ApiKey: import.meta.env.VITE_API_KEY,
+      // ApiKey: import.meta.env.VITE_API_KEY,
     },
     json: params,
   });

@@ -49,7 +49,7 @@ export const Hero = ({
           <div className="max-sm:text-center">
             {/* <h4 className="h4 fw-400">MEMBRESÍA</h4> */}
             <h1 className="h1 fw-300 color-secondary ">
-              <span className="fw-700">CLUB</span> <span>FARMALEAL</span>
+              <span className="fw-700">CÍRCULO</span> <span>FARMALEAL</span>
             </h1>
           </div>
           <div className="color-secondary max-sm:text-center">

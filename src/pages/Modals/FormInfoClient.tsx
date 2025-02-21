@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
 import { AppFormLabel } from "../../presentation/Components/AppFormLabel";
 import { AppTextField } from "../../presentation/Components/AppTextField";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-// import { createMembership } from "./services/createMembership";
 import { getEstados } from "../../services/getEstados";
 import { getCity } from "../../services/getCity";
-import * as Yup from "yup";
 import { FooterModal } from "./FooterModal";
-import Swal from "sweetalert2";
-import { usePaymentMembership } from "../../hooks/use-payment-membership";
 import { FaWhatsapp } from "react-icons/fa";
-import { AppButton } from "../../presentation/Components/AppButton";
 
 type FormPaymentProps = {
   formInfoClient: any;
+  setStateName: (state: string) => void;
+  setMunicipioName: (state: string) => void;
 };
 
-export const FormInfoClient = ({ formInfoClient }: FormPaymentProps) => {
+export const FormInfoClient = ({
+  formInfoClient,
+  setStateName,
+  setMunicipioName,
+}: FormPaymentProps) => {
   const [estados, setEstados] = useState([
     {
-      idEstado: 0,
+      idEstado: 5,
       descripcion: "",
     },
   ]);
   const [municipios, setMunicipios] = useState([
     {
-      idMunicipio: 0,
+      idMunicipio: 5,
       descripcion: "",
     },
   ]);
@@ -34,8 +34,7 @@ export const FormInfoClient = ({ formInfoClient }: FormPaymentProps) => {
   const [parent] = useAutoAnimate();
   const [idEstadoState, setIdEstadoState] = useState(33);
   const [idMunicipioState, setIdMunicipioState] = useState(0);
-  const [stateName, setStateName] = useState("");
-  const [municipioName, setMunicipioName] = useState("");
+
   // const { loading: loadingPayment, paymentMembership } = usePaymentMembership();
 
   useEffect(() => {

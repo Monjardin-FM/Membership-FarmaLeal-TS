@@ -10,30 +10,29 @@ import { Pricing } from "./Pricing";
 import { Table } from "./Table";
 const items = [
   {
-    link: "https://clubfarmaleal.myshopify.com/collections/pensando-en-ti",
+    link: "https://alcosto.farmaleal.com.mx/",
     icon: <TbPill size={"3rem"} />,
-    label:
-      "Te regalamos cualquiera de estos productos en una de tus compras mensuales.",
+    label: "Medicamentos a precio de costo",
+    subText: "Ähorra en tu tratamiento sin sacrificar la calidad",
   },
   {
-    link: "https://tdconsentido.mx/",
+    link: "https://alcosto.farmaleal.com.mx/",
     icon: <TbDiscount2 size={"3rem"} />,
-    label: "Miles de descuentos comerciales en nuestra RED TDC",
-    subText: "*Al adquirir tu membresía recibirás tu tarjeta TDC.",
-  },
-  {
-    link: "https://clubfarmaleal.myshopify.com/pages/envios",
-    icon: <TbTruckDelivery size={"3rem"} />,
-    label: "Entrega nacional *",
+    label: "Catálogo con más de 17,000 productos",
     subText:
-      "*Envíos gratis a CDMX. Resto del país a costo Neto de mensajería.",
+      "*Descuentos exclusivos en productos de salud, cuidado personal y bienestar",
   },
   {
-    link: "https://clubfarmaleal.myshopify.com/pages/videoconsultas",
+    link: "https://alcosto.farmaleal.com.mx/",
     icon: <TbPhoneCall size={"3rem"} />,
-    label: "Videoconsultas con médicos 24/7",
-    subText:
-      "*Al adquirir tu membresía recibirás un código para acceder a videoconsulta.",
+    label: "Consultas médicas en línea",
+    subText: "*Atención inmediata con médicos certificados.",
+  },
+  {
+    link: "https://alcosto.farmaleal.com.mx/",
+    icon: <TbTruckDelivery size={"3rem"} />,
+    label:
+      "Acceso prioritario a promociones y lanzamientos de nuevos medicamentos",
   },
 ];
 
@@ -54,8 +53,7 @@ export const Benefits = ({ setModalVerificationCard }: BenefitsProps) => {
           </div>
           <div className="w-full text-center flex flex-col items-center justify-center">
             <h5 className="h5 mb-5 max-sm:text-center w-5/12 max-sm:text-sm max-sm:w-full">
-              Te <b>garantizamos</b> el mejor precio del mercado, pero además,
-              tu membresía incluye sin costo adicional:
+              Tu <b>salud</b> y <b>bienestar</b> al mejor precio
             </h5>
           </div>
         </div>
@@ -90,7 +88,7 @@ export const Benefits = ({ setModalVerificationCard }: BenefitsProps) => {
         </div>
       </div>
       <div className="separator w-screen"></div>
-      <Table />
+      {/* <Table /> */}
 
       <Pricing setModalVerificationCard={setModalVerificationCard} />
     </section>
