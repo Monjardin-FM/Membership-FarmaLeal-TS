@@ -1,6 +1,6 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Col, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
 import { NavBar } from "./components";
 import { LandingPage, UserPage } from "./pages";
@@ -25,7 +25,7 @@ function App() {
           <Routes>
             <Route path="/" Component={LandingPage} />
             <Route path="/membresiaClubFarmaleal" Component={LandingPage} />
-            <Route path="/verificationMembership/" Component={UserPage} />
+            <Route path="/verificationmembership/" Component={UserPage} />
           </Routes>
         </div>
         <Footer />

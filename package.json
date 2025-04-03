@@ -11,6 +11,7 @@
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
     "@headlessui/react": "^1.7.13",
+    "@mercadopago/sdk-react": "^1.0.1",
     "bootstrap": "^5.2.3",
     "clsx": "^1.2.1",
     "formik": "^2.2.9",
@@ -26,7 +27,7 @@
     "react-spinners": "^0.13.8",
     "react-use": "^17.4.0",
     "sass": "^1.60.0",
-    "sweetalert2": "^11.4.8",
+    "sweetalert2": "^11.17.2",
     "yup": "^1.0.2"
   },
   "devDependencies": {

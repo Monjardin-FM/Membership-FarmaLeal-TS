@@ -7,7 +7,6 @@ import {
 } from "react-icons/tb";
 import Arrow from "../assets/img/benefitsArrow.png";
 import { Pricing } from "./Pricing";
-import { Table } from "./Table";
 const items = [
   {
     link: "https://alcosto.farmaleal.com.mx/",
@@ -38,8 +37,14 @@ const items = [
 
 type BenefitsProps = {
   setModalVerificationCard: (flag: boolean) => void;
+  setPaymentExc: React.Dispatch<React.SetStateAction<string[]>>;
+  setAmount: React.Dispatch<React.SetStateAction<number>>;
 };
-export const Benefits = ({ setModalVerificationCard }: BenefitsProps) => {
+export const Benefits = ({
+  setModalVerificationCard,
+  setAmount,
+  setPaymentExc,
+}: BenefitsProps) => {
   return (
     <section
       // id="benefits"
@@ -90,7 +95,11 @@ export const Benefits = ({ setModalVerificationCard }: BenefitsProps) => {
       <div className="separator w-screen"></div>
       {/* <Table /> */}
 
-      <Pricing setModalVerificationCard={setModalVerificationCard} />
+      <Pricing
+        setModalVerificationCard={setModalVerificationCard}
+        setPaymentExc={setPaymentExc}
+        setAmount={setAmount}
+      />
     </section>
   );
 };
