@@ -3,9 +3,9 @@ import { api } from "../utils/api";
 import { verifyResponse } from "../utils/check-response";
 
 export const confirmMembership = async (params: any) => {
-  const response = await api().post("Membresia/Client", {
+  const response = await api().post("membresia/CreateUser", {
     headers: {
-      ApiKey: import.meta.env.VITE_API_KEY,
+      // ApiKey: import.meta.env.VITE_API_KEY,
     },
     json: params,
   });

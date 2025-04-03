@@ -9,53 +9,72 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type ContactFormProps = {
   email: string;
+  token: string;
 };
-export const ContactForm = ({ email }: ContactFormProps) => {
+export const ContactForm = ({ email, token }: ContactFormProps) => {
   const { confirmMember, loading } = useConfirmMembership();
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
   const [parent] = useAutoAnimate();
   const confirmButton = () => {
     return Swal.fire({
       title: "Cuenta creada con éxito",
-      text: "Ya puedes disfrutar de los beneficios de tu membresia de Club FarmaLeal",
+      text: "Ya puedes disfrutar de los beneficios de tu membresia de Costo Farma. Revisa tu correo para la activación de tu cuenta",
       icon: "success",
       confirmButtonText: "Ok",
       confirmButtonColor: "#15A186",
     });
   };
+  function capitalize(word: string) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     const validEmail = regex.test(email);
     e.preventDefault();
-    if (password !== repeatPassword || !validEmail) {
+    if (!validEmail) {
       if (!validEmail) {
         Swal.fire("Hubo un error", "No hay un correo vinculado", "error");
       }
-      if (password != repeatPassword) {
-        Swal.fire("Hubo un error", "Las contraseñas no coinciden", "error");
-      }
     } else {
       const response = await confirmMember({
-        email: email,
-        password: password,
+        token: token,
+        customer: {
+          first_name: name,
+          last_name: lastName,
+          email: email,
+          phone: phone,
+        },
       });
-      if (response.data.result) {
-        const result = await confirmButton();
-        if (result.isConfirmed) {
-          window.location.href = "https://clubfarmaleal.myshopify.com/";
-        }
-      }
-      if (!response.data.result) {
+      if (response.errors) {
+        const errorMessages = Object.entries(response.errors)
+          .map(
+            ([field, messages]) =>
+              `<strong>${capitalize(field)}</strong>: ${(
+                messages as string[]
+              ).join(", ")}`
+          )
+          .join("<br>"); // Usar `<br>` en lugar de `\n`
         Swal.fire({
           title: "Error al crear la cuenta",
-          text: `${response.data.exceptionMessage}`,
+          html: errorMessages,
           icon: "error",
           confirmButtonText: "Ok",
           confirmButtonColor: "#15A186",
         });
+        console.log(response.errors);
+      } else {
+        const result = await confirmButton();
+        if (result.isConfirmed) {
+          window.location.href = "https://alcosto.farmaleal.com.mx/";
+        }
       }
+      // if (!response.data.result) {
+      // }
     }
   };
 
@@ -70,6 +89,7 @@ export const ContactForm = ({ email }: ContactFormProps) => {
   return (
     <>
       <div className="w-100" id="contact_form">
+        {/* <span>{token}</span> */}
         <Form
           className="d-grid gap-3 text-white text-start"
           onSubmit={(e) => onSubmit(e)}
@@ -100,42 +120,48 @@ export const ContactForm = ({ email }: ContactFormProps) => {
               />
             </Row>
             <Row>
-              <p className="ps-0 fs-6 fw-500 mb-2">Contraseña</p>
+              <p className="ps-0 fs-6 fw-500 mb-2">Nombre(s)</p>
               <input
                 required
                 className="px-3 py-2 mb-3 text-black"
-                type="password"
-                name="password"
-                id="passwordInput"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="text"
+                name="name"
+                id="nameInput"
+                value={name}
                 inputMode="text"
-              />
-              <div ref={parent} className="relative w-full">
-                {validPassword === false && (
-                  <div className="text-red-600 text-sm relative -top-4 font-semibold border p-1 bg-red-100 rounded-md -left-3 max-sm:text-xs">
-                    <span>
-                      La contraseña debe contener una mayúscula, una minúscula y
-                      una longitud de al menos 8 caracteres
-                    </span>
-                  </div>
-                )}
-              </div>
-            </Row>
-
-            <Row>
-              <p className="ps-0 fs-6 fw-500 mb-2">Confirmar contraseña</p>
-              <input
-                required
-                className="px-3 py-2 mb-3 text-black"
-                type="password"
-                name="repeatPassword"
-                id="repeatPasswordInput"
-                value={repeatPassword}
                 onChange={(e) => {
-                  setRepeatPassword(e.target.value);
+                  setName(e.target.value);
                 }}
+              />
+            </Row>
+            <Row>
+              <p className="ps-0 fs-6 fw-500 mb-2">Apellido</p>
+              <input
+                required
+                className="px-3 py-2 mb-3 text-black"
+                type="text"
+                name="lastName"
+                id="lastNameInput"
+                value={lastName}
                 inputMode="text"
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+            </Row>
+            <Row>
+              <p className="ps-0 fs-6 fw-500 mb-2">Teléfono</p>
+              <input
+                required
+                className="px-3 py-2 mb-3 text-black"
+                type="text"
+                name="phone"
+                id="phoneInput"
+                value={phone}
+                inputMode="text"
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                }}
               />
             </Row>
 
@@ -143,7 +169,7 @@ export const ContactForm = ({ email }: ContactFormProps) => {
               <Button
                 className="bg-white fw-600 mt-3 mx-auto color-secondary border-none w-75 "
                 type="submit"
-                disabled={loading || !validPassword}
+                disabled={loading}
               >
                 Crear Cuenta
               </Button>

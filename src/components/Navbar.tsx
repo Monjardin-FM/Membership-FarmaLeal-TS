@@ -7,7 +7,7 @@ import {
 } from "react-icons/ai";
 import { FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from "../assets/img/logo.webp";
+import Logo from "../assets/img/logoFL2_circulo.png";
 export const NavBar = () => {
   const [isOpen, setOpen] = useState(false);
 
@@ -18,8 +18,9 @@ export const NavBar = () => {
           <Col xs={0} md={2}></Col>
           <Col xs={12} lg={8} className="">
             <p className="m-0 px-1 header-top max-sm:text-xs">
-              Tu farmacia digital en productos de especialidad - Envíos a todo
-              México
+              Tu farmacia digital en productos de especialidad - Los pedidos se
+              recogen en Culiacán 123 esquina Bajío, Hipódromo, Cuauhtémoc,
+              06100, CDMX después de 72 horas de realizar el pago.
             </p>
           </Col>
           <Col xs={12} lg={2}>
@@ -75,16 +76,16 @@ export const NavBar = () => {
             />
           </div>
           <div className="flex flex-row max-sm:gap-5 lg:gap-5 md:gap-5">
-            <div>
+            {/* <div>
               <Link to="/">
                 <span className="font-semibold">Inicio</span>
               </Link>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <Link to="https://customer.login.shopify.com/lookup?destination_uuid=d03a8fb1-e91f-4f45-b528-c922f5b39d34&redirect_uri=https%3A%2F%2Fshopify.com%2F73657516343%2Faccount%2Fcallback&rid=914bcedd-c5ab-4d46-9b51-e4baa41a8ab6&ui_locales=es">
                 <span className="font-semibold">Login</span>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </Navbar>
