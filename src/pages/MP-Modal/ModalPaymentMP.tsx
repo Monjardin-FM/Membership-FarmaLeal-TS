@@ -12,6 +12,7 @@ export type ModalPaymentMPProps = {
   onClose: () => void;
   amount: number;
   excludedPayment: string[];
+  onReset: () => void;
 };
 declare global {
   interface Window {
@@ -23,6 +24,7 @@ export const ModalPaymentMP = ({
   onClose,
   amount,
   excludedPayment,
+  onReset,
 }: ModalPaymentMPProps) => {
   initMercadoPago(import.meta.env.VITE_API_KEY);
   const [response, setResponse] = useState("");
@@ -139,6 +141,17 @@ export const ModalPaymentMP = ({
       showConfirmButton: false,
       // confirmButtonText: 'Cool'
     });
+    onReset();
+  };
+  const onErrorMail = () => {
+    Swal.fire({
+      title: `${response}`,
+      text: "El usuario que estas tratando de ingresar ya existe activo en la plataforma, intenta con un correo diferente.",
+      icon: "error",
+      showConfirmButton: false,
+      // confirmButtonText: 'Cool'
+    });
+    onReset();
   };
   useEffect(() => {
     return () => {
@@ -154,8 +167,10 @@ export const ModalPaymentMP = ({
     }
   }, [response]);
   const checkReponse = () => {
-    if (response.includes("El mail") || response.includes("Error")) {
+    if (response.includes("Error")) {
       onErrorPayment();
+    } else if (response.includes("El mail")) {
+      onErrorMail();
     } else {
       onSuccess();
     }
@@ -186,7 +201,7 @@ export const ModalPaymentMP = ({
                 .then((data) => {
                   // recibir el resultado del pago
                   setResponse(data);
-                  console.log(response);
+                  // console.log(response);
                   resolve();
                 })
                 .catch((error) => {

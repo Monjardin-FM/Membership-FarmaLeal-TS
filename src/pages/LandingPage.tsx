@@ -24,6 +24,10 @@ export const LandingPage = () => {
         onClose={() => setShowModalMembership(false)}
         amount={amount}
         excludedPayment={paymentExc}
+        onReset={() => {
+          setShowModalMembership(false);
+          setShowModalMembership(true);
+        }}
       />
       <Hero
         setModalVerificationCard={() => setShowModalMembership(true)}

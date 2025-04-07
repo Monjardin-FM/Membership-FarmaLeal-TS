@@ -1,11 +1,9 @@
 import { Button, Container, Form, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import { useForm } from "../hooks/useForm";
 import { useConfirmMembership } from "../hooks/use-confirm-membership";
 import { Loader } from "./Loader";
 import { useState, useEffect } from "react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type ContactFormProps = {
   email: string;
@@ -19,7 +17,6 @@ export const ContactForm = ({ email, token }: ContactFormProps) => {
   const [phone, setPhone] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
-  const [parent] = useAutoAnimate();
   const confirmButton = () => {
     return Swal.fire({
       title: "Cuenta creada con éxito",
@@ -33,14 +30,17 @@ export const ContactForm = ({ email, token }: ContactFormProps) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
-    const validEmail = regex.test(email);
     e.preventDefault();
+
+    const regex = new RegExp("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}");
+    const validEmail = regex.test(email);
+
     if (!validEmail) {
-      if (!validEmail) {
-        Swal.fire("Hubo un error", "No hay un correo vinculado", "error");
-      }
-    } else {
+      Swal.fire("Hubo un error", "No hay un correo vinculado", "error");
+      return;
+    }
+
+    try {
       const response = await confirmMember({
         token: token,
         customer: {
@@ -50,7 +50,21 @@ export const ContactForm = ({ email, token }: ContactFormProps) => {
           phone: phone,
         },
       });
-      if (response.errors) {
+
+      // Si la respuesta contiene "Token inválido", mostramos el Swal de error
+      if (response && response.message) {
+        Swal.fire({
+          title: "Error al crear la cuenta",
+          text: response.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+          confirmButtonColor: "#15A186",
+        });
+        return; // Detener ejecución
+      }
+
+      // Verificar si hay errores en el objeto JSON
+      if (response && response.errors) {
         const errorMessages = Object.entries(response.errors)
           .map(
             ([field, messages]) =>
@@ -58,7 +72,8 @@ export const ContactForm = ({ email, token }: ContactFormProps) => {
                 messages as string[]
               ).join(", ")}`
           )
-          .join("<br>"); // Usar `<br>` en lugar de `\n`
+          .join("<br>");
+
         Swal.fire({
           title: "Error al crear la cuenta",
           html: errorMessages,
@@ -66,15 +81,23 @@ export const ContactForm = ({ email, token }: ContactFormProps) => {
           confirmButtonText: "Ok",
           confirmButtonColor: "#15A186",
         });
-        console.log(response.errors);
-      } else {
-        const result = await confirmButton();
-        if (result.isConfirmed) {
-          window.location.href = "https://alcosto.farmaleal.com.mx/";
-        }
+
+        return; // Detener ejecución
       }
-      // if (!response.data.result) {
-      // }
+
+      // Si no hubo errores, proceder con éxito
+      const result = await confirmButton();
+      if (result.isConfirmed) {
+        window.location.href = "https://alcosto.farmaleal.com.mx/";
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error inesperado",
+        text: "Ocurrió un problema, intenta de nuevo.",
+        icon: "error",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#15A186",
+      });
     }
   };
 
