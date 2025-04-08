@@ -180,7 +180,7 @@ export const ModalPaymentMP = ({
                 }}
               />
               <label className="form-check-label" htmlFor="switchCheckDefault">
-                Pago recurrente
+                Pago domiciliado
               </label>
             </div>
           </div>

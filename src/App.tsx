@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Container fluid className="p-0 m-0 h-screen">
-        <NavBar />
+        {/* <NavBar /> */}
         <div className="routes-wrapper-animate mb-10 max-sm:mb-5" ref={appRef}>
           <Routes>
             <Route path="/" Component={LandingPage} />
@@ -28,7 +28,7 @@ function App() {
             <Route path="/verificationmembership/" Component={UserPage} />
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </Container>
     </>
   );
