@@ -23,7 +23,6 @@ export const LandingPage = () => {
         isVisible={showModalMembership}
         onClose={() => setShowModalMembership(false)}
         amount={amount}
-        excludedPayment={paymentExc}
         onReset={() => {
           setShowModalMembership(false);
           setShowModalMembership(true);

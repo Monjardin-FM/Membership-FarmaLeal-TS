@@ -3,7 +3,6 @@ import { AppModal } from "../../presentation/Components/AppModal/AppModal";
 import { Stepper } from "../../presentation/Components/AppStepper";
 import { AppButton } from "../../presentation/Components/AppButton";
 import { useFormik } from "formik";
-import { FormInfoClient } from "./FormInfoClient";
 import * as Yup from "yup";
 import { CardInfoForm } from "./CardInfoForm";
 import Swal from "sweetalert2";
@@ -15,6 +14,7 @@ import { usePaymentMembership } from "../../hooks/use-payment-membership";
 export type StepperFormPaymentProps = {
   isVisible: boolean;
   onClose: () => void;
+  amount: number;
 };
 export type DataCard = {
   adress: "" | null;
@@ -29,16 +29,16 @@ export type DataCard = {
 export const StepperFormPayment = ({
   isVisible,
   onClose,
+  amount,
 }: StepperFormPaymentProps) => {
+  const [cardFormat, setCardFormat] = useState("");
   const { loading: loadingPayment, paymentMembership } = usePaymentMembership();
   const [isLoadingCardValidate, setIsloadingValidateCard] = useToggle(false);
   const [paymentData, setPaymentData] = useState({
     deviceSessionId: "",
     tokenId: "",
   });
-  const [stateName, setStateName] = useState("");
-  const [municipioName, setMunicipioName] = useState("");
-  const [tokenID, setTokenID] = useState("");
+
   const [dataCard, setDataCard] = useState<DataCard>({
     adress: null,
     brand: null,
@@ -49,53 +49,15 @@ export const StepperFormPayment = ({
     holder_name: null,
     type: null,
   });
-  const formInfoClient = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      nombre: "",
-      paterno: "",
-      materno: "",
-      line1: "",
-      postalCode: "",
-      state: "",
-      city: "",
-      correo: "",
-      edad: "",
-      sexo: "",
-      mesesSI: "0",
-    },
-    validationSchema: Yup.object().shape({
-      nombre: Yup.string().required("Campo Obligatorio"),
-      paterno: Yup.string().required("Campo Obligatorio"),
-      materno: Yup.string().required("Campo Obligatorio"),
-      line1: Yup.string().required("Campo Obligatorio"),
-      postalCode: Yup.string()
-        .required("Campo Obligatorio")
-        .length(5, "Codigo Postal Inválido")
-        .matches(/^\d+$/, "Código Postal Inválido"),
-      state: Yup.string()
-        .min(1, "Debes seleccionar una opción")
-        .required("Debes seleccionar un estado"),
-      city: Yup.string()
-        .min(1, "Debes seleccionar una opción")
-        .required("Debes seleccionar una opción"),
-      correo: Yup.string()
-        .email("Correo inválido")
-        .required("Campo Obligatorio"),
-      edad: Yup.string()
-        .required("Obligatorio")
-        .matches(/^\d+$/, "Edad inválida"),
-      sexo: Yup.string()
-        .min(1, "Debes seleccionar una opción")
-        .required("Campo Obligatorio"),
-    }),
-    onSubmit: () => {},
-  });
+
   const cardInfoForm = useFormik({
     enableReinitialize: true,
     initialValues: {
       card_number: "",
-      holder_name: "",
+      name: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
       expiration_year: "",
       expiration_month: "",
       cvv2: "",
@@ -105,10 +67,15 @@ export const StepperFormPayment = ({
         /^\d+$/,
         "El número de tarjeta solo deben de ser dígitos"
       ),
-      holder_name: Yup.string().required("Campo Obligatorio"),
+      name: Yup.string().required("Campo Obligatorio"),
+      lastName: Yup.string().required("Campo Obligatorio"),
       expiration_year: Yup.string()
         .matches(/^\d+$/)
         .length(2, "Fecha Inválida"),
+      phoneNumber: Yup.string()
+        .matches(/^\d+$/, "El número de teléfono solo deben de ser dígitos")
+        .required("Campo Obligatorio"),
+      email: Yup.string().email("Email inválido").required("Campo Obligatorio"),
       expiration_month: Yup.string()
         .matches(/^\d+$/)
         .length(2, "Fecha Inválida"),
@@ -116,47 +83,32 @@ export const StepperFormPayment = ({
     }),
     onSubmit: () => {},
   });
-
+  // This function is used to handle the payment process
   const onPayment = async () => {
     const respuesta = await paymentMembership({
-      cargo: {
-        name: formInfoClient.values.nombre,
-        lastName: formInfoClient.values.paterno,
-        email: formInfoClient.values.correo,
-        city: municipioName,
-        state: stateName,
-        idCiudad: formInfoClient.values.city.toString(),
-        idEstado: formInfoClient.values.state.toString(),
-        postalCode: formInfoClient.values.postalCode,
-        line1: formInfoClient.values.line1,
-        cardNumber: cardInfoForm.values.card_number.replace(/(\D)/g, ""),
-        holderName: cardInfoForm.values.holder_name,
-        expirationMonth: cardInfoForm.values.expiration_month,
-        expirationYear: cardInfoForm.values.expiration_year,
-        cvv2: cardInfoForm.values.cvv2,
-        mesesSI: formInfoClient.values.mesesSI,
-      },
-      persona: {
-        correo: formInfoClient.values.correo,
-        nombre: formInfoClient.values.nombre,
-        paterno: formInfoClient.values.paterno,
-        materno: formInfoClient.values.materno,
-        edad: formInfoClient.values.edad.toString,
-        sexo: formInfoClient.values.sexo,
-      },
-      sessionId: tokenID,
+      tokenId: paymentData.tokenId,
+      deviceSessionId: paymentData.deviceSessionId,
+      msi: 12,
+      amount: amount,
+      name: cardInfoForm.values.name,
+      lastName: cardInfoForm.values.lastName,
+      phoneNumber: cardInfoForm.values.phoneNumber,
+      email: cardInfoForm.values.email,
     });
     if (respuesta.data.result) {
       Swal.fire({
         title: "Pago exitoso",
-        text: `Para finalizar tu suscripción revisa tu correo ${formInfoClient.values.correo}`,
+        text: `Para finalizar tu suscripción revisa tu correo `,
         icon: "success",
         confirmButtonText: "Ok",
         confirmButtonColor: "#15A186",
       });
-      formInfoClient.resetForm();
       cardInfoForm.resetForm();
-
+      setCardFormat("");
+      setPaymentData({
+        deviceSessionId: "",
+        tokenId: "",
+      });
       onClose();
     }
     if (!respuesta.data.result) {
@@ -169,25 +121,33 @@ export const StepperFormPayment = ({
       });
     }
   };
+
+  // This function is used to handle idevice session id and token id
   useEffect(() => {
     /*global OpenPay*/
     window.OpenPay.setId(import.meta.env.VITE_API_KEY_OPENPAY_ID);
     window.OpenPay.setApiKey(import.meta.env.VITE_API_KEY_OPENPAY);
-    // window.OpenPay.setSandboxMode(import.meta.env.VITE_API_KEY_OPENPAY_MODE);
     window.OpenPay.setSandboxMode(true);
     //Se genera el id de dispositivo
     setPaymentData({
       ...paymentData,
       deviceSessionId: window.OpenPay.deviceData.setup(),
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      setPaymentData({ deviceSessionId: "", tokenId: "" });
+      cardInfoForm.resetForm();
+      setCardFormat("");
+    };
   }, []);
+
   return (
     <>
+      {/* This loader is used to show a loading spinner when the card is being
+      validated */}
       <Loader isVisible={isLoadingCardValidate}>
         <div className="text-center">
           <span>
-            <p className="font-semibold text-lg text-success-600">
+            <p className="font-semibold text-lg text-info-300">
               Validando los datos de la tarjeta
             </p>
             <br />
@@ -196,10 +156,12 @@ export const StepperFormPayment = ({
           </span>
         </div>
       </Loader>
+      {/* This loader is used to show a loading spinner when the payment is being
+      processed */}
       <Loader isVisible={loadingPayment}>
         <div className="text-center">
           <span>
-            <p className="font-semibold text-lg text-success-600">
+            <p className="font-semibold text-lg text-info-300">
               Generando Cobro
             </p>
             <br />
@@ -217,7 +179,7 @@ export const StepperFormPayment = ({
             const handlePayment = () => {
               createToken();
             };
-
+            // This function is used to create a token for the card
             const createToken = () => {
               window.OpenPay.token.create(
                 {
@@ -225,7 +187,7 @@ export const StepperFormPayment = ({
                     /(\D)/g,
                     ""
                   ),
-                  holder_name: cardInfoForm.values.holder_name,
+                  holder_name: `${cardInfoForm.values.name} ${cardInfoForm.values.lastName}`,
                   expiration_year: cardInfoForm.values.expiration_year,
                   expiration_month: cardInfoForm.values.expiration_month,
                   cvv2: cardInfoForm.values.cvv2,
@@ -234,33 +196,51 @@ export const StepperFormPayment = ({
                 errorCallBack
               );
             };
-
+            // This function is used to handle the success callback of the token creation
             const sucessCallbak = (response: any) => {
               setPaymentData({
                 ...paymentData,
                 tokenId: response.data.id,
+                deviceSessionId: paymentData.deviceSessionId,
               });
 
-              setTokenID(response.data.id);
+              // setPaymentData({ ...paymentData, tokenId: response.data.id });
               setDataCard(response.data.card);
-
-              Swal.fire({
-                icon: "success",
-                title: "Tarjeta Válida",
-                showConfirmButton: false,
-                timer: 2000,
-              });
-              handleChange({ value: 3 });
-              setIsloadingValidateCard(false);
+              if (response.data.card.type === "debit") {
+                Swal.fire({
+                  icon: "error",
+                  title: "Tarjeta de débito",
+                  text: "No se aceptan tarjetas de débito",
+                  timer: 2000,
+                });
+                cardInfoForm.setFieldValue("card_number", "");
+                cardInfoForm.setFieldValue("expiration_month", "");
+                cardInfoForm.setFieldValue("expiration_year", "");
+                cardInfoForm.setFieldValue("cvv2", "");
+                setCardFormat("");
+                handleChange({ value: 1 });
+                setIsloadingValidateCard(false);
+                return;
+              }
+              if (response.data.card.type === "credit") {
+                Swal.fire({
+                  icon: "success",
+                  title: "Tarjeta Válida",
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+                handleChange({ value: 2 });
+                setIsloadingValidateCard(false);
+              }
             };
-
+            // This function is used to handle the error callback of the token creation
             const errorCallBack = (response: any) => {
               Swal.fire({
                 icon: "error",
                 title: `${response.data.description}`,
                 showConfirmButton: true,
               });
-              handleChange({ value: 2 });
+              handleChange({ value: 1 });
               setIsloadingValidateCard(false);
             };
             return (
@@ -268,60 +248,37 @@ export const StepperFormPayment = ({
                 <Stepper.Header>
                   <Stepper.Step step={1} />
                   <Stepper.Step step={2} />
-                  <Stepper.Step step={3} />
                 </Stepper.Header>
                 <form action="">
                   <Stepper.Items className="mt-4">
                     <Stepper.StepContent step={1}>
                       <div className="flex flex-col items-center justify-center">
-                        <FormInfoClient
-                          formInfoClient={formInfoClient}
-                          setStateName={setStateName}
-                          setMunicipioName={setMunicipioName}
-                        />
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <AppButton
-                          colorScheme="primary"
-                          onClick={() => handleChange({ value: 2 })}
-                          isDisabled={
-                            formInfoClient.values.nombre === "" ||
-                            formInfoClient.values.paterno === "" ||
-                            formInfoClient.values.materno === "" ||
-                            formInfoClient.values.correo === "" ||
-                            // formInfoClient.values.city === "" ||
-                            // formInfoClient.values.state === "" ||
-                            formInfoClient.values.edad === "" ||
-                            formInfoClient.values.line1 === "" ||
-                            formInfoClient.values.postalCode === "" ||
-                            formInfoClient.values.sexo === ""
-                          }
-                        >
-                          Siguiente
-                        </AppButton>
-                      </div>
-                    </Stepper.StepContent>
-                    <Stepper.StepContent step={2}>
-                      <div className="flex flex-col items-center justify-center">
                         <div className="w-full">
-                          <CardInfoForm cardInfoForm={cardInfoForm} />
+                          <CardInfoForm
+                            cardInfoForm={cardInfoForm}
+                            cardFormat={cardFormat}
+                            setCardFormat={setCardFormat}
+                          />
                         </div>
                         <div className="flex flex-row gap-3">
-                          <AppButton onClick={() => handleChange({ value: 1 })}>
-                            Atrás
+                          <AppButton onClick={() => onClose()}>
+                            Cancelar
                           </AppButton>
                           <AppButton
-                            colorScheme="primary"
+                            colorScheme="info"
                             onClick={() => {
                               setIsloadingValidateCard(true);
                               onSubmit();
                             }}
                             isDisabled={
                               cardInfoForm.values.card_number === "" ||
-                              cardInfoForm.values.holder_name === "" ||
+                              cardInfoForm.values.name === "" ||
+                              cardInfoForm.values.lastName === "" ||
                               cardInfoForm.values.expiration_month === "" ||
                               cardInfoForm.values.expiration_year === "" ||
                               cardInfoForm.values.cvv2 === "" ||
+                              cardInfoForm.values.phoneNumber === "" ||
+                              cardInfoForm.values.email === "" ||
                               isLoadingCardValidate
                             }
                           >
@@ -330,25 +287,21 @@ export const StepperFormPayment = ({
                         </div>
                       </div>
                     </Stepper.StepContent>
-                    <Stepper.StepContent step={3}>
+                    <Stepper.StepContent step={2}>
                       <div className="flex flex-col items-center justify-center">
                         <DataInformation
-                          formInfoClient={formInfoClient}
                           cardInfoForm={cardInfoForm}
                           dataCard={dataCard}
+                          amount={amount}
                         />
                         <div className="flex flex-row gap-3 mt-3">
-                          <AppButton onClick={() => handleChange({ value: 2 })}>
+                          <AppButton onClick={() => handleChange({ value: 1 })}>
                             Atrás
                           </AppButton>
                           <AppButton
-                            colorScheme="primary"
+                            colorScheme="info"
                             onClick={() => onPayment()}
-                            isDisabled={
-                              (dataCard.type === "credit" &&
-                                formInfoClient.values.mesesSI === "") ||
-                              loadingPayment
-                            }
+                            isDisabled={loadingPayment}
                           >
                             Realizar Pago
                           </AppButton>

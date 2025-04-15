@@ -62,7 +62,7 @@ export const Pricing = ({
         <div className="flex lg:flex-row lg:items-end gap-2 justify-center max-sm:flex-col">
           <div
             onClick={() => {
-              setAmount(1421.24);
+              setAmount(1800);
               setPaymentExc(["debit_card"]);
               setModalVerificationCard(true);
             }}

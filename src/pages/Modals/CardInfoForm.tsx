@@ -8,13 +8,18 @@ import cardExample from "../../assets/img/cvv.png";
 
 type CardInfoProps = {
   cardInfoForm: any;
+  cardFormat: string;
+  setCardFormat: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
+export const CardInfoForm = ({
+  cardInfoForm,
+  cardFormat,
+  setCardFormat,
+}: CardInfoProps) => {
   const [flagCardNumberValid, setFlagCardNumber] = useState(false);
   const [parent] = useAutoAnimate();
   const [CVV2Flag, setCVV2Flag] = useState();
-  const [cardFormat, setCardFormat] = useState("");
   const [flagRotate, setFlagRotate] = useState(false);
 
   const onCVVFocus = () => {
@@ -28,7 +33,6 @@ export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
     const typeTarjeta = window.OpenPay.card.cardType(
       cardInfoForm.values.card_number
     );
-    console.log(typeTarjeta);
   };
 
   const handleChangeCard = (e: any) => {
@@ -59,6 +63,7 @@ export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
     );
     setCVV2Flag(cvv2Flag);
   }, [cardInfoForm.values.cvv2, cardInfoForm.values.card_number]);
+
   return (
     <>
       <div className="pt-2">
@@ -76,24 +81,96 @@ export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
             </div>
             <div
               ref={parent}
-              className="col-span-12 w-full  flex flex-col gap-2 justify-center items-start"
+              className="col-span-6 w-full  flex flex-col gap-2 justify-center items-start"
             >
-              <AppFormLabel label="Nombre del titular:" />
+              <AppFormLabel label="Nombre(s):" />
 
               <AppTextField
-                dataOpenCard="holder_name"
-                name="holder_name"
+                dataOpenCard="name"
+                name="name"
                 onChange={cardInfoForm.handleChange}
-                placeholder="Como aparece en la tarjeta"
-                value={cardInfoForm.values.holder_name}
+                placeholder=""
+                value={cardInfoForm.values.name}
                 className="w-full "
                 onBlur={cardInfoForm.handleBlur}
                 inputMode="text"
               />
-              {cardInfoForm.errors.holder_name && (
+              {cardInfoForm.errors.name && (
                 <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">
                   <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
-                    {cardInfoForm.errors.holder_name}
+                    {cardInfoForm.errors.name}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div
+              ref={parent}
+              className="col-span-6 w-full  flex flex-col gap-2 justify-center items-start"
+            >
+              <AppFormLabel label="Apellidos:" />
+
+              <AppTextField
+                dataOpenCard="lastName"
+                name="lastName"
+                onChange={cardInfoForm.handleChange}
+                placeholder=""
+                value={cardInfoForm.values.lastName}
+                className="w-full "
+                onBlur={cardInfoForm.handleBlur}
+                inputMode="text"
+              />
+              {cardInfoForm.errors.lastName && (
+                <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">
+                  <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
+                    {cardInfoForm.errors.lastName}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div
+              ref={parent}
+              className="col-span-6 w-full  flex flex-col gap-2 justify-center items-start"
+            >
+              <AppFormLabel label="Correo:" />
+
+              <AppTextField
+                // dataOpenCard="email"
+                name="email"
+                onChange={cardInfoForm.handleChange}
+                placeholder=""
+                value={cardInfoForm.values.email}
+                className="w-full "
+                onBlur={cardInfoForm.handleBlur}
+                inputMode="text"
+              />
+              {cardInfoForm.errors.email && (
+                <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">
+                  <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
+                    {cardInfoForm.errors.email}
+                  </span>
+                </div>
+              )}
+            </div>
+            <div
+              ref={parent}
+              className="col-span-6 w-full  flex flex-col gap-2 justify-center items-start"
+            >
+              <AppFormLabel label="Teléfono:" />
+
+              <AppTextField
+                dataOpenCard="phoneNumber"
+                name="phoneNumber"
+                onChange={cardInfoForm.handleChange}
+                placeholder=""
+                value={cardInfoForm.values.phoneNumber}
+                className="w-full "
+                onBlur={cardInfoForm.handleBlur}
+                inputMode="text"
+              />
+              {cardInfoForm.errors.phoneNumber && (
+                <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">
+                  <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
+                    {cardInfoForm.errors.phoneNumber}
                   </span>
                 </div>
               )}
@@ -112,14 +189,14 @@ export const CardInfoForm = ({ cardInfoForm }: CardInfoProps) => {
                   handleChangeCard(e);
                 }}
                 className={
-                  !flagCardNumberValid
+                  !flagCardNumberValid || cardFormat === ""
                     ? "w-full bg-danger-100"
                     : "w-full bg-success-200"
                 }
                 inputMode="numeric"
                 maxLength={19}
               />
-              {!flagCardNumberValid && (
+              {(!flagCardNumberValid || cardFormat === "") && (
                 <div className="border border-danger-800 rounded-md bg w-full p-1 relative -top-2 bg-danger-100">
                   <span className="text-danger-500 font-semibold text-sm max-sm:text-xs">
                     {"Tarjeta Inválida"}
