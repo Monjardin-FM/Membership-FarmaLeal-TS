@@ -7,7 +7,7 @@ import {
 } from "react-icons/ai";
 import { FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from "../assets/img/logoFL2_circulo.png";
+import Logo from "../assets/img/FarmaCosto_Logo_BlancoSinFondo.png";
 export const NavBar = () => {
   const [isOpen, setOpen] = useState(false);
 

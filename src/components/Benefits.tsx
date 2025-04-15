@@ -4,10 +4,12 @@ import {
   TbPill,
   TbTruckDelivery,
 } from "react-icons/tb";
-import Step1 from "../../public/images/Memebresia_Paso01.png";
-import Step2 from "../../public/images/Memebresia_Paso02.png";
-import Step3 from "../../public/images/Memebresia_Paso03.png";
-import Step4 from "../../public/images/Memebresia_Paso04.png";
+import Step1 from "../assets/img/Paso1_membresias.png";
+import Step2 from "../assets/img/Paso2_membresias.png";
+import Step3 from "../assets/img/Paso3_membresias.png";
+import Step4 from "../assets/img/Paso4_membresias.png";
+import MembershipPrice1 from "../assets/img/PagoMembresia_155.png";
+import MembershipPrice2 from "../assets/img/PagoMembresia_175.png";
 const items = [
   {
     image: Step1,
@@ -38,25 +40,26 @@ export const Benefits = ({
       // id="benefits"
       className="color-primary flex flex-col items-center gap-10 w-full max-sm:w-full max-sm:mb-20 max-md:w-full "
     >
-      <div className="flex flex-row  w-full items-center justify-center  gap-3 ">
+      <div className="flex flex-row  w-full items-center justify-center  gap-3 container">
         {items.map((element, i) => {
           return (
-            // <div className="col-span-1 max-sm:col-span-2 text-white  hover:shadow-primary-600 hover:shadow-2xl transition duration-200">
-            <div className="w-1/4  overflow-hidden">
+            <div className="w-1/4  overflow-hidden p-10">
               <img src={element.image} className="w-full overflow-hidden" />
             </div>
-            // </div>
           );
         })}
       </div>
-      <div className="w-full relative flex flex-col items-center justify-center">
-        <div className="absolute flex flex-row items-center justify-center gap-5 w-full h-full">
-          <div className=" w-1/2 h-4/6  hover:cursor-pointer hover:shadow-gray-100 hover:shadow-2xl transition duration-200"></div>
-          <div className=" w-1/2 h-4/6  hover:cursor-pointer hover:shadow-gray-100 hover:shadow-2xl transition duration-200"></div>
+      <div className="grid grid-cols-2 gap-5 justify-center items-center container">
+        <div className="col-span-1">
+          <img src={MembershipPrice1} className="" />
         </div>
-        <img src="../../public/images/CostosMembresia_01.png" />
+
+        <div className="col-span-1">
+          <img src={MembershipPrice2} className="" />
+        </div>
       </div>
-      <div className="grid grid-cols-3 gap-5">
+
+      <div className="grid grid-cols-3 gap-5 container">
         <div className="col-span-1">
           <img
             src="../../public/images/Membresia_Beneficios-01.png"
