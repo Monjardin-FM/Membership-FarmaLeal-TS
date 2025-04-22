@@ -92,7 +92,7 @@ export const Card = ({ cardNumber, cardForm, flagRotate }: CardProps) => {
               <div className="absolute bottom-5 text-white text-xs w-full grid grid-cols-3 items-start justify-around max-sm:text-xs">
                 <div className="flex flex-col col-span-2 ml-3 ">
                   <div>Card Holder</div>
-                  <div>{` ${cardForm.holder_name.toUpperCase()}`}</div>
+                  <div>{`${cardForm.name.toUpperCase()} ${cardForm.lastName.toUpperCase()} `}</div>
                 </div>
                 <div className="col-span-1 flex flex-col items-center justify-center">
                   <div>Expiration</div>

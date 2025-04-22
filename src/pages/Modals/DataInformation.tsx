@@ -2,74 +2,64 @@ import React from "react";
 import { DataCard } from "./StepperFormPayment";
 import { AppFormLabel } from "../../presentation/Components/AppFormLabel";
 type DataInformationProps = {
-  formInfoClient: any;
+  // formInfoClient: any;
   cardInfoForm: any;
   dataCard: DataCard;
+  amount: number;
 };
 export const DataInformation = ({
   cardInfoForm,
-  formInfoClient,
+  // formInfoClient,
+  amount,
   dataCard,
 }: DataInformationProps) => {
   return (
-    <div className="grid grid-cols-2 items-center w-full gap-3">
-      <div className="p-4 col-span-1 flex flex-col gap-2 bg-primary-100 rounded-lg w-full">
-        <h1 className="text-primary-800 font-semibold text-lg">
+    <div className="grid grid-cols-1 sm:grid-cols-2 items-start w-full sm:gap-3 gap-2">
+      <div className="sm:p-4 p-2 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg h-full">
+        <h1 className="text-info-800 font-semibold text-lg">
           Información del Cliente
         </h1>
         <span>
-          <b className="text-primary-700">Nombre del Cliente:</b>
-          {` ${formInfoClient.values.nombre} ${formInfoClient.values.paterno} ${formInfoClient.values.materno}`}
+          <b className="text-info-700">Nombre del Cliente:</b>
+          {` ${cardInfoForm.values.name} ${cardInfoForm.values.lastName}`}
         </span>
         <span>
-          <b className="text-primary-700">Correo:</b>
-          {` ${formInfoClient.values.correo}`}
+          <b className="text-info-700">Correo:</b>
+          {` ${cardInfoForm.values.email}`}
         </span>
         <span>
-          <b className="text-primary-700">Sexo:</b>
-          {` ${formInfoClient.values.sexo}`}
+          <b className="text-info-700">Teléfono:</b>
+          {` ${cardInfoForm.values.phoneNumber}`}
         </span>
       </div>
-      <div className="p-4 col-span-1 flex flex-col gap-2 bg-primary-100 rounded-lg w-full">
-        <h1 className="text-primary-800 font-semibold text-lg">
+
+      <div className="sm:p-4 p-2 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg h-full">
+        <h1 className="text-info-800 font-semibold text-lg">
           Datos de la tarjeta
         </h1>
         <span>
-          <b className="text-primary-700">Número de tarjeta: </b>
+          <b className="text-info-700">Número de tarjeta: </b>
           {dataCard.card_number}
         </span>
         <span>
-          <b className="text-primary-700">Tipo de tarjeta: </b>
+          <b className="text-info-700">Tipo de tarjeta: </b>
           {dataCard.type === "debit" ? "Débito" : "Crédito"}
         </span>
         <span>
-          <b className="text-primary-700">Fecha de expiración: </b>
+          <b className="text-info-700">Fecha de expiración: </b>
           {`${dataCard.expiration_month} / ${dataCard.expiration_year}`}
         </span>
+        <span>
+          <b className="text-info-700">Monto: </b>
+          {`$${amount}`}
+        </span>
       </div>
+
       {dataCard.type === "credit" && (
-        <div className="col-span-2 gap-10 bg-warn-100 p-10 flex flex-col items-center justify-center w-full">
-          <div className="text-warn-900 w-full">
+        <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
+          <div className="text-warn-900 w-full text-center">
             Al hacer la compra de la membresía con tarjeta de crédito puedes
-            pagar hasta 12 meses sin intereses. Por favor elige una opción antes
-            de finalizar con el proceso de pago.
-          </div>
-          <div className="w-full text-center">
-            <AppFormLabel label="Meses sin Intereses: " />
-            <select
-              value={formInfoClient.values.mesesSI}
-              onChange={formInfoClient.handleChange}
-              name="mesesSI"
-              //   onBlur={formInfoClient.handleBlur}
-              className="max-sm:text-xs"
-            >
-              <option value="">Escoge una opción</option>
-              <option value="0">Una sola exhibición</option>
-              <option value="3">3 Meses sin Intereses</option>
-              <option value="6">6 Meses sin Intereses</option>
-              <option value="9">9 Meses sin Intereses</option>
-              <option value="12">12 Meses sin Intereses</option>
-            </select>
+            pagar hasta 12 meses sin intereses.
           </div>
         </div>
       )}

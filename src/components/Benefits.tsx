@@ -1,105 +1,112 @@
-import { Button, Stack } from "react-bootstrap";
-import {
-  TbDiscount2,
-  TbPhoneCall,
-  TbPill,
-  TbTruckDelivery,
-} from "react-icons/tb";
-import Arrow from "../assets/img/benefitsArrow.png";
-import { Pricing } from "./Pricing";
+import Step1 from "../assets/img/Paso1_membresias.png";
+import Step2 from "../assets/img/Paso2_membresias.png";
+import Step3 from "../assets/img/Paso3_membresias.png";
+import Step4 from "../assets/img/Paso4_membresias.png";
+import Benfit1 from "../assets/img/Membresia_Beneficios-01.png";
+import Benfit2 from "../assets/img/Membresia_Beneficios-02.png";
+import Benfit3 from "../assets/img/Membresia_Beneficios-03.png";
+import Icon1 from "../assets/img/Icono_Cintillo-03.png";
+import Icon2 from "../assets/img/Icono_Cintillo-04.png";
+import Icon3 from "../assets/img/Icono_Cintillo-05.png";
+import Icon4 from "../assets/img/Icono_Cintillo-06.png";
+import ButtonMembership from "../assets/img/boton_Membresia.png";
+import { Table } from "./Table";
+
 const items = [
   {
-    link: "https://alcosto.farmaleal.com.mx/",
-    icon: <TbPill size={"3rem"} />,
-    label: "Medicamentos a precio de costo",
-    subText: "Ähorra en tu tratamiento sin sacrificar la calidad",
+    image: Step1,
   },
   {
-    link: "https://alcosto.farmaleal.com.mx/",
-    icon: <TbDiscount2 size={"3rem"} />,
-    label: "Catálogo con más de 17,000 productos",
-    subText:
-      "*Descuentos exclusivos en productos de salud, cuidado personal y bienestar",
+    image: Step2,
   },
   {
-    link: "https://alcosto.farmaleal.com.mx/",
-    icon: <TbPhoneCall size={"3rem"} />,
-    label: "Consultas médicas en línea",
-    subText: "*Atención inmediata con médicos certificados.",
+    image: Step3,
   },
   {
-    link: "https://alcosto.farmaleal.com.mx/",
-    icon: <TbTruckDelivery size={"3rem"} />,
-    label:
-      "Acceso prioritario a promociones y lanzamientos de nuevos medicamentos",
+    image: Step4,
+  },
+];
+const benefits = [{ image: Benfit1 }, { image: Benfit2 }, { image: Benfit3 }];
+const info = [
+  {
+    image: Icon1,
+    text: "Grandes ahorros en tus tratamientos",
+  },
+  {
+    image: Icon2,
+    text: "Consultas médicas en línea",
+  },
+  {
+    image: Icon3,
+    text: "Envíos a la CDMX y área metropolitana",
+  },
+  {
+    image: Icon4,
+    text: "Asistencia telefónica especializada",
   },
 ];
 
 type BenefitsProps = {
-  setModalVerificationCard: (flag: boolean) => void;
-  setPaymentExc: React.Dispatch<React.SetStateAction<string[]>>;
-  setAmount: React.Dispatch<React.SetStateAction<number>>;
+  openModalTypePayment: () => void;
+  onOpenPaymentModal: (type: string) => void;
 };
 export const Benefits = ({
-  setModalVerificationCard,
-  setAmount,
-  setPaymentExc,
+  openModalTypePayment,
+  onOpenPaymentModal,
 }: BenefitsProps) => {
   return (
     <section
       // id="benefits"
-      className="color-primary flex flex-col items-center gap-10 w-full max-sm:w-full max-sm:mb-20 max-md:w-full "
+      className="color-primary flex flex-col items-center w-screen overflow-hidden container sm:gap-5 gap-5"
     >
-      <div className="w-10/12 flex flex-col gap-10">
-        <div className="w-full mt-20 relative h-32 ">
-          <h1 className="text-center h1 font-bold mb-3">Beneficios</h1>
-          <div className="w-40 rotate-12 absolute -top-14 left-1/4 max-sm:left-0 max-sm:-top-16">
-            <img src={Arrow} alt="" />
-          </div>
-          <div className="w-full text-center flex flex-col items-center justify-center">
-            <h5 className="h5 mb-5 max-sm:text-center w-5/12 max-sm:text-sm max-sm:w-full">
-              Tu <b>salud</b> y <b>bienestar</b> al mejor precio
-            </h5>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 max-sm:flex max-sm:flex-col w-full items-center justiy-center max-sm:gap-2.5 gap-3 ">
-          {items.map((element, i) => {
-            return (
-              <a href={element.link}>
-                <div className="col-span-1 max-sm:col-span-2 text-white h-44 hover:shadow-emerald-600 hover:shadow-2xl transition duration-200">
-                  <div
-                    key={element.label}
-                    className={`${
-                      i % 3 === 0 ? "primary-bg" : "secondary-bg"
-                    } p-2 benefit-item  h-100 flex flex-col items-center justify-center hvr-underline-from-center text-white  `}
-                  >
-                    <div className="my-4 w-full flex flex-row align-items-center justify-center">
-                      <div className="w-1/12">{element.icon}</div>
-                      <div className="w-8/12 fw-500 h6 ms-3  mb-0 text-lg text-center">
-                        {element.label}
-                      </div>
-                    </div>
+      <div className="grid grid-cols-4 w-full items-center justify-center gap-3 ">
+        {items.map((element, i) => {
+          return (
+            <div className="sm:col-span-1  col-span-2 p-3" key={i}>
+              <img src={element.image} className="" />
+            </div>
+          );
+        })}
+      </div>
+      <div className="separator w-screen top-0"></div>
+      <Table onOpenPaymentModal={onOpenPaymentModal} />
 
-                    <div>
-                      {element.subText && (
-                        <p className="small mx-auto">{element.subText}</p>
-                      )}
-                    </div>
-                  </div>
+      <div className="grid grid-cols-3 gap-5 container">
+        {benefits.map((element, i) => {
+          return (
+            <div className="sm:col-span-1 col-span-4">
+              <img src={element.image} className="" />
+            </div>
+          );
+        })}
+      </div>
+      <div className="separator w-screen top-0"></div>
+      <div className="flex flex-col items-center justify-center w-full gap-2 container">
+        <span className="sm:text-3xl text-xl font-bold text-center">
+          Ahorra en tus compras y envíos
+        </span>
+        <div className="w-full grid grid-cols-4 gap-2 justify-center items-center ">
+          {info.map((element, i) => {
+            return (
+              <div className="sm:col-span-1 col-span-2 flex flex-row items-center justify-center gap-3">
+                <div className="w-1/2">
+                  <img src={element.image} className="" />
                 </div>
-              </a>
+                <span className="text-left sm:text-base text-xs font-bold">
+                  {element.text}
+                </span>
+              </div>
             );
           })}
         </div>
       </div>
-      <div className="separator w-screen"></div>
-      {/* <Table /> */}
-
-      <Pricing
-        setModalVerificationCard={setModalVerificationCard}
-        setPaymentExc={setPaymentExc}
-        setAmount={setAmount}
-      />
+      <div className="w-full flex flex-col items-center justify-center container">
+        <img
+          src={ButtonMembership}
+          className="sm:w-3/5 w-full hover:cursor-pointer"
+          onClick={() => openModalTypePayment()}
+        />
+      </div>
     </section>
   );
 };

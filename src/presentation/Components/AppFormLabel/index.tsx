@@ -9,7 +9,7 @@ export const AppFormLabel = ({ label, className }: AppFormLabelProps) => {
     <label
       className={clsx(
         className,
-        "text-gray-800 font-medium text-base  ml-1 max-sm:text-xs"
+        "color-primary font-medium text-base  ml-1 max-sm:text-xs"
       )}
     >
       {label}

@@ -1,47 +1,56 @@
 import { Benefits, Hero } from "../components";
 import { useState } from "react";
 import { ModalPaymentMP } from "./MP-Modal/ModalPaymentMP";
+import { TypePaymentModal } from "./Modals/TypePaymentModal";
+import { useSearchParams } from "react-router-dom";
 
 export const LandingPage = () => {
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get("email");
+  const cupon = searchParams.get("coupon");
   const [showModalMembership, setShowModalMembership] = useState(false);
+  const [showModalTypePayment, setShowModalTypePayment] = useState(false);
   const [amount, setAmount] = useState<number>(0);
-  const [paymentExc, setPaymentExc] = useState<string[]>([]);
-  const handleClickScroll = () => {
-    const element = document.getElementById("benefits");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const onOpenPaymentModal = (type: string) => {
+    setShowModalTypePayment(false);
+    setShowModalMembership(true);
+    if (type === "2" && email) {
+      setAmount(175);
+    } else if (type === "2") {
+      setAmount(1);
+    } else if (type === "1") {
+      setAmount(1650);
     }
   };
-
   return (
     <div className="w-full">
-      {/* <StepperFormPayment
-        isVisible={showModalMembership}
-        onClose={() => setShowModalMembership(false)}
-      /> */}
+      <TypePaymentModal
+        isVisible={showModalTypePayment}
+        onClose={() => setShowModalTypePayment(false)}
+        onOpenPaymentModal={onOpenPaymentModal}
+      />
       <ModalPaymentMP
         isVisible={showModalMembership}
         onClose={() => setShowModalMembership(false)}
         amount={amount}
-        excludedPayment={paymentExc}
         onReset={() => {
           setShowModalMembership(false);
           setShowModalMembership(true);
         }}
+        cupon={cupon ? cupon : ""}
+        email={email ? email : ""}
       />
       <Hero
-        setModalVerificationCard={() => setShowModalMembership(true)}
-        handleClickScroll={handleClickScroll}
-        setAmount={setAmount}
-        setPaymentExc={setPaymentExc}
+        openModalTypePayment={() => {
+          setShowModalTypePayment(true);
+        }}
       />
-      <div className="w-full flex flex-col mx-2">
-        <Benefits
-          setModalVerificationCard={() => setShowModalMembership(true)}
-          setPaymentExc={setPaymentExc}
-          setAmount={setAmount}
-        />
-      </div>
+      <Benefits
+        openModalTypePayment={() => {
+          setShowModalTypePayment(true);
+        }}
+        onOpenPaymentModal={onOpenPaymentModal}
+      />
     </div>
   );
 };
