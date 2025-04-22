@@ -10,12 +10,14 @@ type CardInfoProps = {
   cardInfoForm: any;
   cardFormat: string;
   setCardFormat: React.Dispatch<React.SetStateAction<string>>;
+  emailURL?: string;
 };
 
 export const CardInfoForm = ({
   cardInfoForm,
   cardFormat,
   setCardFormat,
+  emailURL,
 }: CardInfoProps) => {
   const [flagCardNumberValid, setFlagCardNumber] = useState(false);
   const [parent] = useAutoAnimate();
@@ -76,7 +78,7 @@ export const CardInfoForm = ({
             />
           </div>
           <div className=" gap-x-5 rounded-lg pb-2 grid grid-cols-12 col-span-6 max-sm:col-span-12 max-sm:gap-4">
-            <div className="col-span-12 font-semibold text-xl text-primary-800 max-sm:text-sm max-sm:text-center max-sm:my-3">
+            <div className="col-span-12 font-semibold text-xl color-primary max-sm:text-sm max-sm:text-center max-sm:my-3">
               Datos de tarjeta
             </div>
             <div
@@ -142,6 +144,7 @@ export const CardInfoForm = ({
                 className="w-full "
                 onBlur={cardInfoForm.handleBlur}
                 inputMode="text"
+                disabled={emailURL ? true : false}
               />
               {cardInfoForm.errors.email && (
                 <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">

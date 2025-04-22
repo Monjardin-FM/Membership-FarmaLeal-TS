@@ -10,6 +10,7 @@ export type PaymentMSIParams = {
   lastName: string;
   email: string;
   phoneNumber: string;
+  cupon: string;
 };
 export const createMembership = async (params: PaymentMSIParams) => {
   const response = await api().post("membresia/OPChargeMSI", {

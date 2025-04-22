@@ -15,19 +15,26 @@ type RecurrentPaymentFormProps = {
   amount: number;
   onReset: () => void;
   isVisible: boolean;
+  cupon?: string;
+  email?: string;
 };
 export const RecurrentPaymentForm = ({
   amount,
   onClose,
   onReset,
   isVisible,
+  cupon,
+  email,
 }: RecurrentPaymentFormProps) => {
   initMercadoPago(import.meta.env.VITE_API_KEY);
   const [response, setResponse] = useState("");
-  const [enabled, setEnabled] = useState<boolean>(false);
-  const initialization = {
+  let initialization = {
     amount: amount,
+    payer: {
+      email: email,
+    },
   };
+
   let customization = {
     paymentMethods: {
       minInstallments: 1,
@@ -35,7 +42,9 @@ export const RecurrentPaymentForm = ({
     },
     visual: {
       texts: {
-        formTitle: `Pago de memebresía $${amount}`,
+        formTitle: email
+          ? `Reactivación de membresía $${amount}`
+          : `Pago de membresía mensual (recurrente) $175 ${amount}`,
       },
     },
   };
@@ -78,7 +87,6 @@ export const RecurrentPaymentForm = ({
     });
     onReset();
   };
-
   useEffect(() => {
     if (response) {
       checkReponse();
@@ -93,109 +101,62 @@ export const RecurrentPaymentForm = ({
       onSuccess();
     }
   };
+  let urlService = "";
   useEffect(() => {
+    if (amount === 1) {
+      urlService = `${
+        import.meta.env.VITE_API_URL
+      }/membresia/CreateTokenization`;
+    } else if (amount === 175) {
+      urlService = `${
+        import.meta.env.VITE_API_URL
+      }/membresia/CreateNextTokenization`;
+    }
+
     return () => {
       setResponse("");
-      setEnabled(false);
+      urlService = "";
     };
-  }, []);
+  }, [amount]);
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
-      <div className="h-full">
-        {amount === 170 && (
-          <div className="w-full flex flex-row align-items-center justify-start gap-2">
-            <div className=" flex flex-row gap-2 ml-5">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="switchCheckDefault"
-                value={enabled ? "true" : "false"}
-                onChange={() => {
-                  setEnabled(!enabled);
-                }}
-              />
-              <label className="form-check-label" htmlFor="switchCheckDefault">
-                Pago domiciliado
-              </label>
-            </div>
-          </div>
-        )}
-
-        {/* {String(enabled)} */}
-        {amount === 170 && enabled && (
-          <div className="w-3/4">
-            <span className="text-xs text-gray-500">
-              Al proporcionar los datos de su tarjeta de débito o crédito, usted
-              autoriza expresamente a Farma Leal a almacenar de manera segura su
-              información de pago y a realizar cargos recurrentes según los
-              términos acordados.
-            </span>
-          </div>
-        )}
+      <span> mail:{email ? email : ""}</span>
+      <span>monto:{amount ? amount : ""}</span>
+      <span>url:{urlService ? urlService : ""}</span>
+      <div className="h-full sm:mt-1 mt-3">
         <CardPayment
           locale="es-MX"
           customization={customization}
           initialization={initialization}
-          onSubmit={async (formData, additionalData) => {
+          onSubmit={async (formData) => {
             // callback llamado al hacer clic en el botón enviar datos
-            if (!enabled) {
-              return new Promise((resolve, reject) => {
-                fetch(
-                  `${import.meta.env.VITE_API_URL}/membresia/CreatePayment`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                  }
-                )
-                  .then((response) => response.text())
-                  .then((data) => {
-                    // recibir el resultado del pago
-                    setResponse(data);
-                    resolve();
-                  })
-                  .catch((error) => {
-                    // manejar la respuesta de error al intentar crear el pago
-                    console.log(error);
-                    reject();
-                  });
-              });
-            } else {
-              return new Promise((resolve, reject) => {
-                fetch(
-                  `${
-                    import.meta.env.VITE_API_URL
-                  }/membresia/CreateTokenization`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      email: formData.payer.email,
-                      cardToken: formData.token,
-                      amount: amount,
-                      description: "Pago mensual",
-                      method: formData.payment_method_id,
-                    }),
-                  }
-                )
-                  .then((response) => response.text())
-                  .then((data) => {
-                    // recibir el resultado del pago
-                    setResponse(data);
-                    resolve();
-                  })
-                  .catch((error) => {
-                    // manejar la respuesta de error al intentar crear el pago
-                    console.log(error);
-                    reject();
-                  });
-              });
-            }
+            return new Promise((resolve, reject) => {
+              fetch(urlService, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: formData.payer.email,
+                  cardToken: formData.token,
+                  amount: amount,
+                  description: "Pago mensual",
+                  method: formData.payment_method_id,
+                  cupon: cupon ? cupon : "",
+                }),
+              })
+                .then((response) => response.text())
+                .then((data) => {
+                  // recibir el resultado del pago
+                  setResponse(data);
+                  resolve();
+                })
+                .catch((error) => {
+                  // manejar la respuesta de error al intentar crear el pago
+                  console.log(error);
+                  reject();
+                });
+            });
           }}
           onReady={onReady}
           onError={onError}

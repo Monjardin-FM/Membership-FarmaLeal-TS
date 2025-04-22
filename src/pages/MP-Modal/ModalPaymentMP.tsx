@@ -8,6 +8,8 @@ export type ModalPaymentMPProps = {
   onClose: () => void;
   amount: number;
   onReset: () => void;
+  cupon?: string;
+  email?: string;
 };
 
 export const ModalPaymentMP = ({
@@ -15,19 +17,25 @@ export const ModalPaymentMP = ({
   onClose,
   amount,
   onReset,
+  cupon,
+  email,
 }: ModalPaymentMPProps) => {
-  return amount === 170 ? (
+  return amount === 1 || amount === 175 ? (
     <RecurrentPaymentForm
+      cupon={cupon}
       onClose={onClose}
       onReset={onReset}
       amount={amount}
       isVisible={isVisible}
+      email={email}
     />
   ) : (
     <StepperFormPayment
       isVisible={isVisible}
       onClose={onClose}
       amount={amount}
+      emailURL={email}
+      cupon={cupon}
     />
   );
 };

@@ -14,8 +14,8 @@ export const DataInformation = ({
   dataCard,
 }: DataInformationProps) => {
   return (
-    <div className="grid grid-cols-2 items-sart w-full gap-3">
-      <div className="p-4 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 items-start w-full sm:gap-3 gap-2">
+      <div className="sm:p-4 p-2 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg h-full">
         <h1 className="text-info-800 font-semibold text-lg">
           Información del Cliente
         </h1>
@@ -32,7 +32,8 @@ export const DataInformation = ({
           {` ${cardInfoForm.values.phoneNumber}`}
         </span>
       </div>
-      <div className="p-4 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg w-full">
+
+      <div className="sm:p-4 p-2 col-span-1 flex flex-col gap-2 bg-info-100 rounded-lg h-full">
         <h1 className="text-info-800 font-semibold text-lg">
           Datos de la tarjeta
         </h1>
@@ -53,9 +54,10 @@ export const DataInformation = ({
           {`$${amount}`}
         </span>
       </div>
+
       {dataCard.type === "credit" && (
-        <div className="col-span-2 gap-10 bg-warn-100 p-10 flex flex-col items-center justify-center w-full">
-          <div className="text-warn-900 w-full">
+        <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
+          <div className="text-warn-900 w-full text-center">
             Al hacer la compra de la membresía con tarjeta de crédito puedes
             pagar hasta 12 meses sin intereses.
           </div>

@@ -15,6 +15,8 @@ export type StepperFormPaymentProps = {
   isVisible: boolean;
   onClose: () => void;
   amount: number;
+  emailURL?: string;
+  cupon?: string;
 };
 export type DataCard = {
   adress: "" | null;
@@ -30,6 +32,8 @@ export const StepperFormPayment = ({
   isVisible,
   onClose,
   amount,
+  cupon,
+  emailURL,
 }: StepperFormPaymentProps) => {
   const [cardFormat, setCardFormat] = useState("");
   const { loading: loadingPayment, paymentMembership } = usePaymentMembership();
@@ -57,7 +61,7 @@ export const StepperFormPayment = ({
       name: "",
       lastName: "",
       phoneNumber: "",
-      email: "",
+      email: emailURL ? emailURL : "",
       expiration_year: "",
       expiration_month: "",
       cvv2: "",
@@ -94,6 +98,7 @@ export const StepperFormPayment = ({
       lastName: cardInfoForm.values.lastName,
       phoneNumber: cardInfoForm.values.phoneNumber,
       email: cardInfoForm.values.email,
+      cupon: cupon ? cupon : "",
     });
     if (respuesta.data.result) {
       Swal.fire({
@@ -258,6 +263,7 @@ export const StepperFormPayment = ({
                             cardInfoForm={cardInfoForm}
                             cardFormat={cardFormat}
                             setCardFormat={setCardFormat}
+                            emailURL={emailURL}
                           />
                         </div>
                         <div className="flex flex-row gap-3">
