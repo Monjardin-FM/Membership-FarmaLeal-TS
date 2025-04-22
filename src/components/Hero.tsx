@@ -1,5 +1,5 @@
 import ImageHero from "../assets/img/Banner_Membresia.jpg";
-import ImageHeroMovil from "../assets/img/BannerMovil_Membresia.jpg";
+import ImageHeroMovil from "../assets/img/Membresia_Movil.jpg";
 type HeroProps = {
   openModalTypePayment: () => void;
 };

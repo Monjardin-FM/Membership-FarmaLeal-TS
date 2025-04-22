@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { AppModal } from "../../presentation/Components/AppModal/AppModal";
 import { RecurrentPaymentForm } from "./RecurrentPaymentForm";
 import { StepperFormPayment } from "../Modals/StepperFormPayment";
 
@@ -20,7 +18,7 @@ export const ModalPaymentMP = ({
   cupon,
   email,
 }: ModalPaymentMPProps) => {
-  return amount === 1 || amount === 175 ? (
+  return amount === 175 ? (
     <RecurrentPaymentForm
       cupon={cupon}
       onClose={onClose}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CardPayment } from "@mercadopago/sdk-react";
 import Swal from "sweetalert2";
 import { initMercadoPago } from "@mercadopago/sdk-react";
@@ -27,7 +27,7 @@ export const RecurrentPaymentForm = ({
   email,
 }: RecurrentPaymentFormProps) => {
   initMercadoPago(import.meta.env.VITE_API_KEY);
-  const [response, setResponse] = useState("");
+  // const [response, setResponse] = useState("");
   let initialization = {
     amount: amount,
     payer: {
@@ -44,7 +44,7 @@ export const RecurrentPaymentForm = ({
       texts: {
         formTitle: email
           ? `Reactivación de membresía $${amount}`
-          : `Pago de membresía mensual (recurrente) $175 ${amount}`,
+          : `Pago de membresía mensual (recurrente) $${amount}`,
       },
     },
   };
@@ -60,69 +60,26 @@ export const RecurrentPaymentForm = ({
           Aquí puedes ocultar cargamentos de su sitio, por ejemplo.
           */
   };
-  const onSuccess = () => {
-    Swal.fire({
-      title: "Pago exitoso",
-      text: `Tu pago se ha procesado correctamente. Revisa tu correo electrónico para más detalles.`,
-      icon: "success",
-      showConfirmButton: false,
-    });
-    onClose();
-  };
-  const onErrorPayment = () => {
-    Swal.fire({
-      title: "Error al intentar realizar el cobro",
-      text: `${response}`,
-      icon: "error",
-      showConfirmButton: false,
-    });
-    onReset();
-  };
-  const onErrorMail = () => {
-    Swal.fire({
-      title: `${response}`,
-      text: "El usuario que estas tratando de ingresar ya existe activo en la plataforma, intenta con un correo diferente.",
-      icon: "error",
-      showConfirmButton: false,
-    });
-    onReset();
-  };
-  useEffect(() => {
-    if (response) {
-      checkReponse();
-    }
-  }, [response]);
-  const checkReponse = () => {
-    if (response.includes("Error")) {
-      onErrorPayment();
-    } else if (response.includes("El mail")) {
-      onErrorMail();
-    } else {
-      onSuccess();
-    }
-  };
+
   let urlService = "";
   useEffect(() => {
-    if (amount === 1) {
+    if (!email) {
       urlService = `${
         import.meta.env.VITE_API_URL
       }/membresia/CreateTokenization`;
-    } else if (amount === 175) {
+    } else {
       urlService = `${
         import.meta.env.VITE_API_URL
       }/membresia/CreateNextTokenization`;
     }
 
     return () => {
-      setResponse("");
+      // setResponse("");
       urlService = "";
     };
   }, [amount]);
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
-      <span> mail:{email ? email : ""}</span>
-      <span>monto:{amount ? amount : ""}</span>
-      <span>url:{urlService ? urlService : ""}</span>
       <div className="h-full sm:mt-1 mt-3">
         <CardPayment
           locale="es-MX"
@@ -145,11 +102,34 @@ export const RecurrentPaymentForm = ({
                   cupon: cupon ? cupon : "",
                 }),
               })
-                .then((response) => response.text())
+                .then((response) => response.json())
                 .then((data) => {
                   // recibir el resultado del pago
-                  setResponse(data);
-                  resolve();
+                  // setResponse(data);
+                  resolve(data);
+                  if (data.success) {
+                    Swal.fire({
+                      title: "Pago exitoso",
+                      text: !email
+                        ? `${data.message}. Revisa tu correo para finalizar la suscripción.`
+                        : `${data.message}`,
+                      icon: "success",
+                      confirmButtonText: "Ok",
+                      confirmButtonColor: "#15A186",
+                    });
+
+                    onClose();
+                  }
+                  if (!data.success) {
+                    Swal.fire({
+                      title: "Error",
+                      text: `${data.message}`,
+                      icon: "error",
+                      confirmButtonText: "Ok",
+                      confirmButtonColor: "#15A186",
+                    });
+                    onReset();
+                  }
                 })
                 .catch((error) => {
                   // manejar la respuesta de error al intentar crear el pago

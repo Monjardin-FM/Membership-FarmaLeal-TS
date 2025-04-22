@@ -58,8 +58,7 @@ export const DataInformation = ({
       {dataCard.type === "credit" && (
         <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
           <div className="text-warn-900 w-full text-center">
-            Al hacer la compra de la membresía con tarjeta de crédito puedes
-            pagar hasta 12 meses sin intereses.
+            El cobro se realizará a 12 meses sin intereses.
           </div>
         </div>
       )}

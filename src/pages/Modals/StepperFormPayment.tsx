@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import { useToggle } from "react-use";
 import { Loader } from "../../components/Loader";
 import { DataInformation } from "./DataInformation";
-import { usePaymentMembership } from "../../hooks/use-payment-membership";
 
 export type StepperFormPaymentProps = {
   isVisible: boolean;
@@ -36,7 +35,7 @@ export const StepperFormPayment = ({
   emailURL,
 }: StepperFormPaymentProps) => {
   const [cardFormat, setCardFormat] = useState("");
-  const { loading: loadingPayment, paymentMembership } = usePaymentMembership();
+  const [loadingPayment, setLoadingPayment] = useState(false);
   const [isLoadingCardValidate, setIsloadingValidateCard] = useToggle(false);
   const [paymentData, setPaymentData] = useState({
     deviceSessionId: "",
@@ -89,42 +88,122 @@ export const StepperFormPayment = ({
   });
   // This function is used to handle the payment process
   const onPayment = async () => {
-    const respuesta = await paymentMembership({
-      tokenId: paymentData.tokenId,
-      deviceSessionId: paymentData.deviceSessionId,
-      msi: 12,
-      amount: amount,
-      name: cardInfoForm.values.name,
-      lastName: cardInfoForm.values.lastName,
-      phoneNumber: cardInfoForm.values.phoneNumber,
-      email: cardInfoForm.values.email,
-      cupon: cupon ? cupon : "",
+    return new Promise((resolve, reject) => {
+      fetch(`${import.meta.env.VITE_API_URL}/membresia/OPChargeMSI`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tokenId: paymentData.tokenId,
+          deviceSessionId: paymentData.deviceSessionId,
+          msi: 12,
+          amount: amount,
+          name: cardInfoForm.values.name,
+          lastName: cardInfoForm.values.lastName,
+          phoneNumber: cardInfoForm.values.phoneNumber,
+          email: cardInfoForm.values.email,
+          cupon: cupon ? cupon : "",
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // recibir el resultado del pago
+          resolve(data);
+          setLoadingPayment(false);
+          if (data.success) {
+            Swal.fire({
+              title: "Pago exitoso",
+              text: `${data.message}. Revisa tu correo para finalizar la suscripción.`,
+              icon: "success",
+              confirmButtonText: "Ok",
+              confirmButtonColor: "#15A186",
+            });
+            cardInfoForm.resetForm();
+            setCardFormat("");
+            setPaymentData({
+              deviceSessionId: "",
+              tokenId: "",
+            });
+            onClose();
+          }
+          if (!data.success) {
+            Swal.fire({
+              title: "Error al crear la cuenta",
+              text: `${data.message}`,
+              icon: "error",
+              confirmButtonText: "Ok",
+              confirmButtonColor: "#15A186",
+            });
+          }
+        })
+        .catch((error) => {
+          // manejar la respuesta de error al intentar crear el pago
+          console.log(error);
+          reject();
+        });
     });
-    if (respuesta.data.result) {
-      Swal.fire({
-        title: "Pago exitoso",
-        text: `Para finalizar tu suscripción revisa tu correo `,
-        icon: "success",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#15A186",
-      });
-      cardInfoForm.resetForm();
-      setCardFormat("");
-      setPaymentData({
-        deviceSessionId: "",
-        tokenId: "",
-      });
-      onClose();
-    }
-    if (!respuesta.data.result) {
-      Swal.fire({
-        title: "Error al crear la cuenta",
-        text: `${respuesta.data.exceptionMessage}`,
-        icon: "error",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#15A186",
-      });
-    }
+  };
+  // This function is used to handle the payment process to reactivate the membership
+  const onOpenpayPayment = async () => {
+    return new Promise((resolve, reject) => {
+      fetch(
+        `${import.meta.env.VITE_API_URL}/membresia/OPChargeMSIReactivation`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tokenId: paymentData.tokenId,
+            deviceSessionId: paymentData.deviceSessionId,
+            msi: 12,
+            amount: amount,
+            name: cardInfoForm.values.name,
+            lastName: cardInfoForm.values.lastName,
+            phoneNumber: cardInfoForm.values.phoneNumber,
+            email: cardInfoForm.values.email,
+            cupon: cupon ? cupon : "",
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          // recibir el resultado del pago
+          resolve(data);
+          setLoadingPayment(false);
+          if (data.success) {
+            Swal.fire({
+              title: "Pago exitoso",
+              text: `La reactivación de tu membresía se ha procesado correctamente.`,
+              icon: "success",
+              confirmButtonText: "Ok",
+              confirmButtonColor: "#15A186",
+            });
+            cardInfoForm.resetForm();
+            setCardFormat("");
+            setPaymentData({
+              deviceSessionId: "",
+              tokenId: "",
+            });
+            onClose();
+          }
+          if (!data.success) {
+            Swal.fire({
+              title: "Error al intentar reactivar la membresía.",
+              text: `${data.message}`,
+              icon: "error",
+              confirmButtonText: "Ok",
+              confirmButtonColor: "#15A186",
+            });
+          }
+        })
+        .catch((error) => {
+          // manejar la respuesta de error al intentar crear el pago
+          console.log(error);
+          reject();
+        });
+    });
   };
 
   // This function is used to handle idevice session id and token id
@@ -142,8 +221,10 @@ export const StepperFormPayment = ({
       setPaymentData({ deviceSessionId: "", tokenId: "" });
       cardInfoForm.resetForm();
       setCardFormat("");
+      setIsloadingValidateCard(false);
+      setLoadingPayment(false);
     };
-  }, []);
+  }, [isVisible]);
 
   return (
     <>
@@ -306,7 +387,10 @@ export const StepperFormPayment = ({
                           </AppButton>
                           <AppButton
                             colorScheme="info"
-                            onClick={() => onPayment()}
+                            onClick={() => {
+                              emailURL ? onOpenpayPayment() : onPayment();
+                              setLoadingPayment(true);
+                            }}
                             isDisabled={loadingPayment}
                           >
                             Realizar Pago
