@@ -73,7 +73,6 @@ export const MembershipVIP = () => {
             confirmButtonText: "Ok",
             confirmButtonColor: "#15A186",
           });
-          console.log(error);
           reject();
         });
     });

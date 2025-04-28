@@ -51,7 +51,8 @@ export const DataInformation = ({
         </span>
         <span>
           <b className="text-info-700">Monto: </b>
-          {`$${amount}`}
+          <span>{`$${amount}.00 MXN `}</span>
+          <span className="text-xs font-semibold">(IVA incluido)</span>
         </span>
       </div>
 

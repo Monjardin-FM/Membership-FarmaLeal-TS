@@ -21,13 +21,11 @@ type RecurrentPaymentFormProps = {
 export const RecurrentPaymentForm = ({
   amount,
   onClose,
-  onReset,
   isVisible,
   cupon,
   email,
 }: RecurrentPaymentFormProps) => {
   initMercadoPago(import.meta.env.VITE_API_KEY);
-  // const [response, setResponse] = useState("");
   let initialization = {
     amount: amount,
     payer: {
@@ -43,15 +41,14 @@ export const RecurrentPaymentForm = ({
     visual: {
       texts: {
         formTitle: email
-          ? `Reactivación de membresía $${amount}`
-          : `Pago de membresía mensual (recurrente) $${amount}`,
+          ? `Reactivación de membresía. $${amount} MXN (IVA incluido)`
+          : `Pago de membresía mensual (pago recurrente). $${amount}.00 MXN (IVA incluido)`,
       },
     },
   };
 
   const onError = async (error: any) => {
     // callback llamado para todos los casos de error de Brick
-    console.log(error);
   };
 
   const onReady = async () => {
@@ -61,23 +58,6 @@ export const RecurrentPaymentForm = ({
           */
   };
 
-  let urlService = "";
-  useEffect(() => {
-    if (!email) {
-      urlService = `${
-        import.meta.env.VITE_API_URL
-      }/membresia/CreateTokenization`;
-    } else {
-      urlService = `${
-        import.meta.env.VITE_API_URL
-      }/membresia/CreateNextTokenization`;
-    }
-
-    return () => {
-      // setResponse("");
-      urlService = "";
-    };
-  }, [amount]);
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
       <div className="h-full sm:mt-1 mt-3">
@@ -85,23 +65,43 @@ export const RecurrentPaymentForm = ({
           locale="es-MX"
           customization={customization}
           initialization={initialization}
-          onSubmit={async (formData) => {
+          onSubmit={async (formData, additionalData) => {
             // callback llamado al hacer clic en el botón enviar datos
-            return new Promise((resolve, reject) => {
-              fetch(urlService, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            let jsonData = !email
+              ? JSON.stringify({
                   email: formData.payer.email,
                   cardToken: formData.token,
                   amount: amount,
                   description: "Pago mensual",
                   method: formData.payment_method_id,
                   cupon: cupon ? cupon : "",
-                }),
-              })
+                  nombre: additionalData?.cardholderName,
+                })
+              : JSON.stringify({
+                  email: formData.payer.email,
+                  cardToken: formData.token,
+                  amount: amount,
+                  description: "Pago mensual",
+                  method: formData.payment_method_id,
+                  cupon: cupon ? cupon : "",
+                });
+            return new Promise((resolve, reject) => {
+              fetch(
+                !email
+                  ? `${
+                      import.meta.env.VITE_API_URL
+                    }/membresia/CreateTokenization`
+                  : `${
+                      import.meta.env.VITE_API_URL
+                    }/membresia/CreateNextTokenization`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: jsonData,
+                }
+              )
                 .then((response) => response.json())
                 .then((data) => {
                   // recibir el resultado del pago
@@ -128,12 +128,19 @@ export const RecurrentPaymentForm = ({
                       confirmButtonText: "Ok",
                       confirmButtonColor: "#15A186",
                     });
-                    onReset();
+                    onClose();
                   }
                 })
                 .catch((error) => {
                   // manejar la respuesta de error al intentar crear el pago
-                  console.log(error);
+                  Swal.fire({
+                    title: "Error",
+                    text: `Hubo un error al procesar el pago. Intenta nuevamente.`,
+                    icon: "error",
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: "#15A186",
+                  });
+                  onClose();
                   reject();
                 });
             });

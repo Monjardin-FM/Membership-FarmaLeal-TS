@@ -139,7 +139,6 @@ export const StepperFormPayment = ({
         })
         .catch((error) => {
           // manejar la respuesta de error al intentar crear el pago
-          console.log(error);
           reject();
         });
     });
@@ -200,23 +199,24 @@ export const StepperFormPayment = ({
         })
         .catch((error) => {
           // manejar la respuesta de error al intentar crear el pago
-          console.log(error);
           reject();
         });
     });
   };
 
-  // This function is used to handle idevice session id and token id
+  // This function is used to handle idevice session id and token id. And confure the OpenPay API
   useEffect(() => {
-    /*global OpenPay*/
-    window.OpenPay.setId(import.meta.env.VITE_API_KEY_OPENPAY_ID);
-    window.OpenPay.setApiKey(import.meta.env.VITE_API_KEY_OPENPAY);
-    window.OpenPay.setSandboxMode(true);
-    //Se genera el id de dispositivo
-    setPaymentData({
-      ...paymentData,
-      deviceSessionId: window.OpenPay.deviceData.setup(),
-    });
+    if (isVisible) {
+      /*global OpenPay*/
+      window.OpenPay.setId(import.meta.env.VITE_API_KEY_OPENPAY_ID);
+      window.OpenPay.setApiKey(import.meta.env.VITE_API_KEY_OPENPAY);
+      window.OpenPay.setSandboxMode(false);
+      //Se genera el id de dispositivo
+      setPaymentData({
+        ...paymentData,
+        deviceSessionId: window.OpenPay.deviceData.setup(),
+      });
+    }
     return () => {
       setPaymentData({ deviceSessionId: "", tokenId: "" });
       cardInfoForm.resetForm();
@@ -228,35 +228,35 @@ export const StepperFormPayment = ({
 
   return (
     <>
-      {/* This loader is used to show a loading spinner when the card is being
-      validated */}
-      <Loader isVisible={isLoadingCardValidate}>
-        <div className="text-center">
-          <span>
-            <p className="font-semibold text-lg text-info-300">
-              Validando los datos de la tarjeta
-            </p>
-            <br />
-            No recargues ni cierres la página. El proceso puede tardar algunos
-            segundos.
-          </span>
-        </div>
-      </Loader>
-      {/* This loader is used to show a loading spinner when the payment is being
-      processed */}
-      <Loader isVisible={loadingPayment}>
-        <div className="text-center">
-          <span>
-            <p className="font-semibold text-lg text-info-300">
-              Generando Cobro
-            </p>
-            <br />
-            No recargues ni cierres la página. El proceso puede tardar algunos
-            segundos.
-          </span>
-        </div>
-      </Loader>
       <AppModal onClose={onClose} isVisible={isVisible}>
+        {/* This loader is used to show a loading spinner when the card is being
+      validated */}
+        <Loader isVisible={isLoadingCardValidate}>
+          <div className="text-center">
+            <span>
+              <p className="font-semibold text-lg text-info-300">
+                Validando los datos de la tarjeta
+              </p>
+              <br />
+              No recargues ni cierres la página. El proceso puede tardar algunos
+              segundos.
+            </span>
+          </div>
+        </Loader>
+        {/* This loader is used to show a loading spinner when the payment is being
+      processed */}
+        <Loader isVisible={loadingPayment}>
+          <div className="text-center">
+            <span>
+              <p className="font-semibold text-lg text-info-300">
+                Generando Cobro
+              </p>
+              <br />
+              No recargues ni cierres la página. El proceso puede tardar algunos
+              segundos.
+            </span>
+          </div>
+        </Loader>
         <Stepper initialValue={{ step: 1 }}>
           {({ handleChange }) => {
             const onSubmit = () => {

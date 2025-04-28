@@ -70,6 +70,12 @@ export const CardInfoForm = ({
     <>
       <div className="pt-2">
         <div className="grid grid-cols-12 mb-5">
+          <div className="col-span-12 font-semibold text-lg text-center color-primary max-sm:text-sm max-sm:text-center mb-3">
+            <span>Pago de membresía a 12 MSI.</span>
+            <br />
+            <span>$1914.00 MXN </span>
+            <span className="text-sm font-semibold">(IVA incluido)</span>
+          </div>
           <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12">
             <Card
               cardNumber={cardFormat}

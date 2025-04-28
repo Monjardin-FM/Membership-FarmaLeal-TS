@@ -11,8 +11,8 @@ export const Loader = ({ children, isVisible }: LoaderProps) => {
   return (
     <>
       {isVisible && (
-        <div className="fixed inset-0 z-50 overflow-hidden w-full min-h-screen">
-          <div className="w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 z-50 overflow-hidden w-full min-h-full">
+          <div className="w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
             <div className="container mx-auto">
               <div className="mx-auto relative max-w-md bg-info-900 bg-opacity-80 flex flex-col items-center justify-center rounded-xl p-14 gap-4 text-white border border-gray-700">
                 <BeatLoader color="#FFE600" />
