@@ -39,7 +39,9 @@ export const MembershipVIPForm = () => {
       estado: Yup.string().required("Campo requerido"),
       alcaldia: Yup.string().required("Campo requerido"),
       colonia: Yup.string().required("Campo requerido"),
-      folio: Yup.string().required("Campo requerido"),
+      folio: Yup.string()
+        .length(5, "El folio debe de ser de 5 caracteres")
+        .required("Campo requerido"),
     }),
     onSubmit: () => {
       onSubmitForm();
@@ -242,9 +244,9 @@ export const MembershipVIPForm = () => {
             dataOpenCard="folio"
             name="folio"
             onChange={membershipForm.handleChange}
-            placeholder=""
+            placeholder="Últimos 5 caracteres"
             value={membershipForm.values.folio}
-            className="w-full "
+            className="w-full"
             inputMode="text"
           />
           {membershipForm.errors.folio && (
