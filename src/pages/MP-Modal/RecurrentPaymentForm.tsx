@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CardPayment } from "@mercadopago/sdk-react";
 import Swal from "sweetalert2";
 import { initMercadoPago } from "@mercadopago/sdk-react";
@@ -21,13 +21,11 @@ type RecurrentPaymentFormProps = {
 export const RecurrentPaymentForm = ({
   amount,
   onClose,
-  onReset,
   isVisible,
   cupon,
   email,
 }: RecurrentPaymentFormProps) => {
   initMercadoPago(import.meta.env.VITE_API_KEY);
-  const [response, setResponse] = useState("");
   let initialization = {
     amount: amount,
     payer: {
@@ -43,15 +41,14 @@ export const RecurrentPaymentForm = ({
     visual: {
       texts: {
         formTitle: email
-          ? `Reactivación de membresía $${amount}`
-          : `Pago de membresía mensual (recurrente) $175 ${amount}`,
+          ? `Reactivación de membresía. $${amount} MXN (IVA incluido)`
+          : `Pago de membresía mensual (pago recurrente). $${amount}.00 MXN (IVA incluido)`,
       },
     },
   };
 
   const onError = async (error: any) => {
     // callback llamado para todos los casos de error de Brick
-    console.log(error);
   };
 
   const onReady = async () => {
@@ -60,100 +57,90 @@ export const RecurrentPaymentForm = ({
           Aquí puedes ocultar cargamentos de su sitio, por ejemplo.
           */
   };
-  const onSuccess = () => {
-    Swal.fire({
-      title: "Pago exitoso",
-      text: `Tu pago se ha procesado correctamente. Revisa tu correo electrónico para más detalles.`,
-      icon: "success",
-      showConfirmButton: false,
-    });
-    onClose();
-  };
-  const onErrorPayment = () => {
-    Swal.fire({
-      title: "Error al intentar realizar el cobro",
-      text: `${response}`,
-      icon: "error",
-      showConfirmButton: false,
-    });
-    onReset();
-  };
-  const onErrorMail = () => {
-    Swal.fire({
-      title: `${response}`,
-      text: "El usuario que estas tratando de ingresar ya existe activo en la plataforma, intenta con un correo diferente.",
-      icon: "error",
-      showConfirmButton: false,
-    });
-    onReset();
-  };
-  useEffect(() => {
-    if (response) {
-      checkReponse();
-    }
-  }, [response]);
-  const checkReponse = () => {
-    if (response.includes("Error")) {
-      onErrorPayment();
-    } else if (response.includes("El mail")) {
-      onErrorMail();
-    } else {
-      onSuccess();
-    }
-  };
-  let urlService = "";
-  useEffect(() => {
-    if (amount === 1) {
-      urlService = `${
-        import.meta.env.VITE_API_URL
-      }/membresia/CreateTokenization`;
-    } else if (amount === 175) {
-      urlService = `${
-        import.meta.env.VITE_API_URL
-      }/membresia/CreateNextTokenization`;
-    }
 
-    return () => {
-      setResponse("");
-      urlService = "";
-    };
-  }, [amount]);
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
-      <span> mail:{email ? email : ""}</span>
-      <span>monto:{amount ? amount : ""}</span>
-      <span>url:{urlService ? urlService : ""}</span>
-      <div className="h-full sm:mt-1 mt-3">
+      <div className="h-full sm:mt-1 mt-3 flex flex-col">
         <CardPayment
           locale="es-MX"
           customization={customization}
           initialization={initialization}
-          onSubmit={async (formData) => {
+          onSubmit={async (formData, additionalData) => {
             // callback llamado al hacer clic en el botón enviar datos
-            return new Promise((resolve, reject) => {
-              fetch(urlService, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            let jsonData = !email
+              ? JSON.stringify({
                   email: formData.payer.email,
                   cardToken: formData.token,
                   amount: amount,
                   description: "Pago mensual",
                   method: formData.payment_method_id,
                   cupon: cupon ? cupon : "",
-                }),
-              })
-                .then((response) => response.text())
+                  nombre: additionalData?.cardholderName,
+                })
+              : JSON.stringify({
+                  email: formData.payer.email,
+                  cardToken: formData.token,
+                  amount: amount,
+                  description: "Pago mensual",
+                  method: formData.payment_method_id,
+                  cupon: cupon ? cupon : "",
+                });
+            return new Promise((resolve, reject) => {
+              fetch(
+                !email
+                  ? `${
+                      import.meta.env.VITE_API_URL
+                    }/membresia/CreateTokenization`
+                  : `${
+                      import.meta.env.VITE_API_URL
+                    }/membresia/CreateNextTokenization`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: jsonData,
+                }
+              )
+                .then((response) => response.json())
                 .then((data) => {
                   // recibir el resultado del pago
-                  setResponse(data);
-                  resolve();
+                  // setResponse(data);
+                  resolve(data);
+                  if (data.success) {
+                    Swal.fire({
+                      title: "Pago exitoso",
+                      text: !email
+                        ? `${data.message}. Revisa tu correo para finalizar la suscripción.`
+                        : `${data.message}`,
+                      icon: "success",
+                      confirmButtonText: "Ok",
+                      confirmButtonColor: "#15A186",
+                    });
+
+                    onClose();
+                  }
+                  if (!data.success) {
+                    Swal.fire({
+                      title: "Error",
+                      text: `${data.message}`,
+                      icon: "error",
+                      confirmButtonText: "Ok",
+                      confirmButtonColor: "#15A186",
+                    });
+                    onClose();
+                  }
                 })
                 .catch((error) => {
                   // manejar la respuesta de error al intentar crear el pago
-                  console.log(error);
+                  Swal.fire({
+                    title: "Error",
+                    text: `Hubo un error al procesar el pago. Intenta nuevamente.`,
+                    icon: "error",
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: "#15A186",
+                  });
+                  onClose();
                   reject();
                 });
             });
@@ -161,6 +148,14 @@ export const RecurrentPaymentForm = ({
           onReady={onReady}
           onError={onError}
         />
+        <div className="w-1/2 flex items-center justify-start">
+          <span className="text-base text-gray-700 self-start">
+            Al proporcionar los datos de su tarjeta de débito o crédito, usted
+            autoriza expresamente a FarmaLeal a almacenar de manera segura su
+            información de pago y a realizar cargos recurrentes según los
+            términos acordados.
+          </span>
+        </div>
       </div>
     </AppModal>
   );

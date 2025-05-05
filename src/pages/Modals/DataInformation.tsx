@@ -51,15 +51,15 @@ export const DataInformation = ({
         </span>
         <span>
           <b className="text-info-700">Monto: </b>
-          {`$${amount}`}
+          <span>{`$${amount}.00 MXN `}</span>
+          <span className="text-xs font-semibold">(IVA incluido)</span>
         </span>
       </div>
 
       {dataCard.type === "credit" && (
         <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
           <div className="text-warn-900 w-full text-center">
-            Al hacer la compra de la membresía con tarjeta de crédito puedes
-            pagar hasta 12 meses sin intereses.
+            El cobro se realizará a 12 meses sin intereses.
           </div>
         </div>
       )}

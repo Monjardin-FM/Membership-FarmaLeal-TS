@@ -7,19 +7,17 @@ import { useSearchParams } from "react-router-dom";
 export const LandingPage = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
-  const cupon = searchParams.get("coupon");
+  const cupon = searchParams.get("cupon");
   const [showModalMembership, setShowModalMembership] = useState(false);
   const [showModalTypePayment, setShowModalTypePayment] = useState(false);
   const [amount, setAmount] = useState<number>(0);
   const onOpenPaymentModal = (type: string) => {
     setShowModalTypePayment(false);
     setShowModalMembership(true);
-    if (type === "2" && email) {
+    if (type === "2") {
       setAmount(175);
-    } else if (type === "2") {
-      setAmount(1);
     } else if (type === "1") {
-      setAmount(1650);
+      setAmount(1914);
     }
   };
   return (

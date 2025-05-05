@@ -74,7 +74,7 @@ export const Benefits = ({
       <div className="grid grid-cols-3 gap-5 container">
         {benefits.map((element, i) => {
           return (
-            <div className="sm:col-span-1 col-span-4">
+            <div className="sm:col-span-1 col-span-4" key={i}>
               <img src={element.image} className="" />
             </div>
           );
@@ -88,7 +88,10 @@ export const Benefits = ({
         <div className="w-full grid grid-cols-4 gap-2 justify-center items-center ">
           {info.map((element, i) => {
             return (
-              <div className="sm:col-span-1 col-span-2 flex flex-row items-center justify-center gap-3">
+              <div
+                className="sm:col-span-1 col-span-2 flex flex-row items-center justify-center gap-3"
+                key={i}
+              >
                 <div className="w-1/2">
                   <img src={element.image} className="" />
                 </div>

@@ -29,7 +29,7 @@ export const AppModal = ({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto w-full ">
-          <div className="flex min-h-full items-center justify-center text-center relative">
+          <div className="flex min-h-screen items-center justify-center text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
