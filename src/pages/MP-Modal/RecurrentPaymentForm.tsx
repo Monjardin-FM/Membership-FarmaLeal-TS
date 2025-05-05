@@ -60,7 +60,7 @@ export const RecurrentPaymentForm = ({
 
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
-      <div className="h-full sm:mt-1 mt-3">
+      <div className="h-full sm:mt-1 mt-3 flex flex-col">
         <CardPayment
           locale="es-MX"
           customization={customization}
@@ -148,6 +148,14 @@ export const RecurrentPaymentForm = ({
           onReady={onReady}
           onError={onError}
         />
+        <div className="w-1/2 flex items-center justify-start">
+          <span className="text-base text-gray-700 self-start">
+            Al proporcionar los datos de su tarjeta de débito o crédito, usted
+            autoriza expresamente a FarmaLeal a almacenar de manera segura su
+            información de pago y a realizar cargos recurrentes según los
+            términos acordados.
+          </span>
+        </div>
       </div>
     </AppModal>
   );
