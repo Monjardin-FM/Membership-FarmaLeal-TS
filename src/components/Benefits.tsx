@@ -1,14 +1,14 @@
-import Step1 from "../assets/img/Paso1_membresias.png";
-import Step2 from "../assets/img/Paso2_membresias.png";
-import Step3 from "../assets/img/Paso3_membresias.png";
-import Step4 from "../assets/img/Paso4_membresias.png";
+import Step1 from "../assets/img/PasosMembresia-1.png";
+import Step2 from "../assets/img/PasosMembresia-2.png";
+import Step3 from "../assets/img/PasosMembresia-3.png";
+import Step4 from "../assets/img/PasosMembresia-4.png";
 import Benfit1 from "../assets/img/Membresia_Beneficios-01.png";
 import Benfit2 from "../assets/img/Membresia_Beneficios-02.png";
 import Benfit3 from "../assets/img/Membresia_Beneficios-03.png";
 import Icon1 from "../assets/img/Icono_Cintillo-03.png";
-import Icon2 from "../assets/img/Icono_Cintillo-04.png";
 import Icon3 from "../assets/img/Icono_Cintillo-05.png";
 import Icon4 from "../assets/img/Icono_Cintillo-06.png";
+import cintillo from "../assets/img/cintillo.png";
 import ButtonMembership from "../assets/img/boton_Membresia.png";
 import { Table } from "./Table";
 
@@ -32,13 +32,11 @@ const info = [
     image: Icon1,
     text: "Grandes ahorros en tus tratamientos",
   },
-  {
-    image: Icon2,
-    text: "Consultas médicas en línea",
-  },
+
   {
     image: Icon3,
     text: "Envíos a la CDMX y área metropolitana",
+    subtext: "Próximamente toda la República",
   },
   {
     image: Icon4,
@@ -82,22 +80,34 @@ export const Benefits = ({
       </div>
       <div className="separator w-screen top-0"></div>
       <div className="flex flex-col items-center justify-center w-full gap-2 container">
-        <span className="sm:text-3xl text-xl font-bold text-center">
-          Ahorra en tus compras y envíos
-        </span>
-        <div className="w-full grid grid-cols-4 gap-2 justify-center items-center ">
+        <picture>
+          <img src={cintillo} />
+        </picture>
+        <div className="w-full grid grid-cols-3 gap-2 justify-center items-center ">
           {info.map((element, i) => {
             return (
               <div
-                className="sm:col-span-1 col-span-2 flex flex-row items-center justify-center gap-3"
+                className="sm:col-span-1 col-span-3 flex flex-row items-center justify-center gap-3"
                 key={i}
               >
-                <div className="w-1/2">
+                <div className="sm:w-1/3 w-1/4">
                   <img src={element.image} className="" />
                 </div>
-                <span className="text-left sm:text-base text-xs font-bold">
+                <span className="text-left sm:text-lg text-sm font-bold flex flex-col">
                   {element.text}
+                  {element.subtext ? (
+                    <span className="text-xs font-medium">
+                      {element.subtext}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </span>
+                {i < info.length - 1 && (
+                  <div className="hidden sm:flex col-span-full justify-center">
+                    <div className="w-px bg-gray-400 h-16 mx-auto" />
+                  </div>
+                )}
               </div>
             );
           })}
