@@ -4,114 +4,130 @@ export type TableProps = {
   onOpenPaymentModal: (type: string) => void;
 };
 export const Table = ({ onOpenPaymentModal }: TableProps) => {
+  const memberships = [
+    {
+      tipo: "Anual",
+      vigencia: "12 meses",
+      costo: "$1,650",
+      ahorro: "Ahorra $150",
+      nota: null,
+      pago: "Pago a 12 MSI",
+      subpago: "con tarjeta de crédito",
+      envios: "12 Envíos al año",
+      detalleEnvios: "12 envíos GRATIS pagando membresía anual",
+      id: "1",
+    },
+    {
+      tipo: "Mensual",
+      vigencia: "1 mes",
+      costo: "$150",
+      ahorro: null,
+      nota: "*Cancela cuando quieras",
+      pago: "Pago recurrente mensual",
+      subpago: "",
+      envios: "1 Envío al mes",
+      detalleEnvios: "1 envío GRATIS al mes con pago recurrente",
+      id: "2",
+    },
+  ];
   return (
-    <div className="grid grid-cols-3 border border-black border-collapse mt-10 color-primary">
-      {/* Fila: Encabezado */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-lg font-bold text-sm">Tipo de Membresía</span>
+    <div className="grid grid-cols-3 border border-black border-collapse mt-10 color-primary text-center">
+      {/* Encabezados */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">
+        Tipo de Membresía
       </div>
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 relative">
-        <span className="sm:text-4xl  font-extrabold">Anual</span>
-        <div className="absolute -top-12 p-2 bg-warn-400 rounded-2xl text-center">
-          <span className="font-extrabold sm:text-2xl">Costo de membresía</span>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo}
+          className="border p-4 font-extrabold sm:text-2xl text-lg relative"
+        >
+          {m.tipo}
+          {m.tipo === "Anual" && (
+            <div className="absolute -top-12 bg-warn-400 rounded-2xl sm:text-3xl text-sm font-extrabold text-center w-full">
+              Costo de membresía
+            </div>
+          )}
         </div>
-      </div>
-      <div className="border border-black p-4 flex items-center justify-center col-span-1">
-        <span className="sm:text-4xl font-extrabold">Mensual</span>
-      </div>
+      ))}
 
-      {/* Fila: Vigencia */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1">
-        <span className="sm:text-lg font-bold text-sm">Vigencia</span>
-      </div>
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-4xl font-extrabold">12 meses</span>
-      </div>
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-4xl font-extrabold">1 mes</span>
-      </div>
+      {/* Vigencia */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">Vigencia</div>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo + "-vigencia"}
+          className="border p-4 font-extrabold sm:text-3xl text-lg"
+        >
+          {m.vigencia}
+        </div>
+      ))}
 
-      {/* Fila: Costo de membresía */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-lg font-bold text-sm">Costo de membresía</span>
+      {/* Costo */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">
+        Costo de membresía
       </div>
-      <div className="border border-black p-4 flex flex-col items-center justify-center col-span-1 text-center">
-        <p className="bg-warn-500 rounded-xl p-2 font-extrabold">
-          <span className="sm:text-4xl text-xl ">$1,650</span>
-          <span className="text-xs">.00 + IVA</span>
-        </p>
-        <span className="font-bold sm:text-base text-sm">Ahorra $150</span>
-      </div>
-      <div className="border border-black p-4 flex flex-col items-center justify-center col-span-1">
-        <p className="bg-warn-500 rounded-xl p-2 font-extrabold">
-          <span className="sm:text-4xl text-xl font-extrabold">$150.00</span>
-          <span className="text-xs">.00 + IVA</span>
-        </p>
-        <span className="text-xs font-medium">*Cancela SIN PENALIZACIONES</span>
-      </div>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo + "-costo"}
+          className="border p-4 flex flex-col items-center"
+        >
+          <p className="bg-warn-500 p-2 rounded-xl font-extrabold sm:text-3xl text-lg">
+            {m.costo}
+          </p>
+          {m.ahorro && <span className="text-xs font-bold">{m.ahorro}</span>}
+          {m.nota && <span className="text-xs font-bold">{m.nota}</span>}
+        </div>
+      ))}
 
-      {/* Fila: Tipo de pago */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-lg font-bold text-sm">Tipo de pago</span>
+      {/* Tipo de pago */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">
+        Tipo de pago
       </div>
-      <div className="border border-black p-4 flex flex-col items-center justify-center text-center col-span-1">
-        <span className="sm:text-4xl font-extrabold">Pago a 12 MSI</span>
-        <span className="font-semibold sm:text-sm text-xs">
-          con tarjeta de crédito
-        </span>
-      </div>
-      <div className="border border-black p-4 flex items-center justify-center text-center col-span-1">
-        <span className="sm:text-4xl font-extrabold">
-          Pago recurrente mensual
-        </span>
-      </div>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo + "-pago"}
+          className="border p-4 flex flex-col items-center"
+        >
+          <span className="font-extrabold sm:text-3xl text-sm">{m.pago}</span>
+          {m.subpago && (
+            <span className="text-xs font-semibold">{m.subpago}</span>
+          )}
+        </div>
+      ))}
 
-      {/* Fila: Envíos GRATIS */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-lg font-bold text-sm">
-          Envíos <b>GRATIS</b>
-        </span>
+      {/* Envíos */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">
+        Envíos <b>GRATIS</b>
       </div>
-      <div className="border border-black sm:p-4 flex flex-col items-center justify-center text-center col-span-1">
-        <CiDeliveryTruck size={80} />
-        <span className="sm:text-4xl font-extrabold">12 Envíos al año</span>
-        <span className="sm:text-sm font-bold text-xs">
-          12 envíos GRATIS pagando membresía anual
-        </span>
-      </div>
-      <div className="border border-black sm:p-4 flex flex-col items-center justify-center text-center col-span-1">
-        {/* <img src={Icon3} alt="" /> */}
-        <CiDeliveryTruck size={80} />
-        <span className="sm:text-4xl font-extrabold">1 Envío al mes</span>
-        <span className="sm:text-sm font-bold text-xs">
-          1 envío GRATIS al mes con pago recurrente
-        </span>
-      </div>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo + "-envios"}
+          className="border p-4 flex flex-col items-center"
+        >
+          <CiDeliveryTruck size={60} />
+          <span className="font-extrabold sm:text-lg text-sm">{m.envios}</span>
+          <span className="sm:text-sm text-xs font-bold">
+            {m.detalleEnvios}
+          </span>
+        </div>
+      ))}
 
-      {/* {Fila: Comprar} */}
-      <div className="border border-black p-4 flex items-center justify-center col-span-1 text-center">
-        <span className="sm:text-2xl font-bold">Empieza a ahorrar</span>
+      {/* Comprar */}
+      <div className="border p-4 font-bold sm:text-lg text-xs">
+        Empieza a ahorrar
       </div>
-      <div className="border border-black sm:p-4 flex flex-col items-center justify-center text-center col-span-1">
-        <img
-          src={Comprar}
-          alt=""
-          className="hover:cursor-pointer"
-          onClick={() => {
-            onOpenPaymentModal("1");
-          }}
-        />
-      </div>
-      <div className="border border-black sm:p-4 flex flex-col items-center justify-center text-center col-span-1">
-        <img
-          src={Comprar}
-          alt=""
-          className="hover:cursor-pointer"
-          onClick={() => {
-            onOpenPaymentModal("2");
-          }}
-        />
-      </div>
+      {memberships.map((m) => (
+        <div
+          key={m.tipo + "-comprar"}
+          className="border sm:p-4 items-center justify-center flex"
+        >
+          <img
+            src={Comprar}
+            alt={`Comprar ${m.tipo}`}
+            className="cursor-pointer"
+            onClick={() => onOpenPaymentModal(m.id)}
+          />
+        </div>
+      ))}
     </div>
   );
 };
