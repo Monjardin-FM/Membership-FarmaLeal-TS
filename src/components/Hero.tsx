@@ -1,16 +1,16 @@
 import ImageHero from "../assets/img/Banner_Membresia.jpg";
 import ImageHeroMovil from "../assets/img/Membresia_Movil.jpg";
-type HeroProps = {
-  openModalTypePayment: () => void;
-};
+type HeroProps = { onScrollToPayment: () => void };
 
-export const Hero = ({ openModalTypePayment }: HeroProps) => {
+export const Hero = ({ onScrollToPayment }: HeroProps) => {
   return (
     <section id="hero" className="flex flex-col items-center w-screen">
       <div className="w-full relative">
         <div
           className="absolute w-full h-4/6 self-center left-0 hover:cursor-pointer"
-          onClick={() => openModalTypePayment()}
+          onClick={() => {
+            onScrollToPayment();
+          }}
         ></div>
 
         {/* Imagen para Desktop */}

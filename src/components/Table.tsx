@@ -18,6 +18,18 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
       id: "1",
     },
     {
+      tipo: "Anual",
+      vigencia: "12 meses",
+      costo: "$1,500",
+      ahorro: "mensual $125",
+      nota: null,
+      pago: "Pago de contado",
+      subpago: "pago en una sola exhibición",
+      envios: "12 Envíos al año",
+      detalleEnvios: "12 envíos GRATIS pagando membresía anual",
+      id: "3",
+    },
+    {
       tipo: "Mensual",
       vigencia: "1 mes",
       costo: "$150",
@@ -31,19 +43,19 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
     },
   ];
   return (
-    <div className="grid grid-cols-3 border border-black border-collapse mt-10 color-primary text-center">
+    <div className="grid grid-cols-4 border border-black border-collapse mt-10 color-primary text-center">
       {/* Encabezados */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
         Tipo de Membresía
       </div>
       {memberships.map((m) => (
         <div
           key={m.tipo}
-          className="border p-4 font-extrabold sm:text-2xl text-lg relative"
+          className="border sm:p-4 font-extrabold sm:text-2xl text-lg relative"
         >
           {m.tipo}
-          {m.tipo === "Anual" && (
-            <div className="absolute -top-12 bg-warn-400 rounded-2xl sm:text-3xl text-sm font-extrabold text-center w-full">
+          {m.tipo === "Anual" && m.id === "1" && (
+            <div className="absolute -top-10 sm:-top-20 left-1/2 bg-warn-400 rounded-2xl sm:text-3xl text-sm font-extrabold text-center w-full">
               Costo de membresía
             </div>
           )}
@@ -51,24 +63,26 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
       ))}
 
       {/* Vigencia */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">Vigencia</div>
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
+        Vigencia
+      </div>
       {memberships.map((m) => (
         <div
           key={m.tipo + "-vigencia"}
-          className="border p-4 font-extrabold sm:text-3xl text-lg"
+          className="border sm:p-4 font-extrabold sm:text-3xl text-lg"
         >
           {m.vigencia}
         </div>
       ))}
 
       {/* Costo */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
         Costo de membresía
       </div>
       {memberships.map((m) => (
         <div
           key={m.tipo + "-costo"}
-          className="border p-4 flex flex-col items-center"
+          className="border sm:p-4 flex flex-col items-center justify-center"
         >
           <p className="bg-warn-500 p-2 rounded-xl font-extrabold sm:text-3xl text-lg">
             {m.costo}
@@ -79,13 +93,13 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
       ))}
 
       {/* Tipo de pago */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
         Tipo de pago
       </div>
       {memberships.map((m) => (
         <div
           key={m.tipo + "-pago"}
-          className="border p-4 flex flex-col items-center"
+          className="border sm:p-4 flex flex-col items-center"
         >
           <span className="font-extrabold sm:text-3xl text-sm">{m.pago}</span>
           {m.subpago && (
@@ -95,13 +109,13 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
       ))}
 
       {/* Envíos */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
         Envíos <b>GRATIS</b>
       </div>
       {memberships.map((m) => (
         <div
           key={m.tipo + "-envios"}
-          className="border p-4 flex flex-col items-center"
+          className="border sm:p-4 flex flex-col items-center"
         >
           <CiDeliveryTruck size={60} />
           <span className="font-extrabold sm:text-lg text-sm">{m.envios}</span>
@@ -112,7 +126,7 @@ export const Table = ({ onOpenPaymentModal }: TableProps) => {
       ))}
 
       {/* Comprar */}
-      <div className="border p-4 font-bold sm:text-lg text-xs">
+      <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
         Empieza a ahorrar
       </div>
       {memberships.map((m) => (

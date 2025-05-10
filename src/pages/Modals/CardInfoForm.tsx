@@ -11,6 +11,7 @@ type CardInfoProps = {
   cardFormat: string;
   setCardFormat: React.Dispatch<React.SetStateAction<string>>;
   emailURL?: string;
+  amount?: number;
 };
 
 export const CardInfoForm = ({
@@ -18,6 +19,7 @@ export const CardInfoForm = ({
   cardFormat,
   setCardFormat,
   emailURL,
+  amount,
 }: CardInfoProps) => {
   const [flagCardNumberValid, setFlagCardNumber] = useState(false);
   const [parent] = useAutoAnimate();
@@ -71,9 +73,14 @@ export const CardInfoForm = ({
       <div className="pt-2">
         <div className="grid grid-cols-12 mb-5">
           <div className="col-span-12 font-semibold text-lg text-center color-primary max-sm:text-sm max-sm:text-center mb-3">
-            <span>Pago de membresía a 12 MSI.</span>
+            <span>Pago de membresía</span>
+            {amount === 1914 ? (
+              <span> a 12 MSI</span>
+            ) : (
+              <span> a 12 meses de contado</span>
+            )}
             <br />
-            <span>$1914.00 MXN </span>
+            <span>{`$${amount}`} </span>
             <span className="text-sm font-semibold">(IVA incluido)</span>
           </div>
           <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12">

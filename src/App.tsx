@@ -8,6 +8,7 @@ import "./styles/_styles.scss";
 import "./index.css";
 import { Footer } from "./components/Footer";
 import { MembershipVIP } from "./pages/MembershipVIP";
+import { ShopifyPaymentSection } from "./pages/ShopifyPaymentSection";
 
 declare global {
   interface Window {
@@ -28,6 +29,7 @@ function App() {
             <Route path="/membresiaClubFarmaleal" Component={LandingPage} />
             <Route path="/verificationmembership/" Component={UserPage} />
             <Route path="/membership-VIP" Component={MembershipVIP} />
+            <Route path="/payment-shopify" Component={ShopifyPaymentSection} />
           </Routes>
         </div>
         {/* <Footer /> */}
