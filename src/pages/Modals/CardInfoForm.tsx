@@ -12,6 +12,7 @@ type CardInfoProps = {
   setCardFormat: React.Dispatch<React.SetStateAction<string>>;
   emailURL?: string;
   amount?: number;
+  cupon?: string;
 };
 
 export const CardInfoForm = ({
@@ -20,6 +21,7 @@ export const CardInfoForm = ({
   setCardFormat,
   emailURL,
   amount,
+  cupon,
 }: CardInfoProps) => {
   const [flagCardNumberValid, setFlagCardNumber] = useState(false);
   const [parent] = useAutoAnimate();
@@ -285,6 +287,21 @@ export const CardInfoForm = ({
                   </span>
                 </div>
               )}
+            </div>
+            <div
+              ref={parent}
+              className="w-full col-span-6 flex flex-col gap-2 justify-center items-start text-lg font-extralight"
+            >
+              <AppFormLabel label="Cupón:" />
+              <AppTextField
+                placeholder="Ingresa tu cupón"
+                value={cardInfoForm.values.cupon}
+                name="cupon"
+                onChange={cardInfoForm.handleChange}
+                className="w-full"
+                inputMode="text"
+                disabled={cupon ? true : false}
+              />
             </div>
           </div>
         </div>

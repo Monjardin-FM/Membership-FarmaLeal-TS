@@ -64,6 +64,7 @@ export const StepperFormPayment = ({
       expiration_year: "",
       expiration_month: "",
       cvv2: "",
+      cupon: cupon ? cupon : "",
     },
     validationSchema: Yup.object().shape({
       card_number: Yup.string().matches(
@@ -103,7 +104,7 @@ export const StepperFormPayment = ({
           lastName: cardInfoForm.values.lastName,
           phoneNumber: cardInfoForm.values.phoneNumber,
           email: cardInfoForm.values.email,
-          cupon: cupon ? cupon : "",
+          cupon: cupon ? cupon : cardInfoForm.values.cupon,
         }),
       })
         .then((response) => response.json())
@@ -162,7 +163,7 @@ export const StepperFormPayment = ({
             lastName: cardInfoForm.values.lastName,
             phoneNumber: cardInfoForm.values.phoneNumber,
             email: cardInfoForm.values.email,
-            cupon: cupon ? cupon : "",
+            cupon: cupon ? cupon : cardInfoForm.values.cupon,
           }),
         }
       )
@@ -353,6 +354,7 @@ export const StepperFormPayment = ({
                             setCardFormat={setCardFormat}
                             emailURL={emailURL}
                             amount={amount}
+                            cupon={cupon ? cupon : ""}
                           />
                         </div>
                         <div className="flex flex-row gap-3">
