@@ -64,6 +64,7 @@ export const StepperFormPayment = ({
       expiration_year: "",
       expiration_month: "",
       cvv2: "",
+      cupon: cupon ? cupon : "",
     },
     validationSchema: Yup.object().shape({
       card_number: Yup.string().matches(
@@ -97,13 +98,13 @@ export const StepperFormPayment = ({
         body: JSON.stringify({
           tokenId: paymentData.tokenId,
           deviceSessionId: paymentData.deviceSessionId,
-          msi: 12,
+          msi: amount === 1914 ? 12 : 1,
           amount: amount,
           name: cardInfoForm.values.name,
           lastName: cardInfoForm.values.lastName,
           phoneNumber: cardInfoForm.values.phoneNumber,
           email: cardInfoForm.values.email,
-          cupon: cupon ? cupon : "",
+          cupon: cupon ? cupon : cardInfoForm.values.cupon,
         }),
       })
         .then((response) => response.json())
@@ -156,13 +157,13 @@ export const StepperFormPayment = ({
           body: JSON.stringify({
             tokenId: paymentData.tokenId,
             deviceSessionId: paymentData.deviceSessionId,
-            msi: 12,
+            msi: amount === 1914 ? 12 : 1,
             amount: amount,
             name: cardInfoForm.values.name,
             lastName: cardInfoForm.values.lastName,
             phoneNumber: cardInfoForm.values.phoneNumber,
             email: cardInfoForm.values.email,
-            cupon: cupon ? cupon : "",
+            cupon: cupon ? cupon : cardInfoForm.values.cupon,
           }),
         }
       )
@@ -210,7 +211,9 @@ export const StepperFormPayment = ({
       /*global OpenPay*/
       window.OpenPay.setId(import.meta.env.VITE_API_KEY_OPENPAY_ID);
       window.OpenPay.setApiKey(import.meta.env.VITE_API_KEY_OPENPAY);
-      window.OpenPay.setSandboxMode(false);
+      window.OpenPay.setSandboxMode(
+        import.meta.env.VITE_OPENPAY_SANDBOX === "true"
+      );
       //Se genera el id de dispositivo
       setPaymentData({
         ...paymentData,
@@ -292,7 +295,7 @@ export const StepperFormPayment = ({
 
               // setPaymentData({ ...paymentData, tokenId: response.data.id });
               setDataCard(response.data.card);
-              if (response.data.card.type === "debit") {
+              if (amount === 1914 && response.data.card.type === "debit") {
                 Swal.fire({
                   icon: "error",
                   title: "Tarjeta de débito",
@@ -308,7 +311,12 @@ export const StepperFormPayment = ({
                 setIsloadingValidateCard(false);
                 return;
               }
-              if (response.data.card.type === "credit") {
+              if (
+                (amount === 1740 &&
+                  (response.data.card.type === "credit" ||
+                    response.data.card.type === "debit")) ||
+                (amount === 1914 && response.data.card.type === "credit")
+              ) {
                 Swal.fire({
                   icon: "success",
                   title: "Tarjeta Válida",
@@ -345,6 +353,8 @@ export const StepperFormPayment = ({
                             cardFormat={cardFormat}
                             setCardFormat={setCardFormat}
                             emailURL={emailURL}
+                            amount={amount}
+                            cupon={cupon ? cupon : ""}
                           />
                         </div>
                         <div className="flex flex-row gap-3">

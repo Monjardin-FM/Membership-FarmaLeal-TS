@@ -56,13 +56,19 @@ export const DataInformation = ({
         </span>
       </div>
 
-      {dataCard.type === "credit" && (
-        <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
+      {/* {dataCard.type === "credit" && ( */}
+      <div className="col-span-1 sm:col-span-2 gap-6 bg-warn-100 p-6 flex flex-col items-center justify-center w-full">
+        {amount === 1914 ? (
           <div className="text-warn-900 w-full text-center">
             El cobro se realizará a 12 meses sin intereses.
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-warn-900 w-full text-center">
+            El cobro se realizará de contado
+          </div>
+        )}
+      </div>
+      {/* )} */}
     </div>
   );
 };

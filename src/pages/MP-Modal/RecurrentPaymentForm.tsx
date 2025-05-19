@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CardPayment } from "@mercadopago/sdk-react";
 import Swal from "sweetalert2";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { AppModal } from "../../presentation/Components/AppModal/AppModal";
+import { AppFormLabel } from "../../presentation/Components/AppFormLabel";
+import { AppTextField } from "../../presentation/Components/AppTextField";
 
 declare global {
   interface Window {
@@ -25,6 +27,7 @@ export const RecurrentPaymentForm = ({
   cupon,
   email,
 }: RecurrentPaymentFormProps) => {
+  const [cuponValue, setCuponValue] = useState<string>("");
   initMercadoPago(import.meta.env.VITE_API_KEY);
   let initialization = {
     amount: amount,
@@ -52,15 +55,26 @@ export const RecurrentPaymentForm = ({
   };
 
   const onReady = async () => {
-    /*
-          Callback llamado cuando Brick está listo.
-          Aquí puedes ocultar cargamentos de su sitio, por ejemplo.
-          */
+    /*Callback llamado cuando Brick está listo. Aquí puedes ocultar cargamentos de su sitio, por ejemplo.*/
   };
 
   return (
     <AppModal onClose={onClose} isVisible={isVisible}>
       <div className="h-full sm:mt-1 mt-3 flex flex-col">
+        <div className="sm:w-1/3 w-full flex flex-col items-start justify-center bg-info-100 rounded-lg p-4 mt-2">
+          <AppFormLabel label="Cupón:" />
+          <AppTextField
+            placeholder="Ingresa tu cupón"
+            value={cupon ? cupon : cuponValue}
+            name="cupon"
+            onChange={(e) => {
+              setCuponValue(e.target.value);
+            }}
+            className="w-full"
+            inputMode="text"
+            disabled={cupon ? true : false}
+          />
+        </div>
         <CardPayment
           locale="es-MX"
           customization={customization}
@@ -74,7 +88,7 @@ export const RecurrentPaymentForm = ({
                   amount: amount,
                   description: "Pago mensual",
                   method: formData.payment_method_id,
-                  cupon: cupon ? cupon : "",
+                  cupon: cupon ? cupon : cuponValue,
                   nombre: additionalData?.cardholderName,
                 })
               : JSON.stringify({
@@ -83,7 +97,7 @@ export const RecurrentPaymentForm = ({
                   amount: amount,
                   description: "Pago mensual",
                   method: formData.payment_method_id,
-                  cupon: cupon ? cupon : "",
+                  cupon: cupon ? cupon : cuponValue,
                 });
             return new Promise((resolve, reject) => {
               fetch(
@@ -148,8 +162,8 @@ export const RecurrentPaymentForm = ({
           onReady={onReady}
           onError={onError}
         />
-        <div className="w-1/2 flex items-center justify-start">
-          <span className="text-base text-gray-700 self-start">
+        <div className="sm:w-1/2 w-full flex items-center justify-start">
+          <span className="sm:text-sm text-xs text-gray-700 self-start">
             Al proporcionar los datos de su tarjeta de débito o crédito, usted
             autoriza expresamente a FarmaLeal a almacenar de manera segura su
             información de pago y a realizar cargos recurrentes según los

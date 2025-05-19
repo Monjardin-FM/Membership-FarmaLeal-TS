@@ -2,15 +2,15 @@ import Step1 from "../assets/img/PasosMembresia-1.png";
 import Step2 from "../assets/img/PasosMembresia-2.png";
 import Step3 from "../assets/img/PasosMembresia-3.png";
 import Step4 from "../assets/img/PasosMembresia-4.png";
-import Benfit1 from "../assets/img/Membresia_Beneficios-01.png";
-import Benfit2 from "../assets/img/Membresia_Beneficios-02.png";
-import Benfit3 from "../assets/img/Membresia_Beneficios-03.png";
+import Benfit1 from "../assets/img/Membresia_Beneficios-01.jpg";
+import Benfit2 from "../assets/img/Membresia_Beneficios-02.jpg";
+import Benfit3 from "../assets/img/Membresia_Beneficios-03.jpg";
 import Icon1 from "../assets/img/Icono_Cintillo-03.png";
 import Icon3 from "../assets/img/Icono_Cintillo-05.png";
 import Icon4 from "../assets/img/Icono_Cintillo-06.png";
 import cintillo from "../assets/img/cintillo.png";
 import ButtonMembership from "../assets/img/boton_Membresia.png";
-import { Table } from "./Table";
+import { PaymentSection } from "./shopify-payment-section/PaymentSection";
 
 const items = [
   {
@@ -45,13 +45,10 @@ const info = [
 ];
 
 type BenefitsProps = {
-  openModalTypePayment: () => void;
-  onOpenPaymentModal: (type: string) => void;
+  paymentRef: React.RefObject<HTMLDivElement>;
+  onScrollToPayment: () => void;
 };
-export const Benefits = ({
-  openModalTypePayment,
-  onOpenPaymentModal,
-}: BenefitsProps) => {
+export const Benefits = ({ paymentRef, onScrollToPayment }: BenefitsProps) => {
   return (
     <section
       // id="benefits"
@@ -67,7 +64,12 @@ export const Benefits = ({
         })}
       </div>
       <div className="separator w-screen top-0"></div>
-      <Table onOpenPaymentModal={onOpenPaymentModal} />
+
+      {/* Sección dónde se muestra la tabla y se abren los modals para pagar la membresía */}
+      <div ref={paymentRef}>
+        <PaymentSection />
+      </div>
+      {/*  */}
 
       <div className="grid grid-cols-3 gap-5 container">
         {benefits.map((element, i) => {
@@ -117,7 +119,9 @@ export const Benefits = ({
         <img
           src={ButtonMembership}
           className="sm:w-3/5 w-full hover:cursor-pointer"
-          onClick={() => openModalTypePayment()}
+          onClick={() => {
+            onScrollToPayment();
+          }}
         />
       </div>
     </section>

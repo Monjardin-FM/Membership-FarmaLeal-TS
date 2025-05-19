@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { FormInfoClient } from "./FormInfoClient";
 import { Loader } from "../../components/Loader";
 
 type ModalPaymentProps = {
