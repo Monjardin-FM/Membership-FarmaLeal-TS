@@ -10,6 +10,7 @@ import { Footer } from "./components/Footer";
 import { MembershipVIP } from "./pages/MembershipVIP";
 import { ShopifyPaymentSection } from "./pages/ShopifyPaymentSection";
 import { Referenced } from "./pages/Referenced/Referenced";
+import { ReferencedInfo } from "./pages/Referenced/ReferencedInfo";
 
 declare global {
   interface Window {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/membership-VIP" Component={MembershipVIP} />
             <Route path="/payment-shopify" Component={ShopifyPaymentSection} />
             <Route path="/referenced" Component={Referenced} />
+            <Route path="/referenced-info" Component={ReferencedInfo} />
           </Routes>
         </div>
         {/* <Footer /> */}
