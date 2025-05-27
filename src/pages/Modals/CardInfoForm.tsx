@@ -87,12 +87,22 @@ export const CardInfoForm = ({
             <span>{`$${amount}`} </span>
             <span className="text-sm font-semibold">(IVA incluido)</span>
           </div>
-          <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12">
+          <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12 gap-5">
             <Card
               cardNumber={cardFormat}
               cardForm={cardInfoForm.values}
               flagRotate={flagRotate}
-            />
+            />{" "}
+            {amount === 175 && (
+              <div className="w-full flex flex-col items-center justify-center px-5 text-justify">
+                <span className="sm:text-sm text-xs text-gray-700 self-start">
+                  Al proporcionar los datos de su tarjeta de débito o crédito,
+                  usted autoriza expresamente a FarmaLeal a almacenar de manera
+                  segura su información de pago y a realizar cargos recurrentes
+                  según los términos acordados.
+                </span>
+              </div>
+            )}
           </div>
           <div className=" gap-x-5 rounded-lg pb-2 grid grid-cols-12 col-span-6 max-sm:col-span-12 max-sm:gap-4">
             <div className="col-span-12 font-semibold text-xl color-primary max-sm:text-sm max-sm:text-center max-sm:my-3">
@@ -290,21 +300,23 @@ export const CardInfoForm = ({
                 </div>
               )}
             </div>
-            <div
-              ref={parent}
-              className="w-full col-span-6 flex flex-col gap-2 justify-center items-start text-lg font-extralight"
-            >
-              <AppFormLabel label="Cupón:" />
-              <AppTextField
-                placeholder="Ingresa tu cupón"
-                value={cardInfoForm.values.cupon}
-                name="cupon"
-                onChange={cardInfoForm.handleChange}
-                className="w-full"
-                inputMode="text"
-                disabled={cupon ? true : false}
-              />
-            </div>
+            {!emailURL && (
+              <div
+                ref={parent}
+                className="w-full col-span-6 flex flex-col gap-2 justify-center items-start text-lg font-extralight"
+              >
+                <AppFormLabel label="Cupón:" />
+                <AppTextField
+                  placeholder="Ingresa tu cupón"
+                  value={cardInfoForm.values.cupon}
+                  name="cupon"
+                  onChange={cardInfoForm.handleChange}
+                  className="w-full"
+                  inputMode="text"
+                  disabled={cupon ? true : false}
+                />
+              </div>
+            )}
           </div>
         </div>
 
