@@ -2,15 +2,14 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import { NavBar } from "./components";
 import { LandingPage, UserPage } from "./pages";
 import "./styles/_styles.scss";
 import "./index.css";
-import { Footer } from "./components/Footer";
 import { MembershipVIP } from "./pages/MembershipVIP";
 import { ShopifyPaymentSection } from "./pages/ShopifyPaymentSection";
 import { Referenced } from "./pages/Referenced/Referenced";
 import { ReferencedInfo } from "./pages/Referenced/ReferencedInfo";
+import { Reactivation } from "./pages/Reactivation/Reactivation";
 
 declare global {
   interface Window {
@@ -34,6 +33,7 @@ function App() {
             <Route path="/payment-shopify" Component={ShopifyPaymentSection} />
             <Route path="/referenced" Component={Referenced} />
             <Route path="/referenced-info" Component={ReferencedInfo} />
+            <Route path="/reactivation" Component={Reactivation} />
           </Routes>
         </div>
         {/* <Footer /> */}

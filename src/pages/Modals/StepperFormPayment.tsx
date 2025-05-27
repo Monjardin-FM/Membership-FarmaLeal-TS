@@ -88,67 +88,16 @@ export const StepperFormPayment = ({
     onSubmit: () => {},
   });
   // This function is used to handle the payment process
-  const onPayment = async () => {
-    return new Promise((resolve, reject) => {
-      fetch(`${import.meta.env.VITE_API_URL}/membresia/OPChargeMSI`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tokenId: paymentData.tokenId,
-          deviceSessionId: paymentData.deviceSessionId,
-          msi: amount === 1914 ? 12 : 1,
-          amount: amount,
-          name: cardInfoForm.values.name,
-          lastName: cardInfoForm.values.lastName,
-          phoneNumber: cardInfoForm.values.phoneNumber,
-          email: cardInfoForm.values.email,
-          cupon: cupon ? cupon : cardInfoForm.values.cupon,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // recibir el resultado del pago
-          resolve(data);
-          setLoadingPayment(false);
-          if (data.success) {
-            Swal.fire({
-              title: "Pago exitoso",
-              text: `${data.message}. Revisa tu correo para finalizar la suscripción.`,
-              icon: "success",
-              confirmButtonText: "Ok",
-              confirmButtonColor: "#15A186",
-            });
-            cardInfoForm.resetForm();
-            setCardFormat("");
-            setPaymentData({
-              deviceSessionId: "",
-              tokenId: "",
-            });
-            onClose();
-          }
-          if (!data.success) {
-            Swal.fire({
-              title: "Error al crear la cuenta",
-              text: `${data.message}`,
-              icon: "error",
-              confirmButtonText: "Ok",
-              confirmButtonColor: "#15A186",
-            });
-          }
-        })
-        .catch((error) => {
-          // manejar la respuesta de error al intentar crear el pago
-          reject();
-        });
-    });
-  };
-  // This function is used to handle the payment process to reactivate the membership
-  const onOpenpayPayment = async () => {
-    return new Promise((resolve, reject) => {
-      fetch(
-        `${import.meta.env.VITE_API_URL}/membresia/OPChargeMSIReactivation`,
+  const handlePaymentOP = async (
+    endpoint: string,
+    successMessage: string,
+    errorMessage: string
+  ): Promise<any> => {
+    setLoadingPayment(true);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/membresia/${endpoint}`,
         {
           method: "POST",
           headers: {
@@ -157,7 +106,7 @@ export const StepperFormPayment = ({
           body: JSON.stringify({
             tokenId: paymentData.tokenId,
             deviceSessionId: paymentData.deviceSessionId,
-            msi: amount === 1914 ? 12 : 1,
+            msi: amount === 175 ? 0 : amount === 1914 ? 12 : 1,
             amount: amount,
             name: cardInfoForm.values.name,
             lastName: cardInfoForm.values.lastName,
@@ -166,43 +115,49 @@ export const StepperFormPayment = ({
             cupon: cupon ? cupon : cardInfoForm.values.cupon,
           }),
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          // recibir el resultado del pago
-          resolve(data);
-          setLoadingPayment(false);
-          if (data.success) {
-            Swal.fire({
-              title: "Pago exitoso",
-              text: `La reactivación de tu membresía se ha procesado correctamente.`,
-              icon: "success",
-              confirmButtonText: "Ok",
-              confirmButtonColor: "#15A186",
-            });
-            cardInfoForm.resetForm();
-            setCardFormat("");
-            setPaymentData({
-              deviceSessionId: "",
-              tokenId: "",
-            });
-            onClose();
-          }
-          if (!data.success) {
-            Swal.fire({
-              title: "Error al intentar reactivar la membresía.",
-              text: `${data.message}`,
-              icon: "error",
-              confirmButtonText: "Ok",
-              confirmButtonColor: "#15A186",
-            });
-          }
-        })
-        .catch((error) => {
-          // manejar la respuesta de error al intentar crear el pago
-          reject();
+      );
+
+      const data = await response.json();
+      setLoadingPayment(false);
+
+      if (data.success) {
+        Swal.fire({
+          title: "Pago exitoso",
+          text: successMessage,
+          icon: "success",
+          confirmButtonText: "Ok",
+          confirmButtonColor: "#15A186",
         });
-    });
+
+        cardInfoForm.resetForm();
+        setCardFormat("");
+        setPaymentData({
+          deviceSessionId: "",
+          tokenId: "",
+        });
+        onClose();
+      } else {
+        Swal.fire({
+          title: errorMessage,
+          text: data.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+          confirmButtonColor: "#15A186",
+        });
+      }
+
+      return data;
+    } catch (error: any) {
+      setLoadingPayment(false);
+      Swal.fire({
+        title: "Error de conexión",
+        text: error.message || "No se pudo procesar el pago.",
+        icon: "error",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#15A186",
+      });
+      throw error;
+    }
   };
 
   // This function is used to handle idevice session id and token id. And confure the OpenPay API
@@ -326,6 +281,16 @@ export const StepperFormPayment = ({
                 handleChange({ value: 2 });
                 setIsloadingValidateCard(false);
               }
+              if (amount === 175) {
+                Swal.fire({
+                  icon: "success",
+                  title: "Tarjeta Válida",
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+                handleChange({ value: 2 });
+                setIsloadingValidateCard(false);
+              }
             };
             // This function is used to handle the error callback of the token creation
             const errorCallBack = (response: any) => {
@@ -398,8 +363,37 @@ export const StepperFormPayment = ({
                           <AppButton
                             colorScheme="info"
                             onClick={() => {
-                              emailURL ? onOpenpayPayment() : onPayment();
-                              setLoadingPayment(true);
+                              let endpoint = "OPChargeMSI";
+                              let successMessage =
+                                "Tu pago fue exitoso. Revisa tu correo para finalizar la suscripción.";
+                              let errorMessage = "Error al crear la cuenta";
+
+                              if (location.pathname.startsWith("/referenced")) {
+                                endpoint = "OPChargeMSIReferr";
+                                successMessage =
+                                  "Tu pago referenciado fue exitoso. Revisa tu correo para finalizar la suscripción.";
+                                errorMessage =
+                                  "Error al procesar el pago referenciado.";
+                              } else if (emailURL && amount !== 175) {
+                                endpoint = "OPChargeMSIReactivation";
+                                successMessage =
+                                  "La reactivación de tu membresía se ha procesado correctamente.";
+                                errorMessage =
+                                  "Error al intentar reactivar la membresía.";
+                              } else if (amount === 175 && !emailURL) {
+                                endpoint = "CreateTokenization";
+                                successMessage = "";
+                                errorMessage = "Error al procesar el pago";
+                              } else if (amount === 175 && emailURL) {
+                                endpoint = "CreateNextTokenization";
+                                successMessage = "";
+                                errorMessage = "Error al procesar el pago";
+                              }
+                              handlePaymentOP(
+                                endpoint,
+                                successMessage,
+                                errorMessage
+                              );
                             }}
                             isDisabled={loadingPayment}
                           >
