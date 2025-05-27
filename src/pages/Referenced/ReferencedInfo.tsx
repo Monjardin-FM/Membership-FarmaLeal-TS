@@ -19,6 +19,13 @@ export const ReferencedInfo = () => {
       <div className="flex sm:mx-40">
         <img src={Content1} alt="" />
       </div>
+      <div className="mx-40 font-semibold text-3xl text-center">
+        <p>
+          Solo comparte el enlace que aparece en la sección de tu cuenta para
+          referir a un amigo. Es tu liga personal de invitación y con eso tu
+          referido podrá inscribirse correctamente.
+        </p>
+      </div>
       <div className="flex sm:mx-40">
         <img src={Content2} alt="" />
       </div>

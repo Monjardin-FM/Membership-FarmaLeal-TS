@@ -78,6 +78,8 @@ export const CardInfoForm = ({
             <span>Pago de membresía</span>
             {amount === 1914 ? (
               <span> a 12 MSI</span>
+            ) : amount === 175 ? (
+              <span> mensual (pago recurrente)</span>
             ) : (
               <span> a 12 meses de contado</span>
             )}
