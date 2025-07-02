@@ -185,7 +185,7 @@ export const CardInfoForm = ({
                 value={cardInfoForm.values.phoneNumber}
                 className="w-full "
                 onBlur={cardInfoForm.handleBlur}
-                inputMode="text"
+                inputMode="numeric"
               />
               {cardInfoForm.errors.phoneNumber && (
                 <div className="border border-danger-800 bg-danger-100 rounded-md bg w-full p-1 relative -top-2 ">

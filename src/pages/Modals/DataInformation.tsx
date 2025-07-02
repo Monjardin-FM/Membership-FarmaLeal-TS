@@ -1,6 +1,6 @@
 import React from "react";
 import { DataCard } from "./StepperFormPayment";
-import { AppFormLabel } from "../../presentation/Components/AppFormLabel";
+import { FooterModal } from "./FooterModal";
 type DataInformationProps = {
   // formInfoClient: any;
   cardInfoForm: any;
@@ -69,6 +69,9 @@ export const DataInformation = ({
         )}
       </div>
       {/* )} */}
+      <div className="sm:col-span-2 col-span-1">
+        <FooterModal />
+      </div>
     </div>
   );
 };
