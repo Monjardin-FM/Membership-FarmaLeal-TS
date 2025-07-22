@@ -30,6 +30,7 @@
     "react-use": "^17.4.0",
     "sass": "^1.60.0",
     "sweetalert2": "^11.17.2",
+    "swiper": "^11.2.10",
     "yup": "^1.0.2"
   },
   "devDependencies": {

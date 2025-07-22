@@ -1,5 +1,12 @@
 import React from "react";
 import { AppButton } from "../../presentation/Components/AppButton";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// import required modules
+import { EffectCards } from "swiper/modules";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-cards";
 type CardMembershipPaymentProps = {
   onOpenPaymentModal: (id: string) => void;
   onOpenaAnualPaymentSelector: () => void;
@@ -34,7 +41,7 @@ export const CardMembershipPayment = ({
   ];
   return (
     <div className="w-full overflow-x-auto h-full">
-      <div className="flex gap-4 p-10 sm:justify-center">
+      <div className=" gap-4 p-10 sm:justify-center hidden sm:flex">
         {cardsMembership.map((card, index) => (
           <div
             key={card.id}
@@ -72,6 +79,50 @@ export const CardMembershipPayment = ({
             <span className="text-sm">{card.envio}</span>
           </div>
         ))}
+      </div>
+      <div className="flex gap-4 p-10 sm:justify-center sm:hidden">
+        <Swiper
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards]}
+          className="mySwiper text-center flex flex-col items-center justify-center"
+        >
+          {cardsMembership.map((card, index) => (
+            <SwiperSlide
+              key={card.id}
+              className="flex flex-col items-center justify-center bg-info-50 border  text-black"
+            >
+              <div className="p-8 flex flex-col items-center justify-center bg-white border text-info-800 h-full w-full">
+                {index === 0 && (
+                  <span className="absolute top-4 bg-info-500 text-gray-200 text-xs font-bold px-2 py-1 rounded-full">
+                    Más Popular
+                  </span>
+                )}
+                <h3 className="text-lg font-semibold">{card.tipo}</h3>
+                <p className="text-4xl font-bold">{card.costo}</p>
+                <AppButton
+                  colorScheme="info"
+                  variant="solid"
+                  onClick={() => {
+                    if (card.id === "2") {
+                      onOpenPaymentModal(card.id);
+                    } else {
+                      onOpenaAnualPaymentSelector();
+                    }
+                  }}
+                >
+                  Suscribirse ahora
+                </AppButton>
+                <div className="my-6 border-t border-gray-400 w-full h-0"></div>
+                <span className="text-sm">{card.pago}</span>
+                {card.subpago && (
+                  <span className="text-xs font-semibold">{card.subpago}</span>
+                )}
+                <span className="text-sm">{card.envio}</span>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );

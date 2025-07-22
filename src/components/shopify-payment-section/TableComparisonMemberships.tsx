@@ -1,7 +1,7 @@
 import React from "react";
 import { MembershipTypes } from "./PaymentSection";
 import { CiDeliveryTruck } from "react-icons/ci";
-
+import Swipe from "../../assets/animations/Swipe Grey.gif";
 export const TableComparisonMemberships = () => {
   const typesMemberships = [
     {
@@ -41,105 +41,99 @@ export const TableComparisonMemberships = () => {
           </div>
         )}
       </div>
-      <div className={classGrids}>
-        {/* Encabezados */}
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          Tipo de Membresía
-        </div>
-        {typesMemberships.map((m) => (
-          <div
-            key={m.tipo + m.id}
-            className="border sm:p-4 font-extrabold sm:text-2xl text-lg relative"
-          >
-            {m.tipo}
-          </div>
-        ))}
 
-        {/* Vigencia */}
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          Vigencia
-        </div>
-        {typesMemberships.map((m) => (
-          <div
-            key={m.tipo + "-vigencia" + m.id}
-            className="border sm:p-4 font-extrabold sm:text-3xl text-lg "
-          >
-            {m.vigencia}
+      {/* Contenedor con scroll horizontal */}
+      <div className="overflow-x-auto w-full">
+        <div
+          className={`grid grid-cols-${
+            typesMemberships.length + 1
+          } text-center border border-black min-w-[500px]`}
+        >
+          {/* Fila: Tipo */}
+          <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
+            Tipo de Membresía
           </div>
-        ))}
-
-        {/* Costo */}
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          Costo de membresía
-        </div>
-        {typesMemberships.map((m, index) => (
-          <div
-            key={m.tipo + "-costo" + m.id}
-            className="border sm:p-4 flex flex-col items-center justify-center"
-          >
-            <p
-              className={`  ${"bg-warn-500 p-2 rounded-xl font-extrabold sm:text-3xl text-lg"} `}
+          {typesMemberships.map((m) => (
+            <div
+              key={m.id + "-tipo"}
+              className="border sm:p-4 font-extrabold sm:text-2xl text-lg"
             >
-              {m.costo}
-            </p>
-            {m.ahorro && <span className="text-xs font-bold">{m.ahorro}</span>}
-            {m.nota && <span className="text-xs font-bold">{m.nota}</span>}
-          </div>
-        ))}
+              {m.tipo}
+            </div>
+          ))}
 
-        {/* Tipo de pago */}
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          Tipo de pago
-        </div>
-        {typesMemberships.map((m) => (
-          <div
-            key={m.tipo + "-pago" + m.id}
-            className="border sm:p-4 flex flex-col items-center"
-          >
-            <span className="font-extrabold sm:text-3xl text-sm">{m.pago}</span>
-            {m.subpago && (
-              <span className="text-xs font-semibold">{m.subpago}</span>
-            )}
+          {/* Fila: Vigencia */}
+          <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
+            Vigencia
           </div>
-        ))}
+          {typesMemberships.map((m) => (
+            <div
+              key={m.id + "-vigencia"}
+              className="border sm:p-4 font-extrabold sm:text-3xl text-lg"
+            >
+              {m.vigencia}
+            </div>
+          ))}
 
-        {/* Envíos */}
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          <span>Envíos&nbsp;</span>
-          <b> GRATIS</b>
-        </div>
-        {typesMemberships.map((m) => (
-          <div
-            key={m.tipo + "-envios" + m.id}
-            className="border sm:p-4 flex flex-col items-center"
-          >
-            <CiDeliveryTruck size={60} />
-            <span className="font-extrabold sm:text-lg text-sm">
-              {m.envios}
-            </span>
-            <span className="sm:text-sm text-xs font-bold">
-              {m.detalleEnvios}
-            </span>
+          {/* Fila: Costo */}
+          <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
+            Costo de membresía
           </div>
-        ))}
+          {typesMemberships.map((m) => (
+            <div
+              key={m.id + "-costo"}
+              className="border sm:p-4 flex flex-col items-center"
+            >
+              <p className="bg-warn-500 p-2 rounded-xl font-extrabold sm:text-3xl text-lg">
+                {m.costo}
+              </p>
+              {m.ahorro && (
+                <span className="text-xs font-bold">{m.ahorro}</span>
+              )}
+              {m.nota && <span className="text-xs font-bold">{m.nota}</span>}
+            </div>
+          ))}
 
-        {/* Comprar
-        <div className="border sm:p-4 font-bold sm:text-lg text-xs flex items-center justify-center">
-          Empieza a ahorrar
-        </div>
-        {memberships.map((m) => (
-          <div
-            key={m.tipo + "-comprar" + m.id}
-            className="border sm:p-4 items-center justify-center flex"
-          >
-            <img
-              src={Comprar}
-              alt={`Comprar ${m.tipo}`}
-              className="cursor-pointer"
-              onClick={() => onOpenPaymentModal(m.id)}
-            />
+          {/* Fila: Tipo de pago */}
+          <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
+            Tipo de pago
           </div>
-        ))} */}
+          {typesMemberships.map((m) => (
+            <div
+              key={m.id + "-pago"}
+              className="border sm:p-4 flex flex-col items-center"
+            >
+              <span className="font-extrabold sm:text-3xl text-sm">
+                {m.pago}
+              </span>
+              {m.subpago && (
+                <span className="text-xs font-semibold">{m.subpago}</span>
+              )}
+            </div>
+          ))}
+
+          {/* Fila: Envíos */}
+          <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
+            Envíos <b className="ml-1">GRATIS</b>
+          </div>
+          {typesMemberships.map((m) => (
+            <div
+              key={m.id + "-envios"}
+              className="border sm:p-4 flex flex-col items-center"
+            >
+              <CiDeliveryTruck size={60} />
+              <span className="font-extrabold sm:text-lg text-sm">
+                {m.envios}
+              </span>
+              <span className="sm:text-sm text-xs font-bold">
+                {m.detalleEnvios}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="-mt-5 sm:hidden">
+        <img src={Swipe} width="100px" />
       </div>
     </div>
   );

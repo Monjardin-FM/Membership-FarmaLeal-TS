@@ -78,11 +78,11 @@ export const Benefits = ({ paymentRef, onScrollToPayment }: BenefitsProps) => {
         {items.map((element, i) => {
           return (
             <div
-              className="sm:col-span-1  col-span-2 sm:p-8 p-10 flex flex-col items-center justify-center"
+              className="sm:col-span-1 col-span-2 sm:p-10 p-2 flex flex-col items-center justify-center"
               key={i}
             >
-              <img src={element.image} className="" />
-              <span className="text-center text-xs sm:text-base">
+              <img src={element.image} />
+              <span className="text-center text-sm sm:text-base">
                 {element.text.map((part, j) =>
                   part.bold ? (
                     <strong key={j}>{part.value}</strong>
