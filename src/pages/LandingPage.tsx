@@ -8,7 +8,7 @@ export const LandingPage = () => {
     paymentRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center">
       <Hero onScrollToPayment={handleScrollToPayment} />
       <Benefits
         paymentRef={paymentRef}

@@ -1,10 +1,8 @@
-import Step1 from "../assets/img/PasosMembresia-1.png";
-import Step2 from "../assets/img/PasosMembresia-2.png";
-import Step3 from "../assets/img/PasosMembresia-3.png";
-import Step4 from "../assets/img/PasosMembresia-4.png";
-import Benfit1 from "../assets/img/Membresia_Beneficios-01.jpg";
-import Benfit2 from "../assets/img/Membresia_Beneficios-02.jpg";
-import Benfit3 from "../assets/img/Membresia_Beneficios-03.jpg";
+import Step1 from "../assets/img/Icono_Membresia.png";
+import Step2 from "../assets/img/Icono_Pago.png";
+import Step3 from "../assets/img/Icono_Verificar.png";
+import Step4 from "../assets/img/Icono_Compra.png";
+import Benfits from "../assets/img/Pleca_Final .png";
 import Icon1 from "../assets/img/Icono_Cintillo-03.png";
 import Icon3 from "../assets/img/Icono_Cintillo-05.png";
 import Icon4 from "../assets/img/Icono_Cintillo-06.png";
@@ -15,18 +13,37 @@ import { PaymentSection } from "./shopify-payment-section/PaymentSection";
 const items = [
   {
     image: Step1,
+    text: [
+      { bold: false, value: "Elige el Plan" },
+      { bold: true, value: " de tu membresía" },
+    ],
   },
   {
     image: Step2,
+    text: [
+      { bold: false, value: "Realiza " },
+      { bold: true, value: "el pago " },
+      { bold: false, value: "en línea" },
+    ],
   },
   {
     image: Step3,
+    text: [
+      { bold: true, value: "Revisa tu correo " },
+      { bold: false, value: "para " },
+      { bold: true, value: "Activar " },
+      { bold: false, value: "tu Membresía" },
+    ],
   },
   {
     image: Step4,
+    text: [
+      { bold: false, value: "Comienza a comprar " },
+      { bold: true, value: "con los mejores costos" },
+    ],
   },
 ];
-const benefits = [{ image: Benfit1 }, { image: Benfit2 }, { image: Benfit3 }];
+// const benefits = [{ image: Benfit1 }, { image: Benfit2 }, { image: Benfit3 }];
 const info = [
   {
     image: Icon1,
@@ -52,18 +69,33 @@ export const Benefits = ({ paymentRef, onScrollToPayment }: BenefitsProps) => {
   return (
     <section
       // id="benefits"
-      className="color-primary flex flex-col items-center w-screen overflow-hidden container sm:gap-5 gap-5"
+      className="color-primary flex flex-col sm:gap-5 gap-5"
     >
-      <div className="grid grid-cols-4 w-full items-center justify-center gap-3 ">
+      <div className="grid grid-cols-4 sm:w-3/4 w-full mt-8 mx-auto text-center">
+        <h1 className="sm:text-4xl text-xl col-span-4 text-center font-bold">
+          ¿Cómo suscribirte a CostoFarma?
+        </h1>
         {items.map((element, i) => {
           return (
-            <div className="sm:col-span-1  col-span-2 p-3" key={i}>
+            <div
+              className="sm:col-span-1  col-span-2 sm:p-8 p-10 flex flex-col items-center justify-center"
+              key={i}
+            >
               <img src={element.image} className="" />
+              <span className="text-center text-xs sm:text-base">
+                {element.text.map((part, j) =>
+                  part.bold ? (
+                    <strong key={j}>{part.value}</strong>
+                  ) : (
+                    <span key={j}>{part.value}</span>
+                  )
+                )}
+              </span>
             </div>
           );
         })}
       </div>
-      <div className="separator w-screen top-0"></div>
+      {/* <div className="separator w-screen top-0"></div> */}
 
       {/* Sección dónde se muestra la tabla y se abren los modals para pagar la membresía */}
       <div ref={paymentRef}>
@@ -71,17 +103,18 @@ export const Benefits = ({ paymentRef, onScrollToPayment }: BenefitsProps) => {
       </div>
       {/*  */}
 
-      <div className="grid grid-cols-3 gap-5 container">
-        {benefits.map((element, i) => {
+      <div className=" container sm:w-4/6 w-full flex items-center justify-center">
+        <img src={Benfits} alt="" />
+        {/* {benefits.map((element, i) => {
           return (
             <div className="sm:col-span-1 col-span-4" key={i}>
               <img src={element.image} className="" />
             </div>
           );
-        })}
+        })} */}
       </div>
-      <div className="separator w-screen top-0"></div>
-      <div className="flex flex-col items-center justify-center w-full gap-2 container">
+      {/* <div className="separator w-screen top-0"></div> */}
+      <div className="flex flex-col items-center justify-center sm:w-3/4 w-full gap-2 container">
         <picture>
           <img src={cintillo} />
         </picture>

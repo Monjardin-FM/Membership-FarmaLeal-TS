@@ -1,21 +1,30 @@
-import ImageHero from "../assets/img/Banner_Membresia.jpg";
-import ImageHeroMovil from "../assets/img/Membresia_Movil.jpg";
+import ImageHero from "../assets/img/HeroCostoFarma.jpg";
+import ImageHeroMovil from "../assets/img/HeroCostoFarma_movil.png";
+import Pleca from "../assets/img/PlecaVentajas.jpg";
 type HeroProps = { onScrollToPayment: () => void };
 
 export const Hero = ({ onScrollToPayment }: HeroProps) => {
   return (
     <section id="hero" className="flex flex-col items-center w-screen">
       <div className="w-full relative">
-        <div
-          className="absolute w-full h-4/6 self-center left-0 hover:cursor-pointer"
+        {/* <div
+          className="absolute w-full h-full self-center left-0 hover:cursor-pointer border-2 border-danger-300"
           onClick={() => {
             onScrollToPayment();
           }}
-        ></div>
+        ></div> */}
 
         {/* Imagen para Desktop */}
-        <div className="hidden sm:block">
+        <div
+          className="hidden sm:block hover:cursor-pointer"
+          onClick={() => {
+            onScrollToPayment();
+          }}
+        >
           <img src={ImageHero} alt="Hero Desktop" />
+        </div>
+        <div className="hidden sm:block">
+          <img src={Pleca} />
         </div>
 
         {/* Imagen para Móvil */}

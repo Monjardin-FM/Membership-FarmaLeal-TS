@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { ModalPaymentMP } from "../../pages/MP-Modal/ModalPaymentMP";
 import { Table } from "../Table";
+import { Card } from "react-bootstrap";
+import { CardMembershipPayment } from "./CardMembershipPayment";
+import { TableComparisonMemberships } from "./TableComparisonMemberships";
+import { AnualPaymentSelectorModal } from "./AnualPaymentSelectorModal";
 export type MembershipTypes = {
   tipo: "Anual" | "Mensual";
   vigencia: string;
@@ -21,6 +25,7 @@ export const PaymentSection = () => {
   const cupon = searchParams.get("cupon");
   const [showModalMembership, setShowModalMembership] = useState(false);
   const [amount, setAmount] = useState<number>(0);
+  const [showModalAnual, setShowModalAnual] = useState(false);
 
   const allTypes: MembershipTypes[] = [
     {
@@ -87,12 +92,30 @@ export const PaymentSection = () => {
         cupon={cupon ? cupon : ""}
         email={email ? email : ""}
       />
-      <Table
+      <AnualPaymentSelectorModal
         onOpenPaymentModal={onOpenPaymentModal}
-        memberships={
-          location.pathname.startsWith("/referenced") ? anualTypes : allTypes
-        }
+        onClose={() => setShowModalAnual(false)}
+        isVisible={showModalAnual}
       />
+      {location.pathname.startsWith("/referenced") ? (
+        <Table
+          onOpenPaymentModal={onOpenPaymentModal}
+          memberships={
+            location.pathname.startsWith("/referenced") ? anualTypes : allTypes
+          }
+        />
+      ) : (
+        <>
+          <CardMembershipPayment
+            onOpenPaymentModal={onOpenPaymentModal}
+            onOpenaAnualPaymentSelector={() => setShowModalAnual(true)}
+          />
+          <div className="container mx-auto my-10 sm:px-48">
+            <TableComparisonMemberships />
+          </div>
+        </>
+        // <span>Hola</span>
+      )}
     </>
   );
 };
