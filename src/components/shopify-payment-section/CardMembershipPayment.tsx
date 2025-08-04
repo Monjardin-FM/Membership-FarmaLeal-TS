@@ -3,10 +3,12 @@ import { AppButton } from "../../presentation/Components/AppButton";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 // import required modules
-import { EffectCards } from "swiper/modules";
+import { EffectCards, Pagination, Navigation } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/effect-cards";
+import "swiper/css/pagination";
 type CardMembershipPaymentProps = {
   onOpenPaymentModal: (id: string) => void;
   onOpenaAnualPaymentSelector: () => void;
@@ -40,7 +42,10 @@ export const CardMembershipPayment = ({
     // },
   ];
   return (
-    <div className="w-full overflow-x-auto h-full">
+    <div className="w-full overflow-x-auto h-full flex flex-col items-center justify-center">
+      <h2 className="bg-black bg-opacity-10 p-3 rounded-xl sm:text-xl text-lg font-semibold text-center ">
+        Explora nuestras membresías
+      </h2>
       <div className=" gap-4 p-10 sm:justify-center hidden sm:flex">
         {cardsMembership.map((card, index) => (
           <div
@@ -80,12 +85,16 @@ export const CardMembershipPayment = ({
           </div>
         ))}
       </div>
-      <div className="flex gap-4 p-10 sm:justify-center sm:hidden">
+      <div className="flex gap-4 p-10 sm:justify-center sm:hidden relative">
         <Swiper
           effect={"cards"}
           grabCursor={true}
-          modules={[EffectCards]}
+          modules={[EffectCards, Navigation, Pagination]}
           className="mySwiper text-center flex flex-col items-center justify-center"
+          navigation={true}
+          pagination={{
+            type: "fraction",
+          }}
         >
           {cardsMembership.map((card, index) => (
             <SwiperSlide

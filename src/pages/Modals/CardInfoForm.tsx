@@ -87,14 +87,14 @@ export const CardInfoForm = ({
             <span>{`$${amount}`} </span>
             <span className="text-sm font-semibold">(IVA incluido)</span>
           </div>
-          <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12 gap-5">
+          <div className="col-span-6 flex flex-col justify-center items-center max-sm:col-span-12 sm:gap-5 gap-2">
             <Card
               cardNumber={cardFormat}
               cardForm={cardInfoForm.values}
               flagRotate={flagRotate}
             />{" "}
             {amount === 175 && (
-              <div className="w-full flex flex-col items-center justify-center px-5 text-justify">
+              <div className="w-full flex flex-col items-center justify-center sm:px-6 text-justify">
                 <span className="sm:text-sm text-xs text-gray-700 self-start">
                   Al proporcionar los datos de su tarjeta de débito o crédito,
                   usted autoriza expresamente a FarmaLeal a almacenar de manera
