@@ -374,6 +374,14 @@ export const StepperFormPayment = ({
                                   "Tu pago referenciado fue exitoso. Revisa tu correo para finalizar la suscripción.";
                                 errorMessage =
                                   "Error al procesar el pago referenciado.";
+                              } else if (
+                                location.pathname.startsWith("/update-payment")
+                              ) {
+                                endpoint = "CreateTokenizationRecoverClient";
+                                successMessage =
+                                  "La actualización de tu método de pago se ha procesado correctamente.";
+                                errorMessage =
+                                  "Error al intentar actualizar el método de pago.";
                               } else if (emailURL && amount !== 175) {
                                 endpoint = "OPChargeMSIReactivation";
                                 successMessage =
@@ -389,6 +397,7 @@ export const StepperFormPayment = ({
                                 successMessage = "";
                                 errorMessage = "Error al procesar el pago";
                               }
+                              console.log(endpoint);
                               handlePaymentOP(
                                 endpoint,
                                 successMessage,

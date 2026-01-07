@@ -29,13 +29,19 @@ export const TableComparisonMemberships = () => {
       id: "2",
     },
   ];
+  const membershipsTypes = () => {
+    if (location.pathname === "/update-payment") {
+      return typesMemberships.filter((m) => m.id !== "2");
+    }
+    return typesMemberships;
+  };
   const classGrids = `grid grid-cols-${
     typesMemberships.length + 1
   } border border-black border-collapse color-primary text-center`;
   return (
     <div className="flex flex-col items-center gap-3 mx-auto container">
       <div>
-        {typesMemberships.length === 3 && (
+        {membershipsTypes.length === 3 && (
           <div className="left-1/2 bg-warn-400 rounded-2xl sm:text-3xl text-lg font-extrabold text-center w-full p-2">
             Costo de membresía
           </div>
@@ -46,14 +52,14 @@ export const TableComparisonMemberships = () => {
       <div className="overflow-x-auto w-full">
         <div
           className={`grid grid-cols-${
-            typesMemberships.length + 1
+            membershipsTypes().length + 1
           } text-center border border-black min-w-[500px]`}
         >
           {/* Fila: Tipo */}
           <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
             Tipo de Membresía
           </div>
-          {typesMemberships.map((m) => (
+          {membershipsTypes().map((m) => (
             <div
               key={m.id + "-tipo"}
               className="border sm:p-4 font-extrabold sm:text-2xl text-lg"
@@ -66,7 +72,7 @@ export const TableComparisonMemberships = () => {
           <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
             Vigencia
           </div>
-          {typesMemberships.map((m) => (
+          {membershipsTypes().map((m) => (
             <div
               key={m.id + "-vigencia"}
               className="border sm:p-4 font-extrabold sm:text-3xl text-lg"
@@ -79,7 +85,7 @@ export const TableComparisonMemberships = () => {
           <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
             Costo de membresía
           </div>
-          {typesMemberships.map((m) => (
+          {membershipsTypes().map((m) => (
             <div
               key={m.id + "-costo"}
               className="border sm:p-4 flex flex-col items-center"
@@ -98,7 +104,7 @@ export const TableComparisonMemberships = () => {
           <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
             Tipo de pago
           </div>
-          {typesMemberships.map((m) => (
+          {membershipsTypes().map((m) => (
             <div
               key={m.id + "-pago"}
               className="border sm:p-4 flex flex-col items-center"
@@ -116,7 +122,7 @@ export const TableComparisonMemberships = () => {
           <div className="border sm:p-4 font-bold sm:text-lg text-xs sticky left-0 bg-white z-10 flex items-center justify-center">
             Envíos <b className="ml-1">GRATIS</b>
           </div>
-          {typesMemberships.map((m) => (
+          {membershipsTypes().map((m) => (
             <div
               key={m.id + "-envios"}
               className="border sm:p-4 flex flex-col items-center"

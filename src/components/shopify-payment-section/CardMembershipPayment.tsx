@@ -42,20 +42,30 @@ export const CardMembershipPayment = ({
     //   envio: "12 Envíos al año",
     // },
   ];
+  const membershipsTypes = () => {
+    if (location.pathname === "/update-payment") {
+      return cardsMembership.filter((m) => m.id !== "3");
+    }
+    return cardsMembership;
+  };
   return (
     <div className="w-full overflow-x-auto h-full flex flex-col items-center justify-center">
-      <div className="w-full flex justify-center items-center">
-        <img
-          src={MesGratis}
-          alt="1 mes gratis"
-          className="sm:w-1/2 w-full mb-4"
-        />
-      </div>
+      {location.pathname === "/update-payment" ? (
+        <div className="w-full  justify-center items-center hidden sm:flex">
+          <img
+            src={MesGratis}
+            alt="1 mes gratis"
+            className="sm:w-1/2 w-full mb-4"
+          />
+        </div>
+      ) : (
+        ""
+      )}
       <h2 className="bg-black bg-opacity-10 p-3 rounded-xl sm:text-xl text-lg font-semibold text-center ">
         Explora nuestras membresías
       </h2>
       <div className=" gap-4 p-10 sm:justify-center hidden sm:flex">
-        {cardsMembership.map((card, index) => (
+        {membershipsTypes().map((card, index) => (
           <div
             key={card.id}
             className={`gap-3 border p-8 rounded-xl flex flex-col items-center min-w-[300px] max-w-[300px] hover:scale-110 transform transition-transform duration-300  relative ${
@@ -104,7 +114,7 @@ export const CardMembershipPayment = ({
             type: "fraction",
           }}
         >
-          {cardsMembership.map((card, index) => (
+          {membershipsTypes().map((card, index) => (
             <SwiperSlide
               key={card.id}
               className="flex flex-col items-center justify-center bg-info-50 border  text-black"

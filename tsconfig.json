@@ -14,9 +14,9 @@
     "forceConsistentCasingInFileNames": true,
 
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // <-- Cambiado de "bundler"
+    "resolveJsonModule": true, // <-- ahora funciona
 
-    "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx"

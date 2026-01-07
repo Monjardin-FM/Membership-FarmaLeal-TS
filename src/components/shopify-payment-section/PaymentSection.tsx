@@ -66,7 +66,7 @@ export const PaymentSection = () => {
   ];
 
   const anualTypes = allTypes.filter((m) => m.tipo === "Anual");
-
+  const monthlyTypes = allTypes.filter((m) => m.tipo === "Mensual");
   const onOpenPaymentModal = (type: string) => {
     setShowModalMembership(true);
     if (type === "2") {

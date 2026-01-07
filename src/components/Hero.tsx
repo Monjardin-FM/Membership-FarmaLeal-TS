@@ -1,5 +1,7 @@
-import ImageHero from "../assets/img/Banner_actualizacion datos.jpg";
-import HeroMovil from "../assets/img/Banner_actualizacionMovil.jpg";
+import ImageHero from "../assets/img/HeroCostoFarma.jpg";
+import HeroMovil from "../assets/img/HeroCostoFarma_movil.png";
+import ImageHeroUpdate from "../assets/img/Banner_actualizacion datos.jpg";
+import HeroMovilUpdate from "../assets/img/Banner_actualizacionMovil.jpg";
 import Icon1 from "../assets/img/icono_01.png";
 import Icon2 from "../assets/img/icono_02.png";
 import Icon3 from "../assets/img/icono_03.png";
@@ -34,12 +36,32 @@ export const Hero = ({ onScrollToPayment }: HeroProps) => {
             onScrollToPayment();
           }}
         >
-          <img src={ImageHero} alt="Hero Desktop" />
+          <img
+            src={
+              location.pathname === "/" ||
+              location.pathname === "/membresiaClubFarmaleal"
+                ? ImageHero
+                : location.pathname === "/update-payment"
+                ? ImageHeroUpdate
+                : ImageHero // opcional: imagen por defecto si es otra ruta
+            }
+            alt="Hero Desktop"
+          />
         </div>
 
         {/* Imagen para Móvil */}
         <div className="block sm:hidden">
-          <img src={HeroMovil} />
+          <img
+            src={
+              location.pathname === "/" ||
+              location.pathname === "/membresiaClubFarmaleal"
+                ? HeroMovil
+                : location.pathname === "/update-payment"
+                ? HeroMovilUpdate
+                : HeroMovil // opcional: imagen por defecto si es otra ruta
+            }
+            alt="Hero Desktop"
+          />
         </div>
         {/* Cintillo promociones */}
         <div

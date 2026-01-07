@@ -34,6 +34,7 @@ function App() {
             <Route path="/referenced" Component={Referenced} />
             <Route path="/referenced-info" Component={ReferencedInfo} />
             <Route path="/reactivation" Component={Reactivation} />
+            <Route path="/update-payment" Component={LandingPage} />
           </Routes>
         </div>
         {/* <Footer /> */}
