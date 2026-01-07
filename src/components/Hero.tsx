@@ -1,5 +1,5 @@
-import ImageHero from "../assets/img/HeroCostoFarma.jpg";
-import HeroMovil from "../assets/img/HeroCostoFarma_movil.png";
+import ImageHero from "../assets/img/Banner_actualizacion datos.jpg";
+import HeroMovil from "../assets/img/Banner_actualizacionMovil.jpg";
 import Icon1 from "../assets/img/icono_01.png";
 import Icon2 from "../assets/img/icono_02.png";
 import Icon3 from "../assets/img/icono_03.png";

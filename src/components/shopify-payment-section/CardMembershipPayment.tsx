@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-cards";
 import "swiper/css/pagination";
+import MesGratis from "../../assets/img/1mes_Gratis.jpg";
 type CardMembershipPaymentProps = {
   onOpenPaymentModal: (id: string) => void;
   onOpenaAnualPaymentSelector: () => void;
@@ -43,6 +44,13 @@ export const CardMembershipPayment = ({
   ];
   return (
     <div className="w-full overflow-x-auto h-full flex flex-col items-center justify-center">
+      <div className="w-full flex justify-center items-center">
+        <img
+          src={MesGratis}
+          alt="1 mes gratis"
+          className="sm:w-1/2 w-full mb-4"
+        />
+      </div>
       <h2 className="bg-black bg-opacity-10 p-3 rounded-xl sm:text-xl text-lg font-semibold text-center ">
         Explora nuestras membresías
       </h2>

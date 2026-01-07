@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { ModalPaymentMP } from "../../pages/MP-Modal/ModalPaymentMP";
 import { Table } from "../Table";
-import { Card } from "react-bootstrap";
 import { CardMembershipPayment } from "./CardMembershipPayment";
 import { TableComparisonMemberships } from "./TableComparisonMemberships";
 import { AnualPaymentSelectorModal } from "./AnualPaymentSelectorModal";

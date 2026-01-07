@@ -160,7 +160,7 @@ export const StepperFormPayment = ({
     }
   };
 
-  // This function is used to handle idevice session id and token id. And confure the OpenPay API
+  // This function is used to handle idevice session id and token id. And configure the OpenPay API
   useEffect(() => {
     if (isVisible) {
       /*global OpenPay*/
