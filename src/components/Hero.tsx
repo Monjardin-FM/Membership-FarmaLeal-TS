@@ -1,4 +1,6 @@
-import ImageHero from "../assets/img/HeroCostoFarma.jpg";
+import ImageHero from "../assets/img/HeroCostoFarma.png";
+import ImageHeroBenefits from "../assets/img/ImageHeroBenefits.png";
+import ImageHeroBenefitsMovil from "../assets/img/ImageHeroBenefitsMovil.png";
 import HeroMovil from "../assets/img/HeroCostoFarma_movil.png";
 import ImageHeroUpdate from "../assets/img/Banner_actualizacion datos.jpg";
 import HeroMovilUpdate from "../assets/img/Banner_actualizacionMovil.jpg";
@@ -42,10 +44,23 @@ export const Hero = ({ onScrollToPayment }: HeroProps) => {
               location.pathname === "/membresiaClubFarmaleal"
                 ? ImageHero
                 : location.pathname === "/update-payment"
-                ? ImageHeroUpdate
-                : ImageHero // opcional: imagen por defecto si es otra ruta
+                  ? ImageHeroUpdate
+                  : ImageHero // opcional: imagen por defecto si es otra ruta
             }
             alt="Hero Desktop"
+          />
+        </div>
+        <div className="hidden sm:block hover:cursor-pointer">
+          <img
+            src={
+              location.pathname === "/" ||
+              location.pathname === "/membresiaClubFarmaleal"
+                ? ImageHeroBenefits
+                : location.pathname === "/update-payment"
+                  ? ImageHeroUpdate
+                  : ImageHero // opcional: imagen por defecto si es otra ruta
+            }
+            alt="Hero Benefits"
           />
         </div>
 
@@ -57,14 +72,27 @@ export const Hero = ({ onScrollToPayment }: HeroProps) => {
               location.pathname === "/membresiaClubFarmaleal"
                 ? HeroMovil
                 : location.pathname === "/update-payment"
-                ? HeroMovilUpdate
-                : HeroMovil // opcional: imagen por defecto si es otra ruta
+                  ? HeroMovilUpdate
+                  : HeroMovil // opcional: imagen por defecto si es otra ruta
+            }
+            alt="Hero Desktop"
+          />
+        </div>
+        <div className="block sm:hidden">
+          <img
+            src={
+              location.pathname === "/" ||
+              location.pathname === "/membresiaClubFarmaleal"
+                ? ImageHeroBenefitsMovil
+                : location.pathname === "/update-payment"
+                  ? HeroMovilUpdate
+                  : HeroMovil // opcional: imagen por defecto si es otra ruta
             }
             alt="Hero Desktop"
           />
         </div>
         {/* Cintillo promociones */}
-        <div
+        {/* <div
           className="w-full flex flex-col sm:flex-row items-center justify-center sm:gap-5 gap-3 p-3"
           style={{ backgroundColor: "#F3F4F6" }}
         >
@@ -94,7 +122,7 @@ export const Hero = ({ onScrollToPayment }: HeroProps) => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

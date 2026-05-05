@@ -61,10 +61,10 @@ export const CardMembershipPayment = ({
       ) : (
         ""
       )}
-      <h2 className="bg-black bg-opacity-10 p-3 rounded-xl sm:text-xl text-lg font-semibold text-center ">
+      {/* <h2 className="bg-black bg-opacity-10 p-3 rounded-xl sm:text-xl text-lg font-semibold text-center ">
         Explora nuestras membresías
-      </h2>
-      <div className=" gap-4 p-10 sm:justify-center hidden sm:flex">
+      </h2> */}
+      {/* <div className=" gap-4 p-10 sm:justify-center hidden sm:flex">
         {membershipsTypes().map((card, index) => (
           <div
             key={card.id}
@@ -102,8 +102,8 @@ export const CardMembershipPayment = ({
             <span className="text-sm">{card.envio}</span>
           </div>
         ))}
-      </div>
-      <div className="flex gap-4 p-10 sm:justify-center sm:hidden relative">
+      </div> */}
+      {/* <div className="flex gap-4 p-10 sm:justify-center sm:hidden relative">
         <Swiper
           effect={"cards"}
           grabCursor={true}
@@ -150,7 +150,7 @@ export const CardMembershipPayment = ({
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </div> */}
     </div>
   );
 };

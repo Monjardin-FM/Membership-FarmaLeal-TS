@@ -66,7 +66,7 @@ export const PaymentSection = () => {
   ];
 
   const anualTypes = allTypes.filter((m) => m.tipo === "Anual");
-  const monthlyTypes = allTypes.filter((m) => m.tipo === "Mensual");
+  // const monthlyTypes = allTypes.filter((m) => m.tipo === "Mensual");
   const onOpenPaymentModal = (type: string) => {
     setShowModalMembership(true);
     if (type === "2") {
@@ -110,7 +110,10 @@ export const PaymentSection = () => {
             onOpenaAnualPaymentSelector={() => setShowModalAnual(true)}
           />
           <div className="container mx-auto my-10 sm:px-48">
-            <TableComparisonMemberships />
+            <TableComparisonMemberships
+              onOpenPaymentModal={onOpenPaymentModal}
+              onOpenaAnualPaymentSelector={() => setShowModalAnual(true)}
+            />
           </div>
         </>
         // <span>Hola</span>
