@@ -50,7 +50,7 @@ export const Hero = ({ onScrollToPayment }: HeroProps) => {
             alt="Hero Desktop"
           />
         </div>
-        <div className="hidden sm:block hover:cursor-pointer">
+        <div className="hidden sm:block ">
           <img
             src={
               location.pathname === "/" ||
